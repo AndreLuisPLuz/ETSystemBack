@@ -1,0 +1,30 @@
+body {
+    margin: auto;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    min-width: 100px;
+    max-width: 1000px;
+}
+
+span {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.row-signifier {
+    background-color: #1b9bc9;
+}
+
+.column-header {
+    background-color: #1b9bc9;
+    font-weight: bold;
+}
+
+.fields-separator {
+    background-color: #55ed91;
+    font-weight: bold;
+}
