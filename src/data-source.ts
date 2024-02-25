@@ -1,10 +1,13 @@
-import { DataSource, DataSourceOptions } from 'typeorm';
-import path from 'path';
+// src/data-source.ts
 import 'dotenv/config';
+import path from 'path';
+import 'reflect-metadata';
+import { DataSource, DataSourceOptions } from 'typeorm';
 
-const settings = ():DataSourceOptions => {
+const dataSourceConfig = (): DataSourceOptions => {
   const entitiesPath: string = path.join(__dirname, './entities/**.{ts,js}');
   const migrationPath: string = path.join(__dirname, './migrations/**.{ts,js}');
+
   const nodeEnv: string | undefined = process.env.NODE_ENV;
 
   if (nodeEnv === 'test') {
@@ -16,19 +19,20 @@ const settings = ():DataSourceOptions => {
     };
   }
 
-  const dbUrl: string | undefined = process.env.DATABASE_URL;
-
-  if (!dbUrl) throw new Error("Missing env var: 'DATABASE_URL'");
-
   return {
-    type: 'postgres',
-    url: dbUrl,
+    type: 'mssql',
+    host: process.env.DB_HOST || "localhost",
+    port: parseInt(process.env.DB_PORT || "1433"),
+    username: process.env.DB_USERNAME || "default_username",
+    password: process.env.DB_PASSWORD || "default_password",
+    database: process.env.DB_NAME || "default_database",
+    synchronize: false,
     logging: true,
     entities: [entitiesPath],
     migrations: [migrationPath],
+    "options": {"trustServerCertificate": true}
   };
+  
 };
 
-const AppDataSource = new DataSource(settings());
-
-export default AppDataSource;
+export const AppDataSource = new DataSource(dataSourceConfig());
