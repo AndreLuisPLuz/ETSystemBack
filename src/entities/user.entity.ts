@@ -6,17 +6,19 @@ export enum AccessType {
     MASTER = 3
 }
 
-@Entity('person')
-@TableInheritance({column: {type: 'varchar', name: 'category'}})
-export class Person {
+@Entity('user')
+export class User {
     @PrimaryGeneratedColumn("uuid")
-    idPerson!: string;
+    idUser!: string;
 
     @Column({type: 'varchar', length: 255})
     name!: string;
 
     @Column({type: 'varchar', length: 255})
     email!: string;
+
+    @Column({type: 'varchar', length: 255})
+    password!: string;
 
     @Column({type: 'datetime'})
     dateOfBirth!: Date;
