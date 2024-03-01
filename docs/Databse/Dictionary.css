@@ -1,5 +1,11 @@
 body {
-    margin: auto;
+    width: 100vw;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
 table, th, td {
@@ -8,6 +14,7 @@ table, th, td {
     text-align: center;
     min-width: 100px;
     max-width: 1000px;
+    padding: 8px;
 }
 
 span {
