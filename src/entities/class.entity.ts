@@ -11,8 +11,8 @@ export class Class {
     @Column({type: 'datetime'})
     dateOfStart!: Date;
 
-    @Column({type: 'datetime'})
-    dateOfFinish!: Date;
+    @Column({type: 'datetime', nullable: true})
+    dateOfFinish?: Date;
 
     @Column({type: 'char', length: 1})
     workPeriod!: string;

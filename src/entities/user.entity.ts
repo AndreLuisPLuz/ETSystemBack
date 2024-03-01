@@ -1,11 +1,5 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, TableInheritance, UpdateDateColumn } from "typeorm";
 
-export enum AccessType {
-    SENAI = 1,
-    BOSCH = 2,
-    MASTER = 3
-}
-
 @Entity('user')
 export class User {
     @PrimaryGeneratedColumn("uuid")
@@ -25,9 +19,6 @@ export class User {
 
     @Column({type: 'varchar', length: 20})
     contact!: string;
-
-    @Column({type: 'smallint'})
-    accessType!: number;
 
     @CreateDateColumn({type: 'datetime'})
     createdAt!: Date;

@@ -8,6 +8,9 @@ export class Institution {
     @Column({type: 'varchar', length: 100})
     name!: string;
 
+    @Column({type: 'bit'})
+    isBosch!: boolean;
+
     @CreateDateColumn({type: 'datetime'})
     createdAt!: Date;
 
