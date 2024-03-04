@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Instructor } from "./instructor.entity";
+import { Administrator } from "./administrator.entity";
 
 @Entity()
 export class Institution {
@@ -23,4 +24,7 @@ export class Institution {
 
     @OneToMany(() => Instructor, (instructor) => instructor.institution)
     instructors!: Instructor[];
+
+    @OneToMany(() => Administrator, (administrator) => administrator.institution)
+    administrators!: Administrator[];
 }

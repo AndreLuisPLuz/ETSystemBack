@@ -1,4 +1,4 @@
-import { Entity, Column, CreateDateColumn, DeleteDateColumn, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Entity, Column, CreateDateColumn, DeleteDateColumn, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn, ManyToOne } from "typeorm";
 import { User } from "./user.entity";
 import { Institution } from "./institution.entity";
 
@@ -23,7 +23,6 @@ export class Administrator {
     @JoinColumn()
     user!: User;
 
-    @OneToOne(type => Institution)
-    @JoinColumn()
+    @ManyToOne(() => Institution, (institution) => institution.administrators)
     institution!: Institution;
 }
