@@ -1,5 +1,7 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { DisciplineCategory } from "./disciplineCategory.entity";
+import { CompetenceGroup } from "./competence_group.entity";
 import { DisciplineClass } from "./disciplineClass.entity";
 
 @Entity('discipline')
@@ -21,7 +23,10 @@ export class Discipline {
     deletedAt?: Date;
 
     @ManyToOne(() => DisciplineCategory, (disciplineCategory) => disciplineCategory.disciplines)
-    disciplineCategory: DisciplineCategory;
+    disciplineCategory: DisciplineCategory
+
+    @OneToMany(() => CompetenceGroup, (competenceGroup) => competenceGroup.discipline)
+    competenceGroups: CompetenceGroup[];
 
     @OneToMany(() => DisciplineClass, (disciplineClass) => disciplineClass.discipline)
     disciplineClasses!: DisciplineClass[];
