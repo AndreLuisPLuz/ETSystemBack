@@ -1,8 +1,8 @@
-import { ChildEntity, Column, CreateDateColumn, DeleteDateColumn, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Entity, Column, CreateDateColumn, DeleteDateColumn, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from "./user.entity";
 import { Institution } from "./institution.entity";
 
-@ChildEntity()
+@Entity("administrator")
 export class Administrator {
     @PrimaryGeneratedColumn("uuid")
     administratorId!: string;
