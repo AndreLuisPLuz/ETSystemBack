@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { CompetenceGroup } from "./competence_group.entity";
+import { CompetenceGroup } from "./competenceGroup.entity";
 import { CompetenceStudent } from "./competence_student.entity";
 
 @Entity('competence')

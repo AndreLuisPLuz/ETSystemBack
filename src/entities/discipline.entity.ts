@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { DisciplineCategory } from "./disciplineCategory.entity";
-import { CompetenceGroup } from "./competence_group.entity";
+import { CompetenceGroup } from "./competenceGroup.entity";
 import { DisciplineClass } from "./disciplineClass.entity";
 
 @Entity('discipline')
