@@ -19,7 +19,7 @@ export class Administrator {
     @DeleteDateColumn({type: 'datetime'})
     deletedAt?: Date;
 
-    @OneToOne(type => User)
+    @OneToOne(() => User)
     @JoinColumn()
     user!: User;
 
