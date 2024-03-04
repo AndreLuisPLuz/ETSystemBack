@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Instructor } from "./instructor.entity";
 
 @Entity()
 export class Institution {
@@ -19,4 +20,7 @@ export class Institution {
 
     @DeleteDateColumn({type: 'datetime', nullable: true})
     deletedAt?: Date;
+
+    @OneToMany(() => Instructor, (instructor) => instructor.institution)
+    instructors!: Instructor[];
 }
