@@ -5,20 +5,23 @@ export class User {
     @PrimaryGeneratedColumn("uuid")
     idUser!: string;
 
-    @Column({type: 'varchar', length: 255})
-    name!: string;
-
-    @Column({type: 'varchar', length: 255})
-    email!: string;
+    @Column({type: 'varchar', length: 50})
+    username!: string;
 
     @Column({type: 'varchar', length: 255})
     password!: string;
 
-    @Column({type: 'datetime'})
-    dateOfBirth!: Date;
+    @Column({type: 'varchar', length: 255, nullable: true})
+    name!: string | null;
 
-    @Column({type: 'varchar', length: 20})
-    contact!: string;
+    @Column({type: 'varchar', length: 255, nullable: true})
+    email!: string | null;
+
+    @Column({type: 'datetime', nullable: true})
+    dateOfBirth!: Date | null;
+
+    @Column({type: 'varchar', length: 20, nullable: true})
+    contact!: string | null;
 
     @CreateDateColumn({type: 'datetime'})
     createdAt!: Date;
