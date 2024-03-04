@@ -20,7 +20,7 @@ export class Institution {
     updatedAt!: Date;
 
     @DeleteDateColumn({type: 'datetime', nullable: true})
-    deletedAt?: Date;
+    deletedAt!: Date | null;
 
     @OneToMany(() => Instructor, (instructor) => instructor.institution)
     instructors!: Instructor[];

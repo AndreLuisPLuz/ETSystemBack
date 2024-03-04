@@ -15,7 +15,7 @@ export class Student  {
     updatedAt!: Date;
 
     @DeleteDateColumn({type: 'datetime'})
-    deletedAt?: Date;
+    deletedAt!: Date | null;
 
     @OneToOne(type => User)
     @JoinColumn()

@@ -17,7 +17,7 @@ export class Administrator {
     updatedAt!: Date;
 
     @DeleteDateColumn({type: 'datetime'})
-    deletedAt?: Date;
+    deletedAt!: Date | null;
 
     @OneToOne(() => User)
     @JoinColumn()

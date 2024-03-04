@@ -19,7 +19,7 @@ export class Discipline {
     updatedAt!: Date;
 
     @DeleteDateColumn({type: 'datetime', nullable: true})
-    deletedAt?: Date;
+    deletedAt!: Date | null;
 
     @ManyToOne(() => DisciplineCategory, (disciplineCategory) => disciplineCategory.disciplines)
     disciplineCategory: DisciplineCategory
