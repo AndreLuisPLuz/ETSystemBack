@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { DisciplineClass } from "./disciplineClass.entity";
+import { Student } from "./student.entity";
 
 @Entity('class')
 export class Class {
@@ -29,4 +30,7 @@ export class Class {
 
     @OneToMany(() => DisciplineClass, (disciplineClass) => disciplineClass.class)
     disciplineClasses!: DisciplineClass[];
+
+    @OneToMany(() => Student, (student) => student.class)
+    students!: Student[];
 }

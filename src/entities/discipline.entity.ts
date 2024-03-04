@@ -25,7 +25,7 @@ export class Discipline {
     disciplineCategory: DisciplineCategory
 
     @OneToMany(() => CompetenceGroup, (competenceGroup) => competenceGroup.discipline)
-    competenceGroups: CompetenceGroup[];
+    competenceGroups!: CompetenceGroup[];
 
     @OneToMany(() => DisciplineClass, (disciplineClass) => disciplineClass.discipline)
     disciplineClasses!: DisciplineClass[];

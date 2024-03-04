@@ -1,4 +1,4 @@
-import { Entity, OneToOne, JoinColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany} from "typeorm";
+import { Entity, OneToOne, JoinColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany, ManyToOne} from "typeorm";
 import { User } from "./user.entity";
 import { Class } from "./class.entity";
 import { CompetenceStudent } from "./competenceStudent.entity";
@@ -21,8 +21,7 @@ export class Student  {
     @JoinColumn()
     user!: User;
 
-    @OneToOne(type => Class)
-    @JoinColumn()
+    @ManyToOne(() => Class, (class_obj) => class_obj.students)
     class!: Class;
 
     @OneToMany(() => CompetenceStudent, (competenceStudent) => competenceStudent.student)
