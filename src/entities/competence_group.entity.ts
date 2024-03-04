@@ -1,19 +1,27 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Discipline } from "./discipline.entity";
+import { Competence } from "./competence.entity";
 
 @Entity('competence_group')
 export class CompetenceGroup {
     @PrimaryGeneratedColumn('uuid')
-    id_competence!: string;
+    idCompetence!: string;
 
     @Column({type: 'varchar', length: 255})
     name!: string;
 
     @CreateDateColumn({type: 'datetime'})
-    created_at!: Date;
+    createdAt!: Date;
 
     @UpdateDateColumn({type: 'datetime'})
-    updated_at!: Date;
+    updatedAt!: Date;
 
     @DeleteDateColumn({type: 'datetime', nullable: true})
-    deleted_at!: Date | null;
+    deletedAt!: Date | null;
+
+    @OneToMany(() => Competence, (competence) => competence.competenceGroup)
+    competences!: Competence[];
+
+    @ManyToOne(() => Discipline, (discipline) => discipline.competenceGroups)
+    discipline!: Discipline;
 }

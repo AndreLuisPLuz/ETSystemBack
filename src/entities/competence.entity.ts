@@ -1,9 +1,11 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { CompetenceGroup } from "./competence_group.entity";
+import { CompetenceStudent } from "./competence_student.entity";
 
 @Entity('competence')
 export class Competence {
     @PrimaryGeneratedColumn("uuid")
-    id_discipline!: string;
+    idDiscipline!: string;
 
     @Column({type: 'varchar', length: 255})
     name!: string;
@@ -15,13 +17,17 @@ export class Competence {
     weight!: number;
 
     @CreateDateColumn({type: 'datetime'})
-    created_at!: Date;
+    createdAt!: Date;
 
     @UpdateDateColumn({type: 'datetime'})
-    updated_at!: Date;
+    updatedAt!: Date;
 
     @DeleteDateColumn({type: 'datetime', nullable: true})
-    deleted_at!: Date | null;
+    deletedAt!: Date | null;
 
-    // @ManyToOne({})
+    @OneToMany(() => CompetenceStudent, (competenceStudent) => competenceStudent.competence)
+    students!: CompetenceStudent[];
+
+    @ManyToOne(() => CompetenceGroup, (competenceGroup) => competenceGroup.competences)
+    competenceGroup!: CompetenceGroup;
 }
