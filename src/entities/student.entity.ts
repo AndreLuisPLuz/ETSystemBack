@@ -1,7 +1,7 @@
 import { Entity, OneToOne, JoinColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany} from "typeorm";
 import { User } from "./user.entity";
 import { Class } from "./class.entity";
-import { CompetenceStudent } from "./competence_student.entity";
+import { CompetenceStudent } from "./competenceStudent.entity";
 
 @Entity('student')
 export class Student  {
