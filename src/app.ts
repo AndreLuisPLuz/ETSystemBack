@@ -4,7 +4,7 @@ import "express-async-errors";
 import "reflect-metadata";
 
 import { handleError } from "./middlewares";
-import userRouter from "./routers/routes";
+import userRouter from "./routers/user.routes";
 
 
 const app = express();
