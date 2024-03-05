@@ -1,7 +1,11 @@
-export interface IUserPayload {
+export interface IUserCreatePayload {
     username: string;
     password: string;
-    name: string | null;
+}
+
+export interface IUserRegisterPayload {
+    password: string;
+    name: string;
     email: string | null;
     dateOfBirth: Date | null;
     contact: string | null;
