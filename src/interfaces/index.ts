@@ -1,9 +1,11 @@
 import { IUserCreatePayload, IUserRegisterPayload } from "./user.interface"
 import { IInstitutionCreatePayload } from "./institution.interface"
-import { IClassCreatePayload } from "./class.interface"
+import { IStudentGroupCreatePayload } from "./studentGroup.interface"
+import { IInstructorCreatePayload } from "./instructor.interface"
 
 export {
     IUserCreatePayload, IUserRegisterPayload,
     IInstitutionCreatePayload,
-    IClassCreatePayload,
+    IStudentGroupCreatePayload,
+    IInstructorCreatePayload,
 }

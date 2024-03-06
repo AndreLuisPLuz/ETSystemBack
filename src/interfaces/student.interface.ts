@@ -1,6 +1,6 @@
 import { IUserCreatePayload } from "./user.interface";
 
 export interface IStudentCreatePayload {
-    userPayload: IUserCreatePayload,
+    user: IUserCreatePayload,
     idClass: string,
 };

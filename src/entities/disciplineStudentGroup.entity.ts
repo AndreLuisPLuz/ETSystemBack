@@ -24,6 +24,6 @@ export class DisciplineStudentGroup {
     @ManyToOne(() => StudentGroup, (studentGroup) => studentGroup.disciplineStudentGroups)
     studentGroup!: StudentGroup;
 
-    @ManyToOne(() => Instructor, (instructor) => instructor.disciplineClasses)
+    @ManyToOne(() => Instructor, (instructor) => instructor.disciplineStudentGroups)
     instructor!: Instructor;
 }
