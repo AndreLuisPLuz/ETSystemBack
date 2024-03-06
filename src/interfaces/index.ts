@@ -3,6 +3,7 @@ import { IInstitutionCreatePayload } from "./institution.interface"
 import { IStudentGroupCreatePayload } from "./studentGroup.interface"
 import { IInstructorCreatePayload } from "./instructor.interface"
 import { IAdministratorCreatePayload } from "./administrator.interface"
+import { ILoginPayload } from "./login.interface"
 
 export {
     IUserCreatePayload, IUserRegisterPayload,
@@ -10,4 +11,5 @@ export {
     IStudentGroupCreatePayload,
     IInstructorCreatePayload,
     IAdministratorCreatePayload,
+    ILoginPayload,
 }
