@@ -1,11 +1,11 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { DisciplineClass } from "./disciplineClass.entity";
+import { DisciplineStudentGroup } from "./disciplineStudentGroup.entity";
 import { Student } from "./student.entity";
 
-@Entity('class')
-export class Class {
+@Entity('student_group')
+export class StudentGroup {
     @PrimaryGeneratedColumn("uuid")
-    id!: string;
+    idStudentGroup!: string;
 
     @Column({type: 'varchar', length: 255})
     name!: string;
@@ -28,9 +28,9 @@ export class Class {
     @DeleteDateColumn({type: 'datetime', nullable: true})
     deletedAt!: Date | null;
 
-    @OneToMany(() => DisciplineClass, (disciplineClass) => disciplineClass.class)
-    disciplineClasses!: DisciplineClass[];
+    @OneToMany(() => DisciplineStudentGroup, (disciplineStudentGroup) => disciplineStudentGroup.studentGroup)
+    disciplineStudentGroups!: DisciplineStudentGroup[];
 
-    @OneToMany(() => Student, (student) => student.class)
+    @OneToMany(() => Student, (student) => student.studentGroup)
     students!: Student[];
 }

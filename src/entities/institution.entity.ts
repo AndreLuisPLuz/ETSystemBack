@@ -2,16 +2,21 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryG
 import { Instructor } from "./instructor.entity";
 import { Administrator } from "./administrator.entity";
 
+export enum IsBosch {
+    FALSE = 0,
+    TRUE
+}
+
 @Entity()
 export class Institution {
     @PrimaryGeneratedColumn("uuid")
-    id!: string;
+    idInstitution!: string;
 
     @Column({type: 'varchar', length: 100})
     name!: string;
 
     @Column({type: 'bit'})
-    isBosch!: boolean;
+    isBosch!: IsBosch;
 
     @CreateDateColumn({type: 'datetime'})
     createdAt!: Date;

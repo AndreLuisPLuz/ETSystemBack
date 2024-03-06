@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { DisciplineCategory } from "./disciplineCategory.entity";
 import { CompetenceGroup } from "./competenceGroup.entity";
-import { DisciplineClass } from "./disciplineClass.entity";
+import { DisciplineStudentGroup } from "./disciplineStudentGroup.entity";
 
 @Entity('discipline')
 export class Discipline {
@@ -27,6 +27,6 @@ export class Discipline {
     @OneToMany(() => CompetenceGroup, (competenceGroup) => competenceGroup.discipline)
     competenceGroups!: CompetenceGroup[];
 
-    @OneToMany(() => DisciplineClass, (disciplineClass) => disciplineClass.discipline)
-    disciplineClasses!: DisciplineClass[];
+    @OneToMany(() => DisciplineStudentGroup, (disciplineStudentGroup) => disciplineStudentGroup.discipline)
+    disciplineStudentGroups!: DisciplineStudentGroup[];
 }

@@ -1,11 +1,11 @@
-import { IUserPayload } from "../interfaces";
+import { IUserCreatePayload, IUserRegisterPayload } from "../interfaces";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities";
 
 import { Repository } from "typeorm";
 import { AppError } from "../errors";
 
-const createUserService = async(payload: IUserPayload): Promise<User> => {
+const createUserService = async(payload: IUserCreatePayload): Promise<User> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const user: User = userRepo.create(payload);
 
@@ -14,12 +14,17 @@ const createUserService = async(payload: IUserPayload): Promise<User> => {
     return user;
 };
 
-const listUsersService = async(): Promise<User[]> => {
+const updateUserInformationService = async(searchId: string, payload: IUserRegisterPayload):
+        Promise<User> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
-    return await userRepo.find();
-};
 
-const retrieveUserService = async(searchId: string): Promise<User | null> => {
+    return userRepo.save({
+        idUser: searchId,
+        ...payload
+    });
+}
+
+const retrieveUserService = async(searchId: string): Promise<User> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const user: User | null = await userRepo.findOneBy({ idUser: searchId });
 
@@ -30,4 +35,8 @@ const retrieveUserService = async(searchId: string): Promise<User | null> => {
     return user;
 };
 
-export { createUserService, listUsersService, retrieveUserService };
+export { 
+    createUserService, 
+    updateUserInformationService, 
+    retrieveUserService 
+};

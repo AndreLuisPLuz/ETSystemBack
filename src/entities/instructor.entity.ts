@@ -1,7 +1,7 @@
 import { CreateDateColumn, DeleteDateColumn, JoinColumn, OneToOne, UpdateDateColumn, Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToOne } from "typeorm";
 import { User } from "./user.entity";
 import { Institution } from "./institution.entity";
-import { DisciplineClass } from "./disciplineClass.entity";
+import { DisciplineClass } from "./disciplineStudentGroup.entity";
 
 @Entity('instructor')
 export class Instructor {
