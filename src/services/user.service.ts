@@ -24,7 +24,7 @@ const updateUserInformationService = async(searchId: string, payload: IUserRegis
     });
 }
 
-const retrieveUserService = async(searchId: string): Promise<User | null> => {
+const retrieveUserService = async(searchId: string): Promise<User> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const user: User | null = await userRepo.findOneBy({ idUser: searchId });
 

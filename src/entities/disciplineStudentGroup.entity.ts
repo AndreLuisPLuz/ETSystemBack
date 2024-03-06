@@ -1,13 +1,13 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Discipline } from "./discipline.entity";
-import { Class } from "./class.entity";
+import { StudentGroup } from "./studentGroup.entity";
 import { Instructor } from "./instructor.entity";
 
-@Entity('discipline_class')
-export class DisciplineClass {
+@Entity('discipline_student_group')
+export class DisciplineStudentGroup {
 
     @PrimaryGeneratedColumn("uuid")
-    idDisciplineCategory!: string;
+    idDisciplineStudentGroup!: string;
 
     @Column({ type: 'smallint' })
     period!: number;
@@ -18,11 +18,11 @@ export class DisciplineClass {
     @Column({ type: 'float' })
     total_hours!: number;
 
-    @ManyToOne(() => Discipline, (discipline) => discipline.disciplineClasses)
+    @ManyToOne(() => Discipline, (discipline) => discipline.disciplineStudentGroups)
     discipline!: Discipline;
 
-    @ManyToOne(() => Class, (class_obj) => class_obj.disciplineClasses)
-    class!: Class;
+    @ManyToOne(() => StudentGroup, (studentGroup) => studentGroup.disciplineStudentGroups)
+    studentGroup!: StudentGroup;
 
     @ManyToOne(() => Instructor, (instructor) => instructor.disciplineClasses)
     instructor!: Instructor;

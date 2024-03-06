@@ -29,3 +29,5 @@ const retrieveClassService = async(searchId: string): Promise<Class> => {
 
     return classObj;
 }
+
+export { createClassService, listClassesService, retrieveClassService };
