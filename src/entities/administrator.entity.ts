@@ -5,7 +5,7 @@ import { Institution } from "./institution.entity";
 @Entity("administrator")
 export class Administrator {
     @PrimaryGeneratedColumn("uuid")
-    administratorId!: string;
+    idAdministrator!: string;
 
     @Column({type: 'bit', default: 0})
     isMaster: boolean = false;
