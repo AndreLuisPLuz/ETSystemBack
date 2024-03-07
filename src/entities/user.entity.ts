@@ -1,4 +1,7 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, TableInheritance, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, TableInheritance, UpdateDateColumn } from "typeorm";
+import { Student } from "./student.entity";
+import { Instructor } from "./instructor.entity";
+import { Administrator } from "./administrator.entity";
 
 @Entity('user')
 export class User {
@@ -31,4 +34,13 @@ export class User {
 
     @DeleteDateColumn({type: 'datetime', nullable: true})
     deletedAt!: Date | null;
+
+    @OneToOne(() => Student, (student) => student.user)
+    student!: Student;
+
+    @OneToOne(() => Instructor, (instructor) => instructor.user)
+    instructor!: Instructor;
+
+    @OneToOne(() => Administrator, (administrator) => administrator.user)
+    administrator!: Administrator;
 }
