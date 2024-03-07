@@ -23,3 +23,5 @@ const loginService = async(payload: ILoginPayload): Promise<User> => {
 
     return foundUser;
 }
+
+export { loginService };

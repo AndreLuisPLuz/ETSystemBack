@@ -1,14 +1,14 @@
 import { Router } from "express";
 import {
   createUserController,
-  listUsersController,
+  updateUserInformationController,
   retrieveUserController,
-} from "../controllers/user.controller";
+} from "../controllers"
 
 const userRouter = Router();
 
 userRouter.post("", createUserController);
-userRouter.get("", listUsersController);
+userRouter.post("/update?:id", updateUserInformationController);
 userRouter.get("/:id", retrieveUserController);
 
 export default userRouter;
