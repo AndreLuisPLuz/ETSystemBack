@@ -38,7 +38,6 @@ const loginService = async(payload: ILoginPayload): Promise<string> => {
         },
         String(process.env.SECRET_KEY),
         {
-            expiresIn: String(process.env.EXPIRES_IN),
             subject: String(foundUser.idUser)
         }
     )
