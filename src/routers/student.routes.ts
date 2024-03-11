@@ -1,14 +1,14 @@
 import { Router } from "express";
 import {
-    createStudentService, 
-    listStudentsService, 
-    retrieveStudentService 
-} from "../services";
+    createStudentController, 
+    listStudentsController, 
+    retrieveStudentController 
+} from "../controllers";
 
 const studentRouter = Router();
 
-studentRouter.post("", createStudentService);
-studentRouter.get("", listStudentsService);
-studentRouter.get("/:idStudent", retrieveStudentService);
+studentRouter.post("", createStudentController);
+studentRouter.get("", listStudentsController);
+studentRouter.get("/:id", retrieveStudentController);
 
 export default studentRouter;

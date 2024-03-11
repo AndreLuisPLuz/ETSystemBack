@@ -9,6 +9,6 @@ const studentGroupRouter = Router();
 
 studentGroupRouter.post("", createStudentGroupController);
 studentGroupRouter.get("", listStudentGroupsController);
-studentGroupRouter.get(":idStudentGroup", retrieveStudentGroupController);
+studentGroupRouter.get("/:id", retrieveStudentGroupController);
 
 export default studentGroupRouter;

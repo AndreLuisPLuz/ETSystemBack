@@ -9,13 +9,24 @@ import {
     listStudentGroupsController,
     retrieveStudentGroupController
 } from "./studentGroup.controller";
+import {
+    createStudentController,
+    listStudentsController,
+    retrieveStudentController
+} from "./student.controller";
 
 export {
     loginController,
+
     createUserController,
     updateUserInformationController,
     retrieveUserController,
+
     createStudentGroupController,
     listStudentGroupsController,
-    retrieveStudentGroupController
+    retrieveStudentGroupController,
+
+    createStudentController,
+    listStudentsController,
+    retrieveStudentController
 }

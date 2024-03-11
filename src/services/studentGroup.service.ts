@@ -24,7 +24,7 @@ const retrieveStudentGroupService = async(searchId: string): Promise<StudentGrou
     const studentGroup: StudentGroup | null = await studentGroupRepo.findOneBy({idStudentGroup: searchId});
 
     if (!studentGroup) {
-        throw new AppError('Class not found.', 404);
+        throw new AppError('Student group not found.', 404);
     }
 
     return studentGroup;

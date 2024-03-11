@@ -17,7 +17,7 @@ const listStudentGroupsController = async(req: Request, res: Response): Promise<
 }
 
 const retrieveStudentGroupController = async(req: Request, res: Response): Promise<Response> => {
-    const studentGroup: StudentGroup = await retrieveStudentGroupService(req.params.idStudentGroup);
+    const studentGroup: StudentGroup = await retrieveStudentGroupService(req.params.id);
     return res.status(200).json(studentGroup);
 }
 
