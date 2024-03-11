@@ -5,7 +5,7 @@ import { StudentGroup } from "../entities";
 import { Repository } from "typeorm";
 import { AppError } from "../errors";
 
-const createClassService = async(payload: IStudentGroupCreatePayload):
+const createStudentGroupService = async(payload: IStudentGroupCreatePayload):
         Promise<StudentGroup> => {
     const studentGroupRepo: Repository<StudentGroup> = AppDataSource.getRepository(StudentGroup);
     const studentGroup: StudentGroup = studentGroupRepo.create(payload);
@@ -13,13 +13,13 @@ const createClassService = async(payload: IStudentGroupCreatePayload):
     return studentGroupRepo.save(studentGroup);
 }
 
-const listClassesService = async(): Promise<StudentGroup[]> => {
+const listStudentGroupsService = async(): Promise<StudentGroup[]> => {
     const studentGroupRepo: Repository<StudentGroup> = AppDataSource.getRepository(StudentGroup);
     
     return await studentGroupRepo.find();
 }
 
-const retrieveClassService = async(searchId: string): Promise<StudentGroup> => {
+const retrieveStudentGroupService = async(searchId: string): Promise<StudentGroup> => {
     const studentGroupRepo: Repository<StudentGroup> = AppDataSource.getRepository(StudentGroup);
     const studentGroup: StudentGroup | null = await studentGroupRepo.findOneBy({idStudentGroup: searchId});
 
@@ -30,4 +30,8 @@ const retrieveClassService = async(searchId: string): Promise<StudentGroup> => {
     return studentGroup;
 }
 
-export { createClassService, listClassesService, retrieveClassService };
+export { 
+    createStudentGroupService, 
+    listStudentGroupsService, 
+    retrieveStudentGroupService 
+};

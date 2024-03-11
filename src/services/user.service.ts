@@ -2,7 +2,7 @@ import { IUserCreatePayload, IUserRegisterPayload } from "../interfaces";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities";
 
-import { Repository } from "typeorm";
+import { Repository, UpdateResult } from "typeorm";
 import { AppError } from "../errors";
 
 const createUserService = async(payload: IUserCreatePayload): Promise<User> => {
@@ -17,11 +17,16 @@ const createUserService = async(payload: IUserCreatePayload): Promise<User> => {
 const updateUserInformationService = async(searchId: string, payload: IUserRegisterPayload):
         Promise<User> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
+    const user: User | null = await userRepo.findOneBy({idUser: searchId});
+
+    if (!user) {
+        throw new AppError('User not found.', 404);
+    }
 
     return userRepo.save({
         idUser: searchId,
-        ...payload
-    });
+        ...payload,
+    })
 }
 
 const retrieveUserService = async(searchId: string): Promise<User> => {
