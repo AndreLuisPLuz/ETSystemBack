@@ -4,10 +4,18 @@ import {
     updateUserInformationController, 
     retrieveUserController 
 } from "./user.controller";
+import {
+    createStudentGroupController,
+    listStudentGroupsController,
+    retrieveStudentGroupController
+} from "./studentGroup.controller";
 
 export {
     loginController,
     createUserController,
     updateUserInformationController,
     retrieveUserController,
+    createStudentGroupController,
+    listStudentGroupsController,
+    retrieveStudentGroupController
 }

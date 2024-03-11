@@ -8,13 +8,13 @@ import { Repository } from "typeorm";
 import { AppError } from "../errors";
 
 import { createUserService } from "./user.service";
-import { retrieveClassService } from "./studentGroup.service";
+import { retrieveStudentGroupService } from "./studentGroup.service";
 
 const createStudentService = async(payload: IStudentCreatePayload): Promise<Student> => {
     const studentRepo: Repository<Student> = AppDataSource.getRepository(Student);
 
     const user: User = await createUserService(payload.user);
-    const studentGroup: StudentGroup = await retrieveClassService(payload.idClass);
+    const studentGroup: StudentGroup = await retrieveStudentGroupService(payload.idStudentGroup);
 
     const student: Student = studentRepo.create({user: user, studentGroup: studentGroup});
     

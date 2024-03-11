@@ -3,7 +3,7 @@ import { Student } from "./student.entity";
 import { Instructor } from "./instructor.entity";
 import { Administrator } from "./administrator.entity";
 
-@Entity('user')
+@Entity('person')
 export class User {
     @PrimaryGeneratedColumn("uuid")
     idUser!: string;

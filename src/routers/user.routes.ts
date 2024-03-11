@@ -8,7 +8,7 @@ import {
 const userRouter = Router();
 
 userRouter.post("", createUserController);
-userRouter.post("/update?:id", updateUserInformationController);
-userRouter.get("/:id", retrieveUserController);
+userRouter.post("/update?:idUser", updateUserInformationController);
+userRouter.get("/:idUser", retrieveUserController);
 
 export default userRouter;
