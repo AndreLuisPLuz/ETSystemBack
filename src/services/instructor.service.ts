@@ -1,8 +1,9 @@
-import { IInstructorCreatePayload } from "../interfaces";
+import { IInstructorCreatePayload, IInstructorStudentGroupsGetResponse } from "../interfaces";
 import { AppDataSource } from "../data-source";
 import { Instructor } from "../entities";
 import { User } from "../entities";
 import { Institution } from "../entities";
+import { DisciplineStudentGroup } from "../entities";
 
 import { Repository } from "typeorm";
 import { AppError } from "../errors";
@@ -42,6 +43,28 @@ const retrieveInstructorService = async(searchId: string): Promise<Instructor> =
     }
 
     return instructor;
+}
+
+const retrieveInstructorStudentGroupsService = async(id: string, search: string, searchType: string, page: number): Promise<DisciplineStudentGroup[]> => {
+    const instructorRepo: Repository<Instructor> = AppDataSource.getRepository(Instructor);
+    const instructor: Instructor | null = await instructorRepo.findOneBy({instructorId: id});
+
+    if (!instructor) {
+        throw new AppError('Instructor not found.', 404);
+    }
+
+    const disciplineStudentGroupRepo: Repository<DisciplineStudentGroup> = AppDataSource.getRepository(DisciplineStudentGroup);
+    const disciplineStudentGroups: DisciplineStudentGroup[] = await disciplineStudentGroupRepo.find({
+        where: {
+            instructor: instructor
+        },
+        relations: {
+            studentGroup: (searchType == "studentgroup"),
+            discipline: (searchType == "discipline")
+        }
+    })
+
+    return disciplineStudentGroups;
 }
 
 export {
