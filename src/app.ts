@@ -15,7 +15,7 @@ import {
 
 const app = express();
 app.use(express.json());
-app.use("/user", authenticateToken, userRouter);
+app.use("/user", userRouter);
 app.use("/student", authenticateToken, studentRouter);
 app.use("/login", loginRouter);
 app.use("/studentGroup", authenticateToken, studentGroupRouter);

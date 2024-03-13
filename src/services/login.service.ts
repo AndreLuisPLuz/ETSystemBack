@@ -23,16 +23,13 @@ const loginService = async(payload: ILoginPayload): Promise<string> => {
     })
 
     if (!foundUser) {
-        throw new AppError('Invalid credentials. --un', 401);
+        throw new AppError('Invalid credentials.', 401);
     }
 
-    const numSaltRounds: number = process.env.NODE_ENV === 'dev' ? 1 : 16;
-    const hash = hashSync(payload.password, numSaltRounds);
-
-    const compare: boolean = compareSync(hash, foundUser.password);
+    const compare: boolean = compareSync(payload.password, foundUser.password);
 
     if (!compare) {
-        throw new AppError('Invalid credentials --pw.', 401);
+        throw new AppError('Invalid credentials', 401);
     }
 
     const token: string = sign(
