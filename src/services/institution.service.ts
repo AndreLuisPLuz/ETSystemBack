@@ -29,3 +29,9 @@ const retrieveInstitutionService = async(searchId: string): Promise<Institution>
 
     return institution;
 }
+
+export {
+    createInstitutionService,
+    listIntitutionsService,
+    retrieveInstitutionService,
+}
