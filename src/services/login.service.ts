@@ -5,7 +5,7 @@ import { User } from "../entities";
 import { Repository } from "typeorm";
 import { AppError } from "../errors";
 
-import { compareSync } from "bcryptjs";
+import { compareSync, hashSync } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import 'dotenv/config';
 
@@ -13,7 +13,7 @@ const loginService = async(payload: ILoginPayload): Promise<string> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const foundUser: User | null = await userRepo.findOne({
         where: {
-            email: payload.email,
+            username: payload.username,
         },
         relations: {
             administrator: true,
@@ -23,18 +23,21 @@ const loginService = async(payload: ILoginPayload): Promise<string> => {
     })
 
     if (!foundUser) {
-        throw new AppError('Invalid credentials.', 401);
+        throw new AppError('Invalid credentials. --un', 401);
     }
 
-    const compare: boolean = compareSync(payload.password, foundUser.password);
+    const numSaltRounds: number = process.env.NODE_ENV === 'dev' ? 1 : 16;
+    const hash = hashSync(payload.password, numSaltRounds);
+
+    const compare: boolean = compareSync(hash, foundUser.password);
 
     if (!compare) {
-        throw new AppError('Invalid credentials.', 401);
+        throw new AppError('Invalid credentials --pw.', 401);
     }
 
     const token: string = sign(
         {
-            user: foundUser,
+            idUser: foundUser.idUser,
         },
         String(process.env.SECRET_KEY),
         {
