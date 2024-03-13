@@ -22,10 +22,6 @@ const retrieveUserController = async (req: Request, res: Response):
         Promise<Response> => {
     const user: User | null = await retrieveUserService(req.params.idUser);
 
-    if (!user) {
-        return res.status(404).json({message: 'User not found.'});
-    }
-
     return res.status(200).json(user);
 };
 
