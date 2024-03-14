@@ -11,3 +11,11 @@ export interface IUserRegisterPayload {
     dateOfBirth: Date | null;
     contact: string | null;
 }
+
+export interface IUserResponse {
+    username: string;
+    name: string | null;
+    email: string | null;
+    dateOfBirth: Date | null;
+    contact: string | null;
+}

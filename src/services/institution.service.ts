@@ -1,4 +1,4 @@
-import { IInstitutionCreatePayload } from "../interfaces";
+import { IInstitutionCreatePayload } from "../contracts";
 import { AppDataSource } from "../data-source";
 import { Institution } from "../entities";
 

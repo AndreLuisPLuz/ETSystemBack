@@ -6,6 +6,7 @@ import {
     retrieveUserService 
 } from "../services";
 import { User } from "../entities";
+import { UserDTO } from "../dataTransferObjects";
 
 const createUserController = async(req: Request, res: Response):
         Promise<Response> => {
@@ -14,7 +15,7 @@ const createUserController = async(req: Request, res: Response):
 };
 
 const listUsersController = async(req: Request, res: Response): Promise<Response> => {
-    const users: User[] = await listUsersService(res.locals.idUser);
+    const users: UserDTO[] = await listUsersService(res.locals.idUser);
     return res.status(200).json(users);
 }
 

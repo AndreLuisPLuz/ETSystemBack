@@ -1,4 +1,4 @@
-import { IInstructorCreatePayload, IInstructorStudentGroupsGetResponse } from "../interfaces";
+import { IInstructorCreatePayload, IInstructorStudentGroupsGetResponse } from "../contracts";
 import { AppDataSource } from "../data-source";
 import { Instructor } from "../entities";
 import { User } from "../entities";

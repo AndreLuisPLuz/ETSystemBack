@@ -1,4 +1,4 @@
-import { ILoginPayload } from "../interfaces";
+import { ILoginPayload } from "../contracts";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities";
 

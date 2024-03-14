@@ -1,8 +1,9 @@
-import { IUserCreatePayload, IUserRegisterPayload } from "../interfaces";
+import { IUserCreatePayload, IUserRegisterPayload } from "../contracts";
+import { UserDTO } from "../dataTransferObjects";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities";
 
-import { Repository, UpdateResult } from "typeorm";
+import { Repository, Not } from "typeorm";
 import { AppError } from "../errors";
 
 import { hashSync } from "bcryptjs";
@@ -20,7 +21,7 @@ const createUserService = async(payload: IUserCreatePayload): Promise<User> => {
     return user;
 };
 
-const listUsersService = async(requestingUserId: string): Promise<User[]> => {
+const listUsersService = async(requestingUserId: string): Promise<UserDTO[]> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const requestingUser: User | null = await userRepo.findOne({
         where: {
@@ -45,9 +46,14 @@ const listUsersService = async(requestingUserId: string): Promise<User[]> => {
             instructor: true,
             administrator: true
         }
-    })
+    });
 
-    return users;
+    const usersShown: UserDTO[] = []
+    users.forEach(function (user) {
+        usersShown.push(new UserDTO(user))
+    });
+
+    return usersShown;
 }
 
 const updateUserInformationService = async(searchId: string, payload: IUserRegisterPayload):

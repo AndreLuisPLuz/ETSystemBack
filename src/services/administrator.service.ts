@@ -1,4 +1,4 @@
-import { IAdministratorCreatePayload } from "../interfaces";
+import { IAdministratorCreatePayload } from "../contracts";
 import { AppDataSource } from "../data-source";
 import { Administrator } from "../entities";
 import { User } from "../entities";
