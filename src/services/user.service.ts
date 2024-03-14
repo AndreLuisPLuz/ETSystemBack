@@ -1,5 +1,5 @@
 import { IUserCreatePayload, IUserRegisterPayload } from "../contracts";
-import { UserDTO } from "../dataTransferObjects";
+import { UserDTO } from "../classes";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities";
 

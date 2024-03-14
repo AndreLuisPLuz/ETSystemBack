@@ -6,7 +6,7 @@ import {
     retrieveUserService 
 } from "../services";
 import { User } from "../entities";
-import { UserDTO } from "../dataTransferObjects";
+import { UserDTO, Paginator } from "../classes";
 
 const createUserController = async(req: Request, res: Response):
         Promise<Response> => {
@@ -16,7 +16,12 @@ const createUserController = async(req: Request, res: Response):
 
 const listUsersController = async(req: Request, res: Response): Promise<Response> => {
     const users: UserDTO[] = await listUsersService(res.locals.idUser);
-    return res.status(200).json(users);
+    const paginatedUsers: Paginator<UserDTO> = new Paginator(
+        users, 
+        Number(req.params.page), 
+        10
+    );
+    return res.status(200).json(paginatedUsers);
 }
 
 const updateUserInformationController = async(req: Request, res: Response):
