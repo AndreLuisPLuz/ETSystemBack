@@ -20,6 +20,36 @@ const createUserService = async(payload: IUserCreatePayload): Promise<User> => {
     return user;
 };
 
+const listUsersService = async(requestingUserId: string): Promise<User[]> => {
+    const userRepo: Repository<User> = AppDataSource.getRepository(User);
+    const requestingUser: User | null = await userRepo.findOne({
+        where: {
+            idUser: requestingUserId,
+        },
+        relations: {
+            administrator: true,
+        }
+    });
+
+    if (!requestingUser) {
+        throw new AppError('User not found.', 404);
+    }
+
+    if (!requestingUser.administrator) {
+        throw new AppError('Missing admin access.', 401);
+    }
+
+    const users: User[] = await userRepo.find({
+        relations: {
+            student: true,
+            instructor: true,
+            administrator: true
+        }
+    })
+
+    return users;
+}
+
 const updateUserInformationService = async(searchId: string, payload: IUserRegisterPayload):
         Promise<User> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
@@ -47,7 +77,8 @@ const retrieveUserService = async(searchId: string): Promise<User> => {
 };
 
 export { 
-    createUserService, 
+    createUserService,
+    listUsersService,
     updateUserInformationService, 
     retrieveUserService 
 };

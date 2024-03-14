@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { 
-    createUserService, 
+    createUserService,
+    listUsersService,
     updateUserInformationService, 
     retrieveUserService 
-} from "../services/user.service";
+} from "../services";
 import { User } from "../entities";
 
 const createUserController = async(req: Request, res: Response):
@@ -11,6 +12,11 @@ const createUserController = async(req: Request, res: Response):
     const user: User = await createUserService(req.body);
     return res.status(201).json(user);
 };
+
+const listUsersController = async(req: Request, res: Response): Promise<Response> => {
+    const users: User[] = await listUsersService(res.locals.idUser);
+    return res.status(200).json(users);
+}
 
 const updateUserInformationController = async(req: Request, res: Response):
         Promise<Response> => {
@@ -25,4 +31,9 @@ const retrieveUserController = async (req: Request, res: Response):
     return res.status(200).json(user);
 };
 
-export { createUserController, updateUserInformationController, retrieveUserController };
+export { 
+    createUserController,
+    listUsersController,
+    updateUserInformationController,
+    retrieveUserController 
+};

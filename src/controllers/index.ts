@@ -1,24 +1,40 @@
 import { loginController } from "./login.controller";
+
 import { 
-    createUserController, 
+    createUserController,
+    listUsersController,
     updateUserInformationController, 
     retrieveUserController 
 } from "./user.controller";
+
 import {
     createStudentGroupController,
     listStudentGroupsController,
     retrieveStudentGroupController
 } from "./studentGroup.controller";
+
 import {
     createStudentController,
     listStudentsController,
     retrieveStudentController
 } from "./student.controller";
 
+import {
+    createInstitutionController,
+    listIntitutionsController,
+    retrieveInstitutionController
+} from "./institution.controller";
+
+import { 
+    createAdministratorController,
+    retrieveAdministratorController
+} from "./administrator.controller";
+
 export {
     loginController,
 
     createUserController,
+    listUsersController,
     updateUserInformationController,
     retrieveUserController,
 
@@ -28,5 +44,12 @@ export {
 
     createStudentController,
     listStudentsController,
-    retrieveStudentController
+    retrieveStudentController,
+
+    createInstitutionController,
+    listIntitutionsController,
+    retrieveInstitutionController,
+
+    createAdministratorController,
+    retrieveAdministratorController
 }
