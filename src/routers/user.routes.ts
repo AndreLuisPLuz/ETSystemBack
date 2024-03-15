@@ -9,9 +9,12 @@ import { authenticateToken } from "../middlewares";
 
 const userRouter = Router();
 
-userRouter.post("", createUserController);
-userRouter.get("/:page", authenticateToken, listUsersController);
-userRouter.post("/update?:id", updateUserInformationController);
-// userRouter.get("/:id", retrieveUserController);
+userRouter.get("", authenticateToken, listUsersController);
+userRouter.post("", authenticateToken, createUserController);
+
+userRouter.get("/:id", authenticateToken, retrieveUserController);
+userRouter.patch("/:id", authenticateToken, updateUserInformationController);
+userRouter.delete("/:id", authenticateToken);
+
 
 export default userRouter;
