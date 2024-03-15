@@ -10,8 +10,8 @@ import { UserDTO, Paginator } from "../classes";
 
 const createUserController = async(req: Request, res: Response):
         Promise<Response> => {
-    const user: User = await createUserService(req.body);
-    return res.status(201).json(user);
+    const message = await createUserService(req.body);
+    return res.status(201).json(message);
 };
 
 const listUsersController = async(req: Request, res: Response): Promise<Response> => {

@@ -9,16 +9,17 @@ import { AppError } from "../errors";
 import { hashSync } from "bcryptjs";
 import "dotenv/config";
 
-const createUserService = async(payload: IUserCreatePayload): Promise<User> => {
+const createUserService = async(payload: IUserCreatePayload): Promise<object> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const user: User = userRepo.create(payload);
 
+    const defaultPassword: string = process.env.DEFAULT_USER_PW || "ets@Bosch2020";
     const numSaltRounds: number = process.env.NODE_ENV === 'dev' ? 1 : 16;
-    user.password = hashSync(user.password, numSaltRounds);
+    user.password = hashSync(defaultPassword, numSaltRounds);
 
     await userRepo.save(user);
 
-    return user;
+    return {"message": "User created."};
 };
 
 const listUsersService = async(requestingUserId: string): Promise<UserDTO[]> => {
