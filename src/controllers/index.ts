@@ -4,7 +4,8 @@ import {
     createUserController,
     listUsersController,
     updateUserInformationController, 
-    retrieveUserController 
+    retrieveUserController,
+    softDeleteUserController
 } from "./user.controller";
 
 import {
@@ -37,6 +38,7 @@ export {
     listUsersController,
     updateUserInformationController,
     retrieveUserController,
+    softDeleteUserController,
 
     createStudentGroupController,
     listStudentGroupsController,

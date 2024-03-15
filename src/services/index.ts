@@ -14,7 +14,8 @@ import {
     createUserService,
     listUsersService,
     updateUserInformationService, 
-    retrieveUserService 
+    retrieveUserService,
+    softDeleteUserService
 } from "./user.service";
 
 import { 
@@ -45,6 +46,7 @@ export {
     listUsersService,
     updateUserInformationService, 
     retrieveUserService,
+    softDeleteUserService,
 
     createAdministratorService,
     retrieveAdministratorService

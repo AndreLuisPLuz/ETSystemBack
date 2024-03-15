@@ -5,7 +5,7 @@ import { User } from "../entities";
 import { Repository } from "typeorm";
 import { AppError } from "../errors";
 
-import { compareSync, hashSync } from "bcryptjs";
+import { compareSync } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import 'dotenv/config';
 
@@ -34,11 +34,11 @@ const loginService = async(payload: ILoginPayload): Promise<string> => {
 
     const token: string = sign(
         {
-            idUser: foundUser.idUser,
+            idRequestingUser: foundUser.idUser,
         },
         String(process.env.SECRET_KEY),
         {
-            subject: String(foundUser.idUser)
+            expiresIn: '2 days'
         }
     )
 

@@ -21,7 +21,7 @@ const authenticateToken = async(req: Request, res: Response, next: NextFunction)
                 throw new AppError(err.message, 401);
             }
 
-            res.locals.idUser = decoded.idUser;
+            res.locals.idRequestingUser = decoded.idRequestingUser;
         }
     )
 

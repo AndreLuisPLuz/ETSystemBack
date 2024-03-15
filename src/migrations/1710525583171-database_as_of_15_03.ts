@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class UsersUpdated1710373729055 implements MigrationInterface {
-    name = 'UsersUpdated1710373729055'
+export class DatabaseAsOf15031710525583171 implements MigrationInterface {
+    name = 'DatabaseAsOf15031710525583171'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`ALTER TABLE "instructor" DROP CONSTRAINT "FK_2113daac151237030d0aaccba25"`);
