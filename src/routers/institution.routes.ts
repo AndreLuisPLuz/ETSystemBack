@@ -1,13 +1,13 @@
 import { Router } from "express";
 import {
     createInstitutionController,
-    listIntitutionsController,
-    retrieveInstitutionController
+    listIntitutionsController
 } from "../controllers";
+import { authenticateToken } from "../middlewares";
 
 const institutionRouter = Router();
 
-institutionRouter.get("", listIntitutionsController);
-institutionRouter.post("", createInstitutionController);
+institutionRouter.get("", authenticateToken, listIntitutionsController);
+institutionRouter.post("", authenticateToken, createInstitutionController);
 
 export default institutionRouter;

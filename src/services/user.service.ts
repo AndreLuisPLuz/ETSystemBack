@@ -24,16 +24,10 @@ const listUsersService = async(idRequestingUser: string): Promise<UserDTO[]> => 
             administrator: true,
         }
     });
-
     
     if (!requestingUser) {
         throw new AppError('User not found.', 404);
     }
-    
-    let teste: UserDTO[] = [];
-    teste.push(new UserDTO(requestingUser));
-
-    return teste;
 
     if (!requestingUser.administrator) {
         throw new AppError('Access level not high enough to perform action.', 401);
@@ -48,7 +42,7 @@ const listUsersService = async(idRequestingUser: string): Promise<UserDTO[]> => 
     });
 
     const usersShown: UserDTO[] = [];
-    users.forEach(function (user) {
+    users.forEach((user) => {
         usersShown.push(new UserDTO(user))
     });
 
