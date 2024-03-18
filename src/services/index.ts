@@ -1,20 +1,53 @@
 import { 
+    createInstitutionService,
+    listIntitutionsService,
+    retrieveInstitutionService
+} from "./institution.service";
+
+import { 
     createStudentService, 
     listStudentsService, 
     retrieveStudentService 
-} from "./student.service"
+} from "./student.service";
+
+import { 
+    createUserService,
+    listUsersService,
+    updateUserInformationService, 
+    retrieveUserService,
+    softDeleteUserService
+} from "./user.service";
 
 import { 
     createStudentGroupService, 
     listStudentGroupsService, 
     retrieveStudentGroupService 
-} from "./studentGroup.service"
+} from "./studentGroup.service";
+
+import { 
+    createAdministratorService,
+    retrieveAdministratorService
+} from "./administrator.service";
 
 export {
+    createInstitutionService,
+    listIntitutionsService,
+    retrieveInstitutionService,
+
     createStudentService, 
     listStudentsService, 
     retrieveStudentService,
+
     createStudentGroupService, 
     listStudentGroupsService, 
-    retrieveStudentGroupService 
+    retrieveStudentGroupService,
+
+    createUserService,
+    listUsersService,
+    updateUserInformationService, 
+    retrieveUserService,
+    softDeleteUserService,
+
+    createAdministratorService,
+    retrieveAdministratorService
 }

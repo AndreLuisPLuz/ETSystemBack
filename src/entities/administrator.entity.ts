@@ -22,7 +22,4 @@ export class Administrator {
     @OneToOne(() => User)
     @JoinColumn()
     user!: User;
-
-    @ManyToOne(() => Institution, (institution) => institution.administrators)
-    institution!: Institution;
 }

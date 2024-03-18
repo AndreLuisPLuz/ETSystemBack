@@ -1,6 +1,7 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Instructor } from "./instructor.entity";
 import { Administrator } from "./administrator.entity";
+import { User } from "./user.entity";
 
 export enum IsBosch {
     FALSE = 0,
@@ -27,9 +28,6 @@ export class Institution {
     @DeleteDateColumn({type: 'datetime', nullable: true})
     deletedAt!: Date | null;
 
-    @OneToMany(() => Instructor, (instructor) => instructor.institution)
-    instructors!: Instructor[];
-
-    @OneToMany(() => Administrator, (administrator) => administrator.institution)
-    administrators!: Administrator[];
+    @OneToMany(() => User, (user) => user.institution)
+    users!: User[];
 }

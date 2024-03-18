@@ -1,7 +1,8 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, TableInheritance, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, TableInheritance, UpdateDateColumn } from "typeorm";
 import { Student } from "./student.entity";
 import { Instructor } from "./instructor.entity";
 import { Administrator } from "./administrator.entity";
+import { Institution } from "./institution.entity";
 
 @Entity('person')
 export class User {
@@ -43,4 +44,7 @@ export class User {
 
     @OneToOne(() => Administrator, (administrator) => administrator.user)
     administrator!: Administrator;
+
+    @ManyToOne(() => Institution, (institution) => institution.users)
+    institution!: Institution;
 }

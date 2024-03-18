@@ -1,28 +1,29 @@
-import { IAdministratorCreatePayload } from "../interfaces";
+import { IAdministratorCreatePayload } from "../contracts";
 import { AppDataSource } from "../data-source";
 import { Administrator } from "../entities";
 import { User } from "../entities";
-import { Institution } from "../entities";
+
+import { AdministratorDTO } from "../classes";
 
 import { Repository } from "typeorm";
 import { AppError } from "../errors";
 
-import { createUserService } from "./user.service";
-import { retrieveInstitutionService } from "./institution.service";
+const createAdministratorService = async(idUser: string, payload: IAdministratorCreatePayload): Promise<AdministratorDTO> => {    
+    const userRepo: Repository<User> = AppDataSource.getRepository(User);
+    const user: User | null = await userRepo.findOneBy({idUser: idUser});
 
-const createAdministratorService = async(payload: IAdministratorCreatePayload): Promise<Administrator> => {
+    if (!user) {
+        throw new AppError("User was not found and cannot be bound to an admin access.", 404);
+    }
+
     const administratorRepo: Repository<Administrator> = AppDataSource.getRepository(Administrator);
-    
-    const user: User = await createUserService(payload.user);
-    const institution: Institution = await retrieveInstitutionService(payload.idInstitution);
-
     const administrator: Administrator = administratorRepo.create({
         user: user,
-        institution: institution,
+        ...payload
     })
 
     await administratorRepo.save(administrator);
-    return administrator;
+    return new AdministratorDTO(administrator);
 }
 
 const retrieveAdministratorService = async(searchId: string): Promise<Administrator> => {
@@ -41,4 +42,9 @@ const retrieveAdministratorService = async(searchId: string): Promise<Administra
     }
 
     return administrator;
+}
+
+export {
+    createAdministratorService,
+    retrieveAdministratorService
 }

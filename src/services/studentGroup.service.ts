@@ -1,4 +1,4 @@
-import { IStudentGroupCreatePayload } from "../interfaces";
+import { IStudentGroupCreatePayload } from "../contracts";
 import { AppDataSource } from "../data-source";
 import { StudentGroup } from "../entities";
 

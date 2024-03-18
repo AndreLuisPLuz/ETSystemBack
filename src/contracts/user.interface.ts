@@ -1,6 +1,6 @@
 export interface IUserCreatePayload {
     username: string;
-    password: string;
+    idInstitution: string;
 }
 
 export interface IUserRegisterPayload {

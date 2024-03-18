@@ -21,9 +21,6 @@ export class Instructor {
     @JoinColumn()
     user!: User;
 
-    @ManyToOne(() => Institution, (institution) => institution.instructors)
-    institution!: Institution;
-
     @OneToMany(() => DisciplineStudentGroup, (disciplineStudentGroup) => disciplineStudentGroup.instructor)
     disciplineStudentGroups!: DisciplineStudentGroup[];
 }
