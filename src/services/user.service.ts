@@ -16,23 +16,6 @@ const passwordHashService = (plainPassword: string): string => {
 
 const listUsersService = async(idRequestingUser: string): Promise<UserDTO[]> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
-    const requestingUser: User | null = await userRepo.findOne({
-        where: {
-            idUser: idRequestingUser,
-        },
-        relations: {
-            administrator: true,
-        }
-    });
-    
-    if (!requestingUser) {
-        throw new AppError('User not found.', 404);
-    }
-
-    if (!requestingUser.administrator) {
-        throw new AppError('Access level not high enough to perform action.', 401);
-    }
-
     const users: User[] = await userRepo.find({
         relations: {
             student: true,
@@ -50,24 +33,6 @@ const listUsersService = async(idRequestingUser: string): Promise<UserDTO[]> => 
 }
 
 const createUserService = async(idRequestingUser: string, payload: IUserCreatePayload): Promise<object> => {
-    const userRepo: Repository<User> = AppDataSource.getRepository(User);
-    const requestingUser: User | null = await userRepo.findOne({
-        where: {
-            idUser: idRequestingUser
-        },
-        relations: {
-            administrator: true
-        }
-    })
-
-    if (!requestingUser) {
-        throw new AppError("Requesting user not found.", 404);
-    }
-
-    if (!requestingUser.administrator) {
-        throw new AppError("Access level not high enough to perform action.", 401);
-    }
-
     const institutionRepo: Repository<Institution> = AppDataSource.getRepository(Institution);
     const institution: Institution | null = await institutionRepo.findOneBy({idInstitution: payload.idInstitution});
 
@@ -75,6 +40,7 @@ const createUserService = async(idRequestingUser: string, payload: IUserCreatePa
         throw new AppError("Institution not found. Cannot be bound.", 404);
     }
 
+    const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const user: User = userRepo.create(payload);
     user.institution = institution;
 
@@ -88,26 +54,6 @@ const createUserService = async(idRequestingUser: string, payload: IUserCreatePa
 
 const retrieveUserService = async(idRequestingUser: string, searchId: string): Promise<UserDTO> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
-    const requestingUser: User | null = await userRepo.findOne({
-        where: {
-            idUser: idRequestingUser,
-        },
-        relations: {
-            student: true,
-            administrator: true
-        }
-    });
-
-    if (!requestingUser) {
-        throw new AppError("Requesting user not found.", 404);
-    }
-
-    if (!requestingUser.administrator) {
-        if (requestingUser.idUser != searchId) {
-            throw new AppError("Access level not high enough to perform action.", 401);
-        }
-    }
-
     const user: User | null = await userRepo.findOne({
         where: {
             idUser: searchId,
@@ -128,29 +74,9 @@ const retrieveUserService = async(idRequestingUser: string, searchId: string): P
 
 const updateUserInformationService = async(idRequestingUser: string, searchId: string,
         payload: IUserRegisterPayload): Promise<UserDTO> => {
-    const userRepo: Repository<User> = AppDataSource.getRepository(User);
-    const requestingUser: User | null = await userRepo.findOne({
-        where: {
-            idUser: idRequestingUser,
-        },
-        relations: {
-            student: true,
-            administrator: true
-        }
-    });
-
-    if (!requestingUser) {
-        throw new AppError("Requesting user not found.", 404);
-    }
-
-    if (!requestingUser.administrator) {
-        if (requestingUser.idUser != searchId) {
-            throw new AppError("Access level not high enough to perform action.", 401);
-        }
-    }
-
     payload.password = passwordHashService(payload.password);
 
+    const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const result: UpdateResult = await userRepo.update(
         {idUser: searchId},
         {...payload}
@@ -166,27 +92,6 @@ const updateUserInformationService = async(idRequestingUser: string, searchId: s
 
 const softDeleteUserService = async(idRequestingUser: string, idUser: string) => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
-    const requestingUser: User | null = await userRepo.findOne({
-        where: {
-            idUser: idRequestingUser
-        },
-        relations: {
-            administrator: true
-        }
-    });
-
-    if (!requestingUser) {
-        throw new AppError("Requesting user not found.", 404);
-    }
-
-    if (requestingUser.administrator === null) {
-        throw new AppError("Access level not high enough to perform action.", 401);
-    }
-
-    if (requestingUser.administrator.isMaster == false) {
-        throw new AppError("Access level not high enough to perform action.", 401);
-    }
-
     const result: UpdateResult = await userRepo.softDelete({idUser: idUser});
 
     if (result.affected == 0 || result.affected === undefined) {
