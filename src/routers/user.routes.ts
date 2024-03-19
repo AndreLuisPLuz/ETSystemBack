@@ -1,4 +1,6 @@
-import { Router } from "express";
+import { NextFunction, Router } from "express";
+import { RequirementTypes, IReqRequirements } from "../contracts";
+
 import {
   listUsersController,
   createUserController,
@@ -8,14 +10,16 @@ import {
   softDeleteUserController,
 
   createAdministratorController
-} from "../controllers"
+} from "../controllers";
+
 import { 
   authenticateToken,
   authenticateAdmin,
   authenticateBosch,
   authenticateMaster,
   authenticateBoschOrMaster,
-  authenticateOwnUser
+  authenticateOwnUser,
+  buildRequirements
 } from "../middlewares";
 
 const userRouter = Router();
@@ -38,9 +42,16 @@ userRouter.post(
 userRouter.get(
   "/:idUser", 
   authenticateToken,
-  authenticateAdmin,
-  authenticateBoschOrMaster,
-  authenticateOwnUser,
+  (req, res, next) => {
+    res.locals.requirements = {
+      ownUser: undefined,
+      admin: undefined,
+      master: undefined,
+      isBosch: undefined
+    };
+    return next();
+  },
+  buildRequirements,
   retrieveUserController
 );
 userRouter.patch("/:idUser", authenticateToken, updateUserInformationController);

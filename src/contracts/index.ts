@@ -4,6 +4,10 @@ import { IStudentGroupCreatePayload } from "./studentGroup.interface"
 import { IInstructorCreatePayload, IInstructorStudentGroupsGetResponse } from "./instructor.interface"
 import { IAdministratorCreatePayload } from "./administrator.interface"
 import { ILoginPayload } from "./login.interface"
+import { 
+    RequirementTypes,
+    IReqRequirements
+} from "./reqRequirements.interface";
 
 export {
     IUserCreatePayload, IUserRegisterPayload,
@@ -12,4 +16,6 @@ export {
     IInstructorCreatePayload,
     IAdministratorCreatePayload,
     ILoginPayload,
+    RequirementTypes,
+    IReqRequirements
 }

@@ -1,0 +1,49 @@
+import { NextFunction, Request, Response } from "express";
+import { AppDataSource } from "../data-source";
+import { AppError } from "../errors";
+
+import { RequirementTypes, IReqRequirements } from "../contracts";
+import { Repository } from "typeorm";
+import { IsBosch, User } from "../entities";
+
+const buildRequirements = async(req: Request, res: Response, next: NextFunction) => {
+    const requirements: IReqRequirements = res.locals.requirements;
+
+    const userRepo: Repository<User> = AppDataSource.getRepository(User);
+    const requestingUser: User = await userRepo.findOneOrFail({
+        where: {
+            idUser: res.locals.idRequestingUser
+        },
+        relations: {
+            administrator: true,
+            institution: true
+        }
+    });
+
+    for (let property in requirements) {
+        switch(property) {
+            case RequirementTypes.ADMIN:
+                requirements[property] = (requestingUser.administrator != undefined);
+                break;
+            case RequirementTypes.IS_BOSCH:
+                requirements[property] = (requestingUser.institution.isBosch == IsBosch.TRUE);
+                break;
+            case RequirementTypes.MASTER:
+                requirements[property] = (requestingUser.administrator.isMaster);
+                break;
+            case RequirementTypes.OWN_USER:
+                requirements[property] = (requestingUser.idUser == res.locals.idRequestingUser);
+                break;
+        }
+    }
+
+    for (let property in requirements) {
+        if (requirements[property]) {
+            return next();
+        }
+    }
+    
+    throw new AppError("Action not allowed with user access level.", 403);
+}
+
+export { buildRequirements };
