@@ -85,6 +85,18 @@ userRouter.delete(
   softDeleteUserController
 );
 
-userRouter.post("/:idUser/admin", authenticateToken, createAdministratorController);
+userRouter.post(
+  "/:idUser/admin",
+  authenticateToken,
+  (req, res, next) => {
+    res.locals.requirements = {
+      master: false,
+      adminAndBosch: false,
+    };
+    return next();
+  },
+  buildRequirements,
+  createAdministratorController
+);
 
 export default userRouter;
