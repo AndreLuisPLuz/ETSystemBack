@@ -1,7 +1,7 @@
 import { User } from "../../entities"
 import AdministratorDTO from "./administrator.dto";
 
-export class UserDTO {
+export default class UserDTO {
     idUser!: string;
     username!: string;
     name!: string | null;

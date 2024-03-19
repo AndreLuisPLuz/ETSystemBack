@@ -1,7 +1,7 @@
 import { 
     createInstitutionService,
     listIntitutionsService,
-    retrieveInstitutionService
+    updateInstitutionService,
 } from "./institution.service";
 
 import { 
@@ -32,7 +32,7 @@ import {
 export {
     createInstitutionService,
     listIntitutionsService,
-    retrieveInstitutionService,
+    updateInstitutionService,
 
     createStudentService, 
     listStudentsService, 

@@ -14,7 +14,7 @@ const passwordHashService = (plainPassword: string): string => {
     return hashSync(plainPassword, numSaltRounds);
 };
 
-const listUsersService = async(idRequestingUser: string): Promise<UserDTO[]> => {
+const listUsersService = async(): Promise<UserDTO[]> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const users: User[] = await userRepo.find({
         relations: {
@@ -32,7 +32,7 @@ const listUsersService = async(idRequestingUser: string): Promise<UserDTO[]> => 
     return usersShown;
 }
 
-const createUserService = async(idRequestingUser: string, payload: IUserCreatePayload): Promise<object> => {
+const createUserService = async(payload: IUserCreatePayload): Promise<object> => {
     const institutionRepo: Repository<Institution> = AppDataSource.getRepository(Institution);
     const institution: Institution | null = await institutionRepo.findOneBy({idInstitution: payload.idInstitution});
 
@@ -52,7 +52,7 @@ const createUserService = async(idRequestingUser: string, payload: IUserCreatePa
     return {"message": "User created."};
 };
 
-const retrieveUserService = async(idRequestingUser: string, searchId: string): Promise<UserDTO> => {
+const retrieveUserService = async(searchId: string): Promise<UserDTO> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const user: User | null = await userRepo.findOne({
         where: {
@@ -72,7 +72,7 @@ const retrieveUserService = async(idRequestingUser: string, searchId: string): P
     return new UserDTO(user);
 };
 
-const updateUserInformationService = async(idRequestingUser: string, searchId: string,
+const updateUserInformationService = async(searchId: string,
         payload: IUserRegisterPayload): Promise<UserDTO> => {
     payload.password = passwordHashService(payload.password);
 
@@ -90,7 +90,7 @@ const updateUserInformationService = async(idRequestingUser: string, searchId: s
     return new UserDTO(updatedUser);
 };
 
-const softDeleteUserService = async(idRequestingUser: string, idUser: string) => {
+const softDeleteUserService = async(idUser: string) => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const result: UpdateResult = await userRepo.softDelete({idUser: idUser});
 
