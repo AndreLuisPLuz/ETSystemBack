@@ -44,10 +44,10 @@ userRouter.get(
   authenticateToken,
   (req, res, next) => {
     res.locals.requirements = {
-      ownUser: undefined,
-      admin: undefined,
-      master: undefined,
-      isBosch: undefined
+      ownUser: false,
+      admin: false,
+      master: false,
+      isBosch: false
     };
     return next();
   },
