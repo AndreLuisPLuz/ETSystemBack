@@ -1,7 +1,19 @@
-import { handleError } from "./handleError.middlewares"
-import { authenticateToken } from "./auth.middleware"
+import { handleError } from "./handleError.middlewares";
+import { 
+    authenticateToken,
+    authenticateBosch,
+    authenticateAdmin,
+    authenticateMaster,
+    authenticateBoschOrMaster,
+    authenticateOwnUser
+} from "./auth.middleware";
 
 export {
     handleError,
-    authenticateToken
+    authenticateToken,
+    authenticateBosch,
+    authenticateAdmin,
+    authenticateMaster,
+    authenticateBoschOrMaster,
+    authenticateOwnUser
 }

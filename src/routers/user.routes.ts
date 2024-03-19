@@ -9,14 +9,40 @@ import {
 
   createAdministratorController
 } from "../controllers"
-import { authenticateToken } from "../middlewares";
+import { 
+  authenticateToken,
+  authenticateAdmin,
+  authenticateBosch,
+  authenticateMaster,
+  authenticateBoschOrMaster,
+  authenticateOwnUser
+} from "../middlewares";
 
 const userRouter = Router();
 
-userRouter.get("", authenticateToken, listUsersController);
-userRouter.post("", authenticateToken, createUserController);
+userRouter.get(
+  "", 
+  authenticateToken, 
+  authenticateAdmin, 
+  authenticateBoschOrMaster,
+  listUsersController
+);
+userRouter.post(
+  "", 
+  authenticateToken,
+  authenticateAdmin,
+  authenticateBoschOrMaster,
+  createUserController
+);
 
-userRouter.get("/:idUser", authenticateToken, retrieveUserController);
+userRouter.get(
+  "/:idUser", 
+  authenticateToken,
+  authenticateAdmin,
+  authenticateBoschOrMaster,
+  authenticateOwnUser,
+  retrieveUserController
+);
 userRouter.patch("/:idUser", authenticateToken, updateUserInformationController);
 userRouter.delete("/:idUser", authenticateToken, softDeleteUserController);
 

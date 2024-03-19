@@ -22,8 +22,7 @@ import {
 
 import {
     createInstitutionController,
-    listIntitutionsController,
-    retrieveInstitutionController
+    listIntitutionsController
 } from "./institution.controller";
 
 import { 
@@ -50,7 +49,6 @@ export {
 
     createInstitutionController,
     listIntitutionsController,
-    retrieveInstitutionController,
 
     createAdministratorController,
     retrieveAdministratorController

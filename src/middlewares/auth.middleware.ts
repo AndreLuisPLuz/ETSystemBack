@@ -50,7 +50,7 @@ const authenticateBosch = async(req: Request, res: Response, next: NextFunction)
     });
 
     if (!user.institution.isBosch) {
-        throw new AppError("Incorrect institution access.", 401);
+        throw new AppError("Incorrect institution access.", 403);
     }
 
     return next();
@@ -68,7 +68,7 @@ const authenticateAdmin = async(req: Request, res: Response, next: NextFunction)
     });
 
     if (!requestingUser.administrator) {
-        throw new AppError("Access level not high enough to perform action.", 401);
+        throw new AppError("Access level not high enough to perform action.", 403);
     }
 
     res.locals.idAdmin = requestingUser.administrator.idAdministrator;
@@ -81,7 +81,38 @@ const authenticateMaster = async(req: Request, res: Response, next: NextFunction
     const admin: Administrator = await adminRepo.findOneByOrFail(res.locals.idAdmin);
 
     if (!admin.isMaster) {
-        throw new AppError("Access level not high enough to perform action.", 401);
+        throw new AppError("Access level not high enough to perform action.", 403);
+    }
+
+    return next();
+};
+
+const authenticateBoschOrMaster = async(req: Request, res: Response, next: NextFunction) => {
+    const userRepo: Repository<User> = AppDataSource.getRepository(User);
+    const user: User = await userRepo.findOneOrFail({
+        where: {
+            idUser: res.locals.idRequestingUser
+        },
+        relations: {
+            administrator: true,
+            institution: true
+        }
+    });
+
+    if (!user.administrator.isMaster && !user.institution.isBosch) {
+        throw new AppError("Access level not high enough to perform action.", 403);
+    }
+
+    return next();
+};
+
+const authenticateOwnUser = async(req: Request, res: Response, next: NextFunction) => {
+    if (res.locals.idAdmin != undefined) {
+        return next();
+    }
+
+    if (res.locals.idRequestingUser != req.params.idUser) {
+        throw new AppError("Access level not high enough to perform action.", 403);
     }
 
     return next();
@@ -91,5 +122,7 @@ export {
     authenticateToken,
     authenticateBosch,
     authenticateAdmin,
-    authenticateMaster
+    authenticateMaster,
+    authenticateBoschOrMaster,
+    authenticateOwnUser
 };
