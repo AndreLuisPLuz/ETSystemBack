@@ -1,24 +1,14 @@
 import { NextFunction, Router } from "express";
-import { RequirementTypes, IReqRequirements } from "../contracts";
-
 import {
   listUsersController,
   createUserController,
-
   retrieveUserController,
   updateUserInformationController,
   softDeleteUserController,
-
   createAdministratorController
 } from "../controllers";
-
 import { 
   authenticateToken,
-  authenticateAdmin,
-  authenticateBosch,
-  authenticateMaster,
-  authenticateBoschOrMaster,
-  authenticateOwnUser,
   buildRequirements
 } from "../middlewares";
 
@@ -27,15 +17,28 @@ const userRouter = Router();
 userRouter.get(
   "", 
   authenticateToken, 
-  authenticateAdmin, 
-  authenticateBoschOrMaster,
+  (req, res, next) => {
+    res.locals.requirements = {
+      master: false,
+      adminAndBosch: false,
+    };
+    return next();
+  }, 
+  buildRequirements,
   listUsersController
 );
+
 userRouter.post(
   "", 
   authenticateToken,
-  authenticateAdmin,
-  authenticateBoschOrMaster,
+  (req, res, next) => {
+    res.locals.requirements = {
+      master: false,
+      adminAndBosch: false,
+    };
+    return next();
+  }, 
+  buildRequirements,
   createUserController
 );
 
@@ -54,8 +57,33 @@ userRouter.get(
   buildRequirements,
   retrieveUserController
 );
-userRouter.patch("/:idUser", authenticateToken, updateUserInformationController);
-userRouter.delete("/:idUser", authenticateToken, softDeleteUserController);
+
+userRouter.patch(
+  "/:idUser",
+  authenticateToken,
+  (req, res, next) => {
+    res.locals.requirements = {
+      ownUser: false,
+      master: false,
+    };
+    return next();
+  },
+  buildRequirements,
+  updateUserInformationController
+);
+
+userRouter.delete(
+  "/:idUser",
+  authenticateToken,
+  (req, res, next) => {
+    res.locals.requirements = {
+      master: false,
+    };
+    return next();
+  },
+  buildRequirements,
+  softDeleteUserController
+);
 
 userRouter.post("/:idUser/admin", authenticateToken, createAdministratorController);
 

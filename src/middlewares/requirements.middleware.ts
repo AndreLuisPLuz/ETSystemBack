@@ -29,10 +29,18 @@ const buildRequirements = async(req: Request, res: Response, next: NextFunction)
                 requirements[property] = (requestingUser.institution.isBosch == IsBosch.TRUE);
                 break;
             case RequirementTypes.MASTER:
-                requirements[property] = (requestingUser.administrator.isMaster);
+                if (requestingUser.administrator != undefined) {
+                    requirements[property] = (requestingUser.administrator.isMaster);
+                }
                 break;
             case RequirementTypes.OWN_USER:
                 requirements[property] = (requestingUser.idUser == res.locals.idRequestingUser);
+                break;
+            case RequirementTypes.ADMIN_AND_BOSCH:
+                requirements[property] = (
+                    (requestingUser.administrator != undefined)
+                    && (requestingUser.institution.isBosch == IsBosch.TRUE)
+                );
                 break;
         }
     }

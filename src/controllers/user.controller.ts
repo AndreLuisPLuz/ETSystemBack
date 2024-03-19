@@ -45,7 +45,7 @@ const updateUserInformationController = async(req: Request, res: Response):
 
 const softDeleteUserController = async(req: Request, res: Response): Promise<Response> => {
     await softDeleteUserService(res.locals.idRequestingUser, req.params.idUser);
-    return res.status(200).json();
+    return res.status(204).json();
 };
 
 export { 
