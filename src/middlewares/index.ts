@@ -7,6 +7,7 @@ import {
     authenticateBoschOrMaster,
     authenticateOwnUser
 } from "./auth.middleware";
+import { buildRequirements } from "./requirements.middleware";
 
 export {
     handleError,
@@ -15,5 +16,7 @@ export {
     authenticateAdmin,
     authenticateMaster,
     authenticateBoschOrMaster,
-    authenticateOwnUser
+    authenticateOwnUser,
+
+    buildRequirements
 }
