@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { 
     createInstitutionService,
     listIntitutionsService,
+    updateInstitutionService
 } from "../services";
 import { InstitutionDTO } from "../classes";
 
@@ -19,7 +20,17 @@ const createInstitutionController = async(req: Request, res: Response):
     return res.status(201).json(institution);
 };
 
+const updateInstitutionController = async(req: Request, res: Response):
+        Promise<Response> => {
+    const institution: InstitutionDTO = await updateInstitutionService(
+        req.params.idInstitution,
+        req.body
+    );
+    return res.status(200).json(institution);
+};
+
 export {
     createInstitutionController,
-    listIntitutionsController
+    listIntitutionsController,
+    updateInstitutionController
 };

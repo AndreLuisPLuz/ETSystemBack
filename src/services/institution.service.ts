@@ -3,7 +3,7 @@ import { AppDataSource } from "../data-source";
 import { Institution } from "../entities";
 import { InstitutionDTO } from "../classes";
 
-import { Repository } from "typeorm";
+import { Repository, UpdateResult } from "typeorm";
 import { AppError } from "../errors";
 
 const createInstitutionService = async(payload: IInstitutionCreatePayload):
@@ -31,13 +31,17 @@ const listIntitutionsService = async (isBosch: boolean): Promise<InstitutionDTO[
 const updateInstitutionService = async(searchId: string,
         payload: IInstitutionCreatePayload): Promise<InstitutionDTO> => {
     const institutionRepo: Repository<Institution> = AppDataSource.getRepository(Institution);
-    const institution: Institution | null = await institutionRepo.findOneBy({idInstitution: searchId});
+    const result: UpdateResult = await institutionRepo.update(
+        {idInstitution: searchId},
+        {...payload}
+    );
 
-    if (!institution) {
-        throw new AppError("Institution not found.", 404);
+    if (result.affected == 0 || result.affected === undefined) {
+        throw new AppError('Institution not found.', 404);
     }
 
-    return new InstitutionDTO(institution);
+    const updatedInstitution: Institution = await institutionRepo.findOneByOrFail({idInstitution: searchId});
+    return new InstitutionDTO(updatedInstitution);
 }
 
 export {
