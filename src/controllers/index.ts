@@ -32,6 +32,8 @@ import {
     retrieveAdministratorController
 } from "./administrator.controller";
 
+import { createInstructorController } from "./instructor.controller";
+
 export {
     loginController,
 
@@ -55,5 +57,7 @@ export {
     softDeleteInstitutionController,
 
     createAdministratorController,
-    retrieveAdministratorController
+    retrieveAdministratorController,
+
+    createInstructorController
 }

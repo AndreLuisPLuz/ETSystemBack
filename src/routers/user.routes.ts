@@ -1,11 +1,12 @@
-import { NextFunction, Router } from "express";
+import { Router } from "express";
 import {
   listUsersController,
   createUserController,
   retrieveUserController,
   updateUserInformationController,
   softDeleteUserController,
-  createAdministratorController
+  createAdministratorController,
+  createInstructorController
 } from "../controllers";
 import { 
   authenticateToken,
@@ -97,6 +98,21 @@ userRouter.post(
   },
   buildRequirements,
   createAdministratorController
+);
+
+userRouter.post(
+  "/:idUser/instructor",
+  authenticateToken,
+  (req, res, next) => {
+    res.locals.requirements = {
+      master: false,
+      adminAndBosch: false,
+      adminNotBosch: false
+    };
+    return next();
+  },
+  buildRequirements,
+  createInstructorController
 );
 
 export default userRouter;

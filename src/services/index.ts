@@ -30,6 +30,8 @@ import {
     retrieveAdministratorService
 } from "./administrator.service";
 
+import { createInstructorService } from "./instructor.service";
+
 export {
     createInstitutionService,
     listIntitutionsService,
@@ -51,5 +53,7 @@ export {
     softDeleteUserService,
 
     createAdministratorService,
-    retrieveAdministratorService
+    retrieveAdministratorService,
+
+    createInstructorService
 }

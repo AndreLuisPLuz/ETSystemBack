@@ -1,5 +1,6 @@
 import { User } from "../../entities"
 import AdministratorDTO from "./administrator.dto";
+import InstructorDTO from "./instructor.dto";
 
 export default class UserDTO {
     idUser!: string;
@@ -9,6 +10,7 @@ export default class UserDTO {
     dateOfBirth!: Date | null;
     contact!: string | null;
     administrator!: AdministratorDTO | null;
+    instructor!: InstructorDTO | null;
 
     public constructor(user: User) {
         this.idUser = user.idUser;
@@ -18,5 +20,6 @@ export default class UserDTO {
         this.dateOfBirth = user.dateOfBirth;
         this.contact = user.contact;
         this.administrator = user.administrator ? new AdministratorDTO(user.administrator) : null;
+        this.instructor = user.instructor ? new InstructorDTO(user.instructor) : null;
     }
 }

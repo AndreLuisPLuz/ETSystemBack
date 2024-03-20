@@ -42,6 +42,12 @@ const buildRequirements = async(req: Request, res: Response, next: NextFunction)
                     && (requestingUser.institution.isBosch == IsBosch.TRUE)
                 );
                 break;
+            case RequirementTypes.ADMIN_NOT_BOSCH:
+                requirements[property] = (
+                    (requestingUser.administrator != undefined)
+                    && (requestingUser.institution.isBosch == IsBosch.FALSE)
+                );
+                break;
         }
     }
 

@@ -10,8 +10,7 @@ import {
     studentRouter,
     userRouter,
     studentGroupRouter,
-    institutionRouter,
-    administratorRouter
+    institutionRouter
  } from "./routers";
 
 
@@ -22,7 +21,6 @@ app.use("/user", userRouter);
 app.use("/student", authenticateToken, studentRouter);
 app.use("/login", loginRouter);
 app.use("/studentGroup", authenticateToken, studentGroupRouter);
-app.use("/admin", administratorRouter);
 
 app.use(handleError);
 

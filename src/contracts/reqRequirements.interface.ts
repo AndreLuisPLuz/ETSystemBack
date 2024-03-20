@@ -4,6 +4,7 @@ enum RequirementTypes {
     MASTER = "master",
     IS_BOSCH = "isBosch",
     ADMIN_AND_BOSCH = "adminAndBosch",
+    ADMIN_NOT_BOSCH = "adminNotBosch",
 }
 
 interface IReqRequirements {

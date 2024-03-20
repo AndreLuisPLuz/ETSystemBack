@@ -1,5 +1,4 @@
-import { Administrator, User } from "../../entities";
-import { UserDTO } from "./user.dto";
+import { Administrator } from "../../entities";
 
 export default class AdministratorDTO {
     isMaster: boolean;
