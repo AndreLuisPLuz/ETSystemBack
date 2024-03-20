@@ -8,7 +8,15 @@ import { AppError } from "../errors";
 
 const createInstructorService = async(idUser: string): Promise<UserDTO> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
-    const user: User | null = await userRepo.findOneBy({idUser: idUser});
+    const user: User | null = await userRepo.findOne({
+        where: {
+            idUser: idUser
+        },
+        relations: {
+            administrator: true,
+            student: true
+        }
+    });
 
     if (!user) {
         throw new AppError("User not found, cannot be bound to instructor access.", 404);
