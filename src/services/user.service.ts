@@ -95,7 +95,7 @@ const softDeleteUserService = async(idUser: string) => {
     const result: UpdateResult = await userRepo.softDelete({idUser: idUser});
 
     if (result.affected == 0 || result.affected === undefined) {
-        throw new AppError("User not found, cannout be deleted.", 404);
+        throw new AppError("User not found, cannot be deleted.", 404);
     }
 };
 

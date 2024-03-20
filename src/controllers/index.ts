@@ -23,7 +23,8 @@ import {
 import {
     createInstitutionController,
     listIntitutionsController,
-    updateInstitutionController
+    updateInstitutionController,
+    softDeleteInstitutionController
 } from "./institution.controller";
 
 import { 
@@ -51,6 +52,7 @@ export {
     createInstitutionController,
     listIntitutionsController,
     updateInstitutionController,
+    softDeleteInstitutionController,
 
     createAdministratorController,
     retrieveAdministratorController

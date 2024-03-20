@@ -44,8 +44,18 @@ const updateInstitutionService = async(searchId: string,
     return new InstitutionDTO(updatedInstitution);
 }
 
+const softDeleteInstitutionService = async(searchId: string) => {
+    const institutionRepo: Repository<Institution> = AppDataSource.getRepository(Institution);
+    const result: UpdateResult = await institutionRepo.softDelete({idInstitution: searchId});
+
+    if (result.affected == 0 || result.affected === undefined) {
+        throw new AppError("Institution not found, cannot be deleted.", 404);
+    }
+};
+
 export {
     createInstitutionService,
     listIntitutionsService,
-    updateInstitutionService
+    updateInstitutionService,
+    softDeleteInstitutionService
 }

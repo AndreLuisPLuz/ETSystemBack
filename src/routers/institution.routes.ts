@@ -2,7 +2,8 @@ import { Router } from "express";
 import {
     createInstitutionController,
     listIntitutionsController,
-    updateInstitutionController
+    updateInstitutionController,
+    softDeleteInstitutionController
 } from "../controllers";
 import {
     authenticateToken,
@@ -49,6 +50,19 @@ institutionRouter.patch(
     },
     buildRequirements,
     updateInstitutionController
+);
+
+institutionRouter.delete(
+    "/:idInstitution",
+    authenticateToken,
+    (req, res, next) => {
+        res.locals.requirements = {
+            master: false
+        };
+        return next();
+    },
+    buildRequirements,
+    softDeleteInstitutionController
 );
 
 export default institutionRouter;

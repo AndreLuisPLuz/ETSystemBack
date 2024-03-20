@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import { 
     createInstitutionService,
     listIntitutionsService,
-    updateInstitutionService
+    updateInstitutionService,
+    softDeleteInstitutionService
 } from "../services";
 import { InstitutionDTO } from "../classes";
 
@@ -29,8 +30,15 @@ const updateInstitutionController = async(req: Request, res: Response):
     return res.status(200).json(institution);
 };
 
+const softDeleteInstitutionController = async(req: Request, res: Response):
+        Promise<Response> => {
+    await softDeleteInstitutionService(req.params.idInstitution);
+    return res.status(204).json();
+};
+
 export {
     createInstitutionController,
     listIntitutionsController,
-    updateInstitutionController
+    updateInstitutionController,
+    softDeleteInstitutionController
 };

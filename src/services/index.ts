@@ -2,6 +2,7 @@ import {
     createInstitutionService,
     listIntitutionsService,
     updateInstitutionService,
+    softDeleteInstitutionService
 } from "./institution.service";
 
 import { 
@@ -33,6 +34,7 @@ export {
     createInstitutionService,
     listIntitutionsService,
     updateInstitutionService,
+    softDeleteInstitutionService,
 
     createStudentService, 
     listStudentsService, 
