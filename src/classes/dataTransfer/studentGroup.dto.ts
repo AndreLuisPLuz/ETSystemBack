@@ -1,4 +1,4 @@
-import { StudentGroup, User } from "../../entities";
+import { StudentGroup, WorkPeriod } from "../../entities";
 import { UserDTO } from "./user.dto";
 
 /**
@@ -11,7 +11,7 @@ class StudentGroupDTO {
     name!: string;
     dateOfStart!: Date;
     dateOfFinish!: Date | null;
-    workPeriod!: string;
+    workPeriod!: WorkPeriod;
 
     /**
      * Builds a studentGroupDTO instance with only relevant, non-sensible

@@ -1,5 +1,7 @@
+import { WorkPeriod } from "../entities";
+
 export interface IStudentGroupCreatePayload {
     name: string;
     dateOfStart: Date;
-    workPeriod: string;
+    workPeriod: WorkPeriod;
 }
