@@ -20,9 +20,11 @@ import {
 } from "./user.service";
 
 import { 
-    createStudentGroupService, 
-    listStudentGroupsService, 
-    retrieveStudentGroupService 
+    createStudentGroupService,
+    listStudentGroupsService,
+    retrieveStudentGroupService,
+    updateStudentGroupService,
+    softDeleteStudentGroupService
 } from "./studentGroup.service";
 
 import { 
@@ -42,9 +44,11 @@ export {
     listStudentsService, 
     retrieveStudentService,
 
-    createStudentGroupService, 
-    listStudentGroupsService, 
+    createStudentGroupService,
+    listStudentGroupsService,
     retrieveStudentGroupService,
+    updateStudentGroupService,
+    softDeleteStudentGroupService,
 
     createUserService,
     listUsersService,
