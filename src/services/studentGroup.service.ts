@@ -1,9 +1,9 @@
-import { IStudentGroupCreatePayload } from "../contracts";
+import { IStudentGroupCreatePayload, IStudentGroupUpdatePayload } from "../contracts";
 import { StudentGroupDTO, StudentGroupSingleDTO } from "../classes";
 import { AppDataSource } from "../data-source";
 import { StudentGroup, WorkPeriod } from "../entities";
 
-import { Repository, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import { Repository, LessThanOrEqual, MoreThanOrEqual, UpdateResult } from "typeorm";
 import { AppError } from "../errors";
 
 /**
@@ -50,19 +50,53 @@ const createStudentGroupService = async (payload: IStudentGroupCreatePayload):
     return new StudentGroupSingleDTO(await studentGroupRepo.save(studentGroup));
 }
 
-const retrieveStudentGroupService = async (searchId: string): Promise<StudentGroup> => {
+const retrieveStudentGroupService = async (searchId: string):
+        Promise<StudentGroupSingleDTO> => {
     const studentGroupRepo: Repository<StudentGroup> = AppDataSource.getRepository(StudentGroup);
-    const studentGroup: StudentGroup | null = await studentGroupRepo.findOneBy({ idStudentGroup: searchId });
+    const studentGroup: StudentGroup | null = await studentGroupRepo.findOneBy({idStudentGroup: searchId});
 
     if (!studentGroup) {
         throw new AppError('Student group not found.', 404);
     }
 
-    return studentGroup;
+    return new StudentGroupSingleDTO(studentGroup);
 }
+
+const updateStudentGroupService = async(
+        searchId: string,
+        payload: IStudentGroupUpdatePayload
+)       :Promise<StudentGroupSingleDTO> => {
+    const studentGroupRepo: Repository<StudentGroup> = AppDataSource.getRepository(StudentGroup);
+    const result: UpdateResult = await studentGroupRepo.update(
+        {idStudentGroup: searchId},
+        {...payload}
+    );
+
+    if (result.affected == 0 || result.affected === undefined) {
+        throw new AppError('Student group not found.', 404);
+    }
+
+    const updatedStudentGroup: StudentGroup = await studentGroupRepo
+        .findOneByOrFail({idStudentGroup: searchId});
+
+    return new StudentGroupSingleDTO(updatedStudentGroup);
+};
+
+const softDeleteStudentGroupService = async(idStudentGroup: string): Promise<void> => {
+    const studentGroupRepo: Repository<StudentGroup> = AppDataSource.getRepository(StudentGroup);
+    const result: UpdateResult = await studentGroupRepo.softDelete({
+        idStudentGroup: idStudentGroup
+    });
+
+    if (result.affected == 0 || result.affected === undefined) {
+        throw new AppError('User not found, cannot be deleted.', 404);
+    }
+};
 
 export {
     createStudentGroupService,
     listStudentGroupsService,
-    retrieveStudentGroupService
+    retrieveStudentGroupService,
+    updateStudentGroupService,
+    softDeleteStudentGroupService
 };
