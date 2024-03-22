@@ -14,15 +14,27 @@ import { AppError } from "../errors";
  * @returns List of all student groups found.
  */
 const listStudentGroupsService = async(
-        workPeriodSearch: WorkPeriod,
+        workPeriodSearch: string,
         year: number
 )       :Promise<StudentGroupDTO[]> => {
     const searchDate = new Date(year, 0);
 
+    let workPeriod: WorkPeriod;
+    switch (workPeriodSearch) {
+        case "m":
+            workPeriod = WorkPeriod.MORNING;
+            break;
+        case "a":
+            workPeriod = WorkPeriod.AFTERNOON;
+            break;
+        default:
+            throw new AppError("Invalid argument for work period.", 400);
+    }
+
     const studentGroupRepo: Repository<StudentGroup> = AppDataSource.getRepository(StudentGroup);
     const studentGroups: StudentGroup[] = await studentGroupRepo.find({
         where: {
-            workPeriod: workPeriodSearch,
+            workPeriod: workPeriod,
             dateOfStart: LessThanOrEqual(searchDate),
             dateOfFinish: MoreThanOrEqual(searchDate)
         }
