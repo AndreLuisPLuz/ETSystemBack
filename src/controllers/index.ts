@@ -9,9 +9,11 @@ import {
 } from "./user.controller";
 
 import {
-    createStudentGroupController,
     listStudentGroupsController,
-    retrieveStudentGroupController
+    createStudentGroupController,
+    retrieveStudentGroupController,
+    updateStudentGroupController,
+    softDeleteStudentGroupController
 } from "./studentGroup.controller";
 
 import {
@@ -43,9 +45,11 @@ export {
     retrieveUserController,
     softDeleteUserController,
 
-    createStudentGroupController,
     listStudentGroupsController,
+    createStudentGroupController,
     retrieveStudentGroupController,
+    updateStudentGroupController,
+    softDeleteStudentGroupController,
 
     createStudentController,
     listStudentsController,

@@ -16,12 +16,19 @@ const buildRequirements = async(req: Request, res: Response, next: NextFunction)
         },
         relations: {
             administrator: true,
+            instructor: true,
             institution: true
         }
     });
 
     for (let property in requirements) {
         switch(property) {
+            case RequirementTypes.OWN_USER:
+                requirements[property] = (requestingUser.idUser == res.locals.idRequestingUser);
+                break;
+            case RequirementTypes.INSTRUCTOR:
+                requirements[property] = (requestingUser.instructor != undefined);
+                break;
             case RequirementTypes.ADMIN:
                 requirements[property] = (requestingUser.administrator != undefined);
                 break;
@@ -32,9 +39,6 @@ const buildRequirements = async(req: Request, res: Response, next: NextFunction)
                 if (requestingUser.administrator != undefined) {
                     requirements[property] = (requestingUser.administrator.isMaster);
                 }
-                break;
-            case RequirementTypes.OWN_USER:
-                requirements[property] = (requestingUser.idUser == res.locals.idRequestingUser);
                 break;
             case RequirementTypes.ADMIN_AND_BOSCH:
                 requirements[property] = (
