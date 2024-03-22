@@ -17,7 +17,7 @@ const listStudentGroupsService = async(
         workPeriodSearch: string,
         year: number
 )       :Promise<StudentGroupDTO[]> => {
-    const searchDate = new Date(year, 0);
+    const searchDate = new Date(year, 11);
 
     let workPeriod: WorkPeriod;
     switch (workPeriodSearch) {
