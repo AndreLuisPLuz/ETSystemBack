@@ -10,48 +10,30 @@ import { AppError } from "../errors";
 import { createUserService } from "./user.service";
 import { retrieveStudentGroupService } from "./studentGroup.service";
 
-const createStudentService = async(payload: IStudentCreatePayload): Promise<Student> => {
+const createStudentService = async(idUser: string, idStudentGroup: string): Promise<Student> => {
+    const userRepo: Repository<User> = AppDataSource.getRepository(User);
+    const user: User | null = await userRepo.findOneBy({idUser: idUser});
+
+    if (!user) {
+        throw new AppError("User not found.", 404);
+    }
+
+    const studentGroupRepo: Repository<StudentGroup> = AppDataSource.getRepository(StudentGroup);
+    const studentGroup: StudentGroup | null = await studentGroupRepo.findOneBy({idStudentGroup: idStudentGroup});
+
+    if (!studentGroup) {
+        throw new AppError("Student group not found.", 404);
+    }
+
     const studentRepo: Repository<Student> = AppDataSource.getRepository(Student);
-
-    const user: User = await createUserService(payload.user);
-    const studentGroup: StudentGroup = await retrieveStudentGroupService(payload.idStudentGroup);
-
-    const student: Student = studentRepo.create({user: user, studentGroup: studentGroup});
+    const student: Student = studentRepo.create({
+        user: user,
+        studentGroup: studentGroup
+    });
     
     await studentRepo.save(student);
 
     return student;
 }
 
-const listStudentsService = async(): Promise<Student[]> => {
-    const studentRepo: Repository<Student> = AppDataSource.getRepository(Student);
-    return await studentRepo.find({
-        relations: {
-            user: true,
-        }
-    });
-}
-
-const retrieveStudentService = async(searchId: string): Promise<Student> => {
-    const studentRepo: Repository<Student> = AppDataSource.getRepository(Student);
-    const student: Student | null = await studentRepo.findOne({
-        where: {
-            idStudent: searchId,
-        },
-        relations: {
-            user: true,
-        }
-    });
-
-    if (!student) {
-        throw new AppError('Student not found.', 404);
-    }
-
-    return student;
-}
-
-export { 
-    createStudentService, 
-    listStudentsService, 
-    retrieveStudentService 
-}
+export { createStudentService };
