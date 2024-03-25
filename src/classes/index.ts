@@ -1,6 +1,6 @@
-import InstitutionDTO from "./dataTransfer/institution.dto";
-import AdministratorDTO from "./dataTransfer/administrator.dto";
-import InstructorDTO from "./dataTransfer/instructor.dto";
+import InstitutionSingleDTO from "./dataTransfer/institution.dto";
+import AdministratorSingleDTO from "./dataTransfer/administrator.dto";
+import InstructorSingleDTO from "./dataTransfer/instructor.dto";
 
 import { UserDTO, UserSingleDTO}  from "./dataTransfer/user.dto";
 import { StudentGroupDTO, StudentGroupSingleDTO } from "./dataTransfer/studentGroup.dto";
@@ -8,9 +8,9 @@ import { StudentGroupDTO, StudentGroupSingleDTO } from "./dataTransfer/studentGr
 import Paginator from "./paginator.class";
 
 export {
-    InstitutionDTO,
-    AdministratorDTO,
-    InstructorDTO,
+    InstitutionSingleDTO,
+    AdministratorSingleDTO,
+    InstructorSingleDTO,
     UserDTO,
     UserSingleDTO,
     StudentGroupDTO,

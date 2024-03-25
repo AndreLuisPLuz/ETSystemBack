@@ -7,9 +7,6 @@ import { StudentGroup } from "../entities";
 import { Repository } from "typeorm";
 import { AppError } from "../errors";
 
-import { createUserService } from "./user.service";
-import { retrieveStudentGroupService } from "./studentGroup.service";
-
 const createStudentService = async(idUser: string, idStudentGroup: string): Promise<Student> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const user: User | null = await userRepo.findOneBy({idUser: idUser});

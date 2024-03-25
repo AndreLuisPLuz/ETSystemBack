@@ -1,6 +1,7 @@
 import { User } from "../../entities"
+import { StudentDTO, StudentSingleDTO } from "./student.dto";
+import { InstructorSingleDTO } from "./instructor.dto";
 import AdministratorDTO from "./administrator.dto";
-import InstructorDTO from "./instructor.dto";
 
 /**
  * Data-transfer object representing a user without its relations. Should be
@@ -35,7 +36,8 @@ class UserDTO {
  */
 class UserSingleDTO extends UserDTO {
     administrator!: AdministratorDTO | null;
-    instructor!: InstructorDTO | null;
+    instructor!: InstructorSingleDTO | null;
+    student!: StudentDTO | null;
 
     /**
      * Builds an UserSingleDTO instance with only relevant, non-sensible data.
@@ -45,7 +47,8 @@ class UserSingleDTO extends UserDTO {
         super(user);
 
         this.administrator = user.administrator ? new AdministratorDTO(user.administrator) : null;
-        this.instructor = user.instructor ? new InstructorDTO(user.instructor) : null;
+        this.instructor = user.instructor ? new InstructorSingleDTO(user.instructor) : null;
+        this.student = user.student ? new StudentDTO(user.student) : null;
     }
 }
 

@@ -5,11 +5,7 @@ import {
     softDeleteInstitutionService
 } from "./institution.service";
 
-import { 
-    createStudentService, 
-    listStudentsService, 
-    retrieveStudentService 
-} from "./student.service";
+import { createStudentService } from "./student.service";
 
 import { 
     createUserService,
@@ -40,9 +36,7 @@ export {
     updateInstitutionService,
     softDeleteInstitutionService,
 
-    createStudentService, 
-    listStudentsService, 
-    retrieveStudentService,
+    createStudentService,
 
     createStudentGroupService,
     listStudentGroupsService,
