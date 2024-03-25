@@ -6,7 +6,8 @@ import {
   updateUserInformationController,
   softDeleteUserController,
   createAdministratorController,
-  createInstructorController
+  createInstructorController,
+  createStudentController
 } from "../controllers";
 import { 
   authenticateToken,
@@ -113,6 +114,20 @@ userRouter.post(
   },
   buildRequirements,
   createInstructorController
+);
+
+userRouter.post(
+  "/:idUser/student",
+  authenticateToken,
+  (req, res, next) => {
+    res.locals.requirements = {
+      master: false,
+      adminAndBosch: false
+    };
+    return next();
+  },
+  buildRequirements,
+  createStudentController
 );
 
 export default userRouter;

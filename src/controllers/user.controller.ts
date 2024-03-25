@@ -6,7 +6,7 @@ import {
     retrieveUserService,
     softDeleteUserService
 } from "../services";
-import { UserDTO, Paginator } from "../classes";
+import { UserDTO, Paginator, UserSingleDTO } from "../classes";
 
 const listUsersController = async(req: Request, res: Response): Promise<Response> => {
     const users: UserDTO[] = await listUsersService();
@@ -26,7 +26,7 @@ const createUserController = async(req: Request, res: Response):
 
 const retrieveUserController = async (req: Request, res: Response):
         Promise<Response> => {
-    const user: UserDTO | null = await retrieveUserService(req.params.idUser);
+    const user: UserSingleDTO | null = await retrieveUserService(req.params.idUser);
     return res.status(200).json(user);
 };
 

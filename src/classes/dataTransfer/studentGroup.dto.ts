@@ -1,5 +1,8 @@
-import { StudentGroup, WorkPeriod } from "../../entities";
+import { StudentGroup, Student, WorkPeriod } from "../../entities";
 import { UserDTO } from "./user.dto";
+
+import { retrieveStudentService } from "../../services";
+import { StudentSingleDTO } from "./student.dto";
 
 /**
  * Data-transfer object representing a student group without its relations.
@@ -16,7 +19,8 @@ class StudentGroupDTO {
     /**
      * Builds a studentGroupDTO instance with only relevant, non-sensible
      * data.
-     * @param studentGroup - The StudentGroup this DTO represents.
+     * @param studentGroup The StudentGroup this DTO represents.
+     * @param studentId ID of a Student whose StudentGroup we wish to fetch.
      */
     public constructor(studentGroup: StudentGroup) {
         this.idStudentGroup = studentGroup.idStudentGroup;

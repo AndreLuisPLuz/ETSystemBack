@@ -1,4 +1,3 @@
-import { IStudentCreatePayload } from "../contracts/student.interface";
 import { AppDataSource } from "../data-source";
 import { Student } from "../entities";
 import { User } from "../entities";
@@ -6,8 +5,9 @@ import { StudentGroup } from "../entities";
 
 import { Repository } from "typeorm";
 import { AppError } from "../errors";
+import { StudentSingleDTO, UserSingleDTO } from "../classes";
 
-const createStudentService = async(idUser: string, idStudentGroup: string): Promise<Student> => {
+const createStudentService = async(idUser: string, idStudentGroup: string): Promise<UserSingleDTO> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const user: User | null = await userRepo.findOneBy({idUser: idUser});
 
@@ -30,7 +30,34 @@ const createStudentService = async(idUser: string, idStudentGroup: string): Prom
     
     await studentRepo.save(student);
 
-    return student;
+    const updatedUser = userRepo.create({
+        ...user,
+        student: student        
+    })
+
+    return new UserSingleDTO(user);
+};
+
+const retrieveStudentService = async(idStudent: string): Promise<StudentSingleDTO> => {
+    const studentRepo: Repository<Student> = AppDataSource.getRepository(Student);
+    const student: Student | null = await studentRepo.findOne({
+        where: {
+            idStudent: idStudent
+        },
+        relations: {
+            studentGroup: true,
+            competences: true
+        }
+    });
+
+    if (!student) {
+        throw new AppError("Student not found.", 404);
+    }
+
+    return new StudentSingleDTO(student);
 }
 
-export { createStudentService };
+export {
+    createStudentService,
+    retrieveStudentService
+};

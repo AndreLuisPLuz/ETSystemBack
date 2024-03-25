@@ -1,5 +1,5 @@
 import { IUserCreatePayload, IUserRegisterPayload } from "../contracts";
-import { UserDTO } from "../classes";
+import { UserDTO, UserSingleDTO } from "../classes";
 import { AppDataSource } from "../data-source";
 import { Institution, User } from "../entities";
 
@@ -52,24 +52,26 @@ const createUserService = async(payload: IUserCreatePayload): Promise<object> =>
     return {"message": "User created."};
 };
 
-const retrieveUserService = async(searchId: string): Promise<UserDTO> => {
+const retrieveUserService = async(searchId: string): Promise<UserSingleDTO> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const user: User | null = await userRepo.findOne({
         where: {
             idUser: searchId,
         },
-        relations: {
-            student: true,
-            instructor: true,
-            administrator: true
-        }
+        // relation as array instead of object to fetch subrelation of student
+        relations: [
+            'student',
+            'student.studentGroup',
+            'instructor',
+            'administrator'
+        ]
     });
 
     if (!user) {
         throw new AppError('User not found.', 404);
     }
 
-    return new UserDTO(user);
+    return new UserSingleDTO(user);
 };
 
 const updateUserInformationService = async(searchId: string,

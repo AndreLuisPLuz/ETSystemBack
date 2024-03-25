@@ -21,5 +21,4 @@ app.use("/studentGroup", studentGroupRouter);
 
 app.use(handleError);
 
-
 export default app;

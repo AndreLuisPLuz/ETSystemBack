@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { createStudentService } from "../services";
-import { Student } from "../entities";
+import { UserSingleDTO } from "../classes";
 
 const createStudentController = async(req: Request, res: Response): Promise<Response> => {
-    const student: Student = await createStudentService(
+    const user: UserSingleDTO = await createStudentService(
         req.params.idUser,
-        req.params.idStudentGroup
+        req.body.idStudentGroup
     );
-    return res.status(201).json(student);
+    return res.status(201).json(user);
 };
 
 export { createStudentController };
