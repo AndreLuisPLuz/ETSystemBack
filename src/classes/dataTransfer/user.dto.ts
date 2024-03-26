@@ -1,7 +1,4 @@
 import { User } from "../../entities"
-import { StudentDTO, StudentSingleDTO } from "./student.dto";
-import { InstructorSingleDTO } from "./instructor.dto";
-import AdministratorDTO from "./administrator.dto";
 import InstitutionDTO from "./institution.dto";
 
 /**
