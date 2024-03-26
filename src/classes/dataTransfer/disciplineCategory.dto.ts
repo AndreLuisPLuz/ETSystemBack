@@ -1,5 +1,4 @@
-import { DisciplineCategory } from "../../entities";
-import { Discipline } from "../../entities";
+import { Discipline, DisciplineCategory } from "../../entities";
 
 export class DisciplineCategoryDTO {
     idDisciplineCategory!: string;

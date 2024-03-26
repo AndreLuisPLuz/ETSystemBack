@@ -21,10 +21,14 @@ import {
     softDeleteStudentGroupService
 } from "./studentGroup.service";
 
+import {
+    createDisciplineCategoryService,
+    listDisciplineCategoriesService
+} from "./disciplineCategory.service";
+
 import { createAdministratorService, retrieveAdministratorService } from "./administrator.service";
 import { createStudentService, retrieveStudentService } from "./student.service";
 import { createInstructorService } from "./instructor.service";
-import { createDisciplineCategoryService } from "./disciplineCategory.service";
 
 export {
     createInstitutionService,
@@ -52,5 +56,6 @@ export {
 
     createInstructorService,
 
-    createDisciplineCategoryService
+    createDisciplineCategoryService,
+    listDisciplineCategoriesService
 }

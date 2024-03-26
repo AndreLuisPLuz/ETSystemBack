@@ -6,7 +6,16 @@ import { AppDataSource } from "../data-source";
 import { Repository } from "typeorm";
 import { AppError } from "../errors";
 
-const createDisciplineCategoryService = async(payload: IDisciplineCategoryCreatePayload) => {
+const listDisciplineCategoriesService = async(): Promise<DisciplineCategoryDTO[]> => {
+    const disciplineCategoryRepo: Repository<DisciplineCategory> = AppDataSource.getRepository(DisciplineCategory);
+    const categories: DisciplineCategory[] = await disciplineCategoryRepo.find();
+
+    const categoriesShown: DisciplineCategoryDTO[] = categories.map((category) => new DisciplineCategoryDTO(category));
+
+    return categoriesShown;
+};
+
+const createDisciplineCategoryService = async(payload: IDisciplineCategoryCreatePayload): Promise<DisciplineCategoryDTO> => {
     const disciplineCategoryRepo: Repository<DisciplineCategory> = AppDataSource.getRepository(DisciplineCategory);
     const disciplineCategory: DisciplineCategory = disciplineCategoryRepo.create(payload);
 
@@ -15,4 +24,7 @@ const createDisciplineCategoryService = async(payload: IDisciplineCategoryCreate
     return new DisciplineCategoryDTO(disciplineCategory);
 };
 
-export { createDisciplineCategoryService };
+export {
+    createDisciplineCategoryService,
+    listDisciplineCategoriesService
+};

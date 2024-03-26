@@ -1,8 +1,17 @@
 import { Router } from "express";
-import { createDisciplineCategoryController } from "../controllers";
+import {
+    createDisciplineCategoryController,
+    listDisciplineCategoriesController
+} from "../controllers";
 import { authenticateToken, buildRequirements } from "../middlewares";
 
 const disciplineCategoryRouter: Router = Router();
+
+disciplineCategoryRouter.get(
+    "/",
+    authenticateToken,
+    listDisciplineCategoriesController
+);
 
 disciplineCategoryRouter.post(
     "/",

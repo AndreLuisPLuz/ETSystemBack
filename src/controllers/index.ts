@@ -32,7 +32,10 @@ import {
 
 import { createInstructorController } from "./instructor.controller";
 
-import { createDisciplineCategoryController } from "./disciplineCategory.controller";
+import {
+    createDisciplineCategoryController,
+    listDisciplineCategoriesController
+} from "./disciplineCategory.controller";
 
 export {
     loginController,
@@ -61,5 +64,6 @@ export {
 
     createInstructorController,
 
-    createDisciplineCategoryController
+    createDisciplineCategoryController,
+    listDisciplineCategoriesController
 }
