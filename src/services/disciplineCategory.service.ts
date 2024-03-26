@@ -14,3 +14,5 @@ const createDisciplineCategoryService = async(payload: IDisciplineCategoryCreate
 
     return new DisciplineCategoryDTO(disciplineCategory);
 };
+
+export { createDisciplineCategoryService };

@@ -5,11 +5,6 @@ import {
     softDeleteInstitutionService
 } from "./institution.service";
 
-import {
-    createStudentService,
-    retrieveStudentService
-} from "./student.service";
-
 import { 
     createUserService,
     listUsersService,
@@ -26,12 +21,10 @@ import {
     softDeleteStudentGroupService
 } from "./studentGroup.service";
 
-import { 
-    createAdministratorService,
-    retrieveAdministratorService
-} from "./administrator.service";
-
+import { createAdministratorService, retrieveAdministratorService } from "./administrator.service";
+import { createStudentService, retrieveStudentService } from "./student.service";
 import { createInstructorService } from "./instructor.service";
+import { createDisciplineCategoryService } from "./disciplineCategory.service";
 
 export {
     createInstitutionService,
@@ -57,5 +50,7 @@ export {
     createAdministratorService,
     retrieveAdministratorService,
 
-    createInstructorService
+    createInstructorService,
+
+    createDisciplineCategoryService
 }

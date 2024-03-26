@@ -16,11 +16,7 @@ import {
     softDeleteStudentGroupController
 } from "./studentGroup.controller";
 
-import {
-    createStudentController,
-    listStudentsController,
-    retrieveStudentController
-} from "./student.controller";
+import { createStudentController } from "./student.controller";
 
 import {
     createInstitutionController,
@@ -35,6 +31,8 @@ import {
 } from "./administrator.controller";
 
 import { createInstructorController } from "./instructor.controller";
+
+import { createDisciplineCategoryController } from "./disciplineCategory.controller";
 
 export {
     loginController,
@@ -52,8 +50,6 @@ export {
     softDeleteStudentGroupController,
 
     createStudentController,
-    listStudentsController,
-    retrieveStudentController,
 
     createInstitutionController,
     listIntitutionsController,
@@ -63,5 +59,7 @@ export {
     createAdministratorController,
     retrieveAdministratorController,
 
-    createInstructorController
+    createInstructorController,
+
+    createDisciplineCategoryController
 }
