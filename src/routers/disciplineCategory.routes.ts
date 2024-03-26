@@ -2,7 +2,8 @@ import { Router } from "express";
 import {
     createDisciplineCategoryController,
     listDisciplineCategoriesController,
-    updateDisciplineCategoryController
+    updateDisciplineCategoryController,
+    softDeleteDisciplineCategoryController
 } from "../controllers";
 import { authenticateToken, buildRequirements } from "../middlewares";
 
@@ -40,6 +41,19 @@ disciplineCategoryRouter.patch(
     },
     buildRequirements,
     updateDisciplineCategoryController
+);
+
+disciplineCategoryRouter.delete(
+    "/:idDisciplineCategory",
+    authenticateToken,
+    (req, res, next) => {
+        res.locals.requirements = {
+            master: false
+        };
+        return next();
+    },
+    buildRequirements,
+    softDeleteDisciplineCategoryController
 );
 
 export default disciplineCategoryRouter;
