@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import {
     createDisciplineCategoryService,
-    listDisciplineCategoriesService
+    listDisciplineCategoriesService,
+    updateDisciplineCategoryService
 } from "../services";
 import { DisciplineCategoryDTO, Paginator } from "../classes";
 
@@ -21,7 +22,16 @@ const createDisciplineCategoryController = async(req: Request, res: Response): P
     return res.status(201).json(disciplineCategory);
 };
 
+const updateDisciplineCategoryController = async(req: Request, res: Response): Promise<Response> => {
+    const disciplineCategory: DisciplineCategoryDTO = await updateDisciplineCategoryService(
+        String(req.params.idDisciplineCategory),
+        req.body
+    );
+    return res.status(200).json(disciplineCategory);
+};
+
 export {
     createDisciplineCategoryController,
-    listDisciplineCategoriesController
+    listDisciplineCategoriesController,
+    updateDisciplineCategoryController
 };

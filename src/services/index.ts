@@ -23,7 +23,8 @@ import {
 
 import {
     createDisciplineCategoryService,
-    listDisciplineCategoriesService
+    listDisciplineCategoriesService,
+    updateDisciplineCategoryService
 } from "./disciplineCategory.service";
 
 import { createAdministratorService, retrieveAdministratorService } from "./administrator.service";
@@ -57,5 +58,6 @@ export {
     createInstructorService,
 
     createDisciplineCategoryService,
-    listDisciplineCategoriesService
+    listDisciplineCategoriesService,
+    updateDisciplineCategoryService
 }

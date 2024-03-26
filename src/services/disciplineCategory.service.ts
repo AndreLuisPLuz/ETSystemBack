@@ -3,7 +3,7 @@ import { DisciplineCategoryDTO } from "../classes";
 import { DisciplineCategory } from "../entities";
 import { AppDataSource } from "../data-source";
 
-import { Repository } from "typeorm";
+import { Repository, UpdateResult } from "typeorm";
 import { AppError } from "../errors";
 
 const listDisciplineCategoriesService = async(): Promise<DisciplineCategoryDTO[]> => {
@@ -24,7 +24,30 @@ const createDisciplineCategoryService = async(payload: IDisciplineCategoryCreate
     return new DisciplineCategoryDTO(disciplineCategory);
 };
 
+const updateDisciplineCategoryService = async(
+        idDisciplineCategory: string,
+        payload: IDisciplineCategoryCreatePayload
+)       :Promise<DisciplineCategoryDTO> => {
+    const disciplineCategoryRepo: Repository<DisciplineCategory> = AppDataSource
+        .getRepository(DisciplineCategory);
+    const result: UpdateResult = await disciplineCategoryRepo.update(
+        {idDisciplineCategory: idDisciplineCategory},
+        {...payload}
+    );
+
+    if (result.affected == 0 || result.affected === undefined) {
+        throw new AppError("Discipline category not found.", 404);
+    }
+
+    const updatedDisciplineCategory: DisciplineCategory = await disciplineCategoryRepo
+        .findOneByOrFail({
+            idDisciplineCategory: idDisciplineCategory
+        });
+    return new DisciplineCategoryDTO(updatedDisciplineCategory);
+}
+
 export {
     createDisciplineCategoryService,
-    listDisciplineCategoriesService
+    listDisciplineCategoriesService,
+    updateDisciplineCategoryService
 };
