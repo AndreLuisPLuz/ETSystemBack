@@ -66,13 +66,12 @@ const retrieveUserService = async(searchId: string): Promise<UserSingleDTO> => {
         where: {
             idUser: searchId,
         },
-        // relation as array instead of object to fetch subrelation of student
-        relations: [
-            'student',
-            'student.studentGroup',
-            'instructor',
-            'administrator'
-        ]
+        relations: {
+            student: true,
+            instructor: true,
+            administrator: true,
+            institution: true
+        }
     });
 
     if (!user) {

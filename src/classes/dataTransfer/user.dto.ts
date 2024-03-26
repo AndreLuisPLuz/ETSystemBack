@@ -36,9 +36,10 @@ class UserDTO {
  * idUser path parameter.
  */
 class UserSingleDTO extends UserDTO {
-    administrator!: AdministratorDTO | null;
-    instructor!: InstructorSingleDTO | null;
-    student!: StudentDTO | null;
+    idAdministrator!: string | null;
+    idInstructor!: string | null;
+    idStudent!: string | null;
+    institution!: InstitutionDTO;
 
     /**
      * Builds an UserSingleDTO instance with only relevant, non-sensible data.
@@ -47,9 +48,19 @@ class UserSingleDTO extends UserDTO {
     public constructor(user: User) {
         super(user);
 
-        this.administrator = user.administrator ? new AdministratorDTO(user.administrator) : null;
-        this.instructor = user.instructor ? new InstructorSingleDTO(user.instructor) : null;
-        this.student = user.student ? new StudentDTO(user.student) : null;
+        this.idAdministrator = (user.administrator != undefined)
+            ? user.administrator.idAdministrator
+            : null;
+
+        this.idInstructor = (user.instructor != undefined)
+            ? user.instructor.instructorId
+            : null;
+
+        this.idStudent = (user.student != undefined)
+            ? user.student.idStudent
+            :null;
+
+        this.institution = new InstitutionDTO(user.institution);
     }
 }
 
