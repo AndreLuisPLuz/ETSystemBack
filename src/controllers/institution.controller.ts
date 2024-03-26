@@ -2,23 +2,43 @@ import { Request, Response } from "express";
 import { 
     createInstitutionService,
     listIntitutionsService,
+    updateInstitutionService,
+    softDeleteInstitutionService
 } from "../services";
-import { Institution } from "../entities";
+import { InstitutionDTO } from "../classes";
 
-const listIntitutionsController = async(req: Request, res: Response): Promise<Response> => {
-    const institutions: Institution[] = await listIntitutionsService(
-        res.locals.idRequestingUser,
+const listIntitutionsController = async(req: Request, res: Response):
+        Promise<Response> => {
+    const institutions: InstitutionDTO[] = await listIntitutionsService(
         Boolean(req.query.is_bosch)
     );
     return res.status(200).json(institutions);
 };
 
-const createInstitutionController = async(req: Request, res: Response): Promise<Response> => {
-    const institution: Institution = await createInstitutionService(req.body);
+const createInstitutionController = async(req: Request, res: Response):
+        Promise<Response> => {
+    const institution: InstitutionDTO = await createInstitutionService(req.body);
     return res.status(201).json(institution);
+};
+
+const updateInstitutionController = async(req: Request, res: Response):
+        Promise<Response> => {
+    const institution: InstitutionDTO = await updateInstitutionService(
+        req.params.idInstitution,
+        req.body
+    );
+    return res.status(200).json(institution);
+};
+
+const softDeleteInstitutionController = async(req: Request, res: Response):
+        Promise<Response> => {
+    await softDeleteInstitutionService(req.params.idInstitution);
+    return res.status(204).json();
 };
 
 export {
     createInstitutionController,
-    listIntitutionsController
+    listIntitutionsController,
+    updateInstitutionController,
+    softDeleteInstitutionController
 };

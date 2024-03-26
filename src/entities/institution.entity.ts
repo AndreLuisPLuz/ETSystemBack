@@ -1,6 +1,4 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Instructor } from "./instructor.entity";
-import { Administrator } from "./administrator.entity";
 import { User } from "./user.entity";
 
 export enum IsBosch {

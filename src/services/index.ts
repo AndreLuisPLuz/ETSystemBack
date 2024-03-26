@@ -1,13 +1,13 @@
 import { 
     createInstitutionService,
     listIntitutionsService,
-    retrieveInstitutionService
+    updateInstitutionService,
+    softDeleteInstitutionService
 } from "./institution.service";
 
-import { 
-    createStudentService, 
-    listStudentsService, 
-    retrieveStudentService 
+import {
+    createStudentService,
+    retrieveStudentService
 } from "./student.service";
 
 import { 
@@ -19,9 +19,11 @@ import {
 } from "./user.service";
 
 import { 
-    createStudentGroupService, 
-    listStudentGroupsService, 
-    retrieveStudentGroupService 
+    createStudentGroupService,
+    listStudentGroupsService,
+    retrieveStudentGroupService,
+    updateStudentGroupService,
+    softDeleteStudentGroupService
 } from "./studentGroup.service";
 
 import { 
@@ -29,18 +31,22 @@ import {
     retrieveAdministratorService
 } from "./administrator.service";
 
+import { createInstructorService } from "./instructor.service";
+
 export {
     createInstitutionService,
     listIntitutionsService,
-    retrieveInstitutionService,
+    updateInstitutionService,
+    softDeleteInstitutionService,
 
-    createStudentService, 
-    listStudentsService, 
+    createStudentService,
     retrieveStudentService,
 
-    createStudentGroupService, 
-    listStudentGroupsService, 
+    createStudentGroupService,
+    listStudentGroupsService,
     retrieveStudentGroupService,
+    updateStudentGroupService,
+    softDeleteStudentGroupService,
 
     createUserService,
     listUsersService,
@@ -49,5 +55,7 @@ export {
     softDeleteUserService,
 
     createAdministratorService,
-    retrieveAdministratorService
+    retrieveAdministratorService,
+
+    createInstructorService
 }

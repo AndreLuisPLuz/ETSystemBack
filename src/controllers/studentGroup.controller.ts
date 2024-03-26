@@ -1,28 +1,57 @@
 import { Request, Response } from "express";
 import { 
-    createStudentGroupService, 
-    listStudentGroupsService, 
-    retrieveStudentGroupService 
+    createStudentGroupService,
+    listStudentGroupsService,
+    retrieveStudentGroupService,
+    updateStudentGroupService,
+    softDeleteStudentGroupService
 } from "../services";
-import { StudentGroup } from "../entities";
-
-const createStudentGroupController = async(req: Request, res: Response): Promise<Response> => {
-    const studentGroup: StudentGroup = await createStudentGroupService(req.body);
-    return res.status(201).json(studentGroup);
-}
+import {
+    StudentGroupDTO,
+    StudentGroupSingleDTO,
+    Paginator
+} from "../classes";
 
 const listStudentGroupsController = async(req: Request, res: Response): Promise<Response> => {
-    const studentGroups: StudentGroup[] = await listStudentGroupsService();
-    return res.status(200).json(studentGroups);
-}
+    const studentGroups: StudentGroupDTO[] = await listStudentGroupsService(
+        String(req.query.wperiod),
+        Number(req.query.year)
+    );
+    const paginatedStudentGroups: Paginator<StudentGroupDTO> = new Paginator(
+        studentGroups, 
+        Number(req.query.page), 
+        Number(req.query.limit)
+    );
+    return res.status(200).json(paginatedStudentGroups);
+};
+
+const createStudentGroupController = async(req: Request, res: Response): Promise<Response> => {
+    const studentGroup: StudentGroupSingleDTO = await createStudentGroupService(req.body);
+    return res.status(201).json(studentGroup);
+};
 
 const retrieveStudentGroupController = async(req: Request, res: Response): Promise<Response> => {
-    const studentGroup: StudentGroup = await retrieveStudentGroupService(req.params.id);
+    const studentGroup: StudentGroupSingleDTO = await retrieveStudentGroupService(req.params.idStudentGroup);
     return res.status(200).json(studentGroup);
-}
+};
+
+const updateStudentGroupController = async(req: Request, res: Response): Promise<Response> => {
+    const studentGroup: StudentGroupSingleDTO = await updateStudentGroupService(
+        req.params.idStudentGroup,
+        req.body
+    );
+    return res.status(200).json(studentGroup);
+};
+
+const softDeleteStudentGroupController = async(req: Request, res: Response): Promise<Response> => {
+    await softDeleteStudentGroupService(req.params.idStudentGroup);
+    return res.status(204).json();
+};
 
 export {
-    createStudentGroupController,
     listStudentGroupsController,
-    retrieveStudentGroupController
-}
+    createStudentGroupController,
+    retrieveStudentGroupController,
+    updateStudentGroupController,
+    softDeleteStudentGroupController
+};

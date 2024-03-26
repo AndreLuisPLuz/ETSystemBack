@@ -6,10 +6,14 @@ import {
     retrieveUserService,
     softDeleteUserService
 } from "../services";
-import { UserDTO, Paginator } from "../classes";
+import { UserDTO, Paginator, UserSingleDTO } from "../classes";
 
 const listUsersController = async(req: Request, res: Response): Promise<Response> => {
-    const users: UserDTO[] = await listUsersService(res.locals.idRequestingUser);
+    req.query.idInstitution = req.query.idInstitution != undefined
+                            ? String(req.query.idInstitution)
+                            : undefined;
+
+    const users: UserDTO[] = await listUsersService(req.query.idInstitution);
     const paginatedUsers: Paginator<UserDTO> = new Paginator(
         users, 
         Number(req.query.page), 
@@ -20,23 +24,19 @@ const listUsersController = async(req: Request, res: Response): Promise<Response
 
 const createUserController = async(req: Request, res: Response):
         Promise<Response> => {
-    const message = await createUserService(
-        res.locals.idRequestingUser,
-        req.body
-    );
+    const message = await createUserService(req.body);
     return res.status(201).json(message);
 };
 
 const retrieveUserController = async (req: Request, res: Response):
         Promise<Response> => {
-    const user: UserDTO | null = await retrieveUserService(res.locals.idRequestingUser, req.params.idUser);
+    const user: UserSingleDTO | null = await retrieveUserService(req.params.idUser);
     return res.status(200).json(user);
 };
 
 const updateUserInformationController = async(req: Request, res: Response):
         Promise<Response> => {
     const user: UserDTO = await updateUserInformationService(
-        res.locals.idRequestingUser,
         req.params.idUser,
         req.body
     );
@@ -44,8 +44,8 @@ const updateUserInformationController = async(req: Request, res: Response):
 };
 
 const softDeleteUserController = async(req: Request, res: Response): Promise<Response> => {
-    await softDeleteUserService(res.locals.idRequestingUser, req.params.idUser);
-    return res.status(200).json();
+    await softDeleteUserService(req.params.idUser);
+    return res.status(204).json();
 };
 
 export { 

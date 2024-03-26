@@ -2,6 +2,11 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryG
 import { DisciplineStudentGroup } from "./disciplineStudentGroup.entity";
 import { Student } from "./student.entity";
 
+export enum WorkPeriod {
+    MORNING = 'm',
+    AFTERNOON = 'a'
+}
+
 @Entity('student_group')
 export class StudentGroup {
     @PrimaryGeneratedColumn("uuid")
@@ -17,7 +22,7 @@ export class StudentGroup {
     dateOfFinish!: Date | null;
 
     @Column({type: 'char', length: 1})
-    workPeriod!: string;
+    workPeriod!: WorkPeriod;
 
     @CreateDateColumn({type:  'datetime'})
     createdAt!: Date;

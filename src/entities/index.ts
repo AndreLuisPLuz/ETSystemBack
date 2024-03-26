@@ -1,5 +1,5 @@
 import { Administrator } from "./administrator.entity"
-import { StudentGroup } from "./studentGroup.entity"
+import { StudentGroup, WorkPeriod } from "./studentGroup.entity"
 import { Competence } from "./competence.entity"
 import { CompetenceGroup } from "./competenceGroup.entity"
 import { CompetenceStudent } from "./competenceStudent.entity"
@@ -13,7 +13,7 @@ import { User } from "./user.entity"
 
 export {
     Administrator,
-    StudentGroup,
+    StudentGroup, WorkPeriod,
     Competence,
     CompetenceGroup,
     CompetenceStudent,

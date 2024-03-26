@@ -9,9 +9,11 @@ import {
 } from "./user.controller";
 
 import {
-    createStudentGroupController,
     listStudentGroupsController,
-    retrieveStudentGroupController
+    createStudentGroupController,
+    retrieveStudentGroupController,
+    updateStudentGroupController,
+    softDeleteStudentGroupController
 } from "./studentGroup.controller";
 
 import {
@@ -23,13 +25,16 @@ import {
 import {
     createInstitutionController,
     listIntitutionsController,
-    retrieveInstitutionController
+    updateInstitutionController,
+    softDeleteInstitutionController
 } from "./institution.controller";
 
 import { 
     createAdministratorController,
     retrieveAdministratorController
 } from "./administrator.controller";
+
+import { createInstructorController } from "./instructor.controller";
 
 export {
     loginController,
@@ -40,9 +45,11 @@ export {
     retrieveUserController,
     softDeleteUserController,
 
-    createStudentGroupController,
     listStudentGroupsController,
+    createStudentGroupController,
     retrieveStudentGroupController,
+    updateStudentGroupController,
+    softDeleteStudentGroupController,
 
     createStudentController,
     listStudentsController,
@@ -50,8 +57,11 @@ export {
 
     createInstitutionController,
     listIntitutionsController,
-    retrieveInstitutionController,
+    updateInstitutionController,
+    softDeleteInstitutionController,
 
     createAdministratorController,
-    retrieveAdministratorController
+    retrieveAdministratorController,
+
+    createInstructorController
 }
