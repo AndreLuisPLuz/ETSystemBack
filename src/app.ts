@@ -8,7 +8,8 @@ import {
     loginRouter, 
     userRouter,
     studentGroupRouter,
-    institutionRouter
+    institutionRouter,
+    disciplineCategoryRouter
  } from "./routers";
 
 
@@ -18,6 +19,7 @@ app.use("/institution", institutionRouter);
 app.use("/user", userRouter);
 app.use("/login", loginRouter);
 app.use("/studentGroup", studentGroupRouter);
+app.use("/disciplineCategory", disciplineCategoryRouter);
 
 app.use(handleError);
 
