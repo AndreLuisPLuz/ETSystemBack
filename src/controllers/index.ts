@@ -35,7 +35,8 @@ import { createInstructorController } from "./instructor.controller";
 import {
     createDisciplineCategoryController,
     listDisciplineCategoriesController,
-    updateDisciplineCategoryController
+    updateDisciplineCategoryController,
+    softDeleteDisciplineCategoryController
 } from "./disciplineCategory.controller";
 
 export {
@@ -67,5 +68,6 @@ export {
 
     createDisciplineCategoryController,
     listDisciplineCategoriesController,
-    updateDisciplineCategoryController
+    updateDisciplineCategoryController,
+    softDeleteDisciplineCategoryController
 }

@@ -51,8 +51,23 @@ const updateDisciplineCategoryService = async(
     return new DisciplineCategoryDTO(updatedDisciplineCategory);
 }
 
+const softDeleteDisciplineCategoryService = async(idDisciplineCategory: string)
+        :Promise<void> => {
+    const disciplineCategoryRepo: Repository<DisciplineCategory> = AppDataSource
+        .getRepository(DisciplineCategory);
+
+    const result: UpdateResult = await disciplineCategoryRepo.softDelete({
+        idDisciplineCategory: idDisciplineCategory
+    });
+
+    if (result.affected == 0 || result.affected === undefined) {
+        throw new AppError("Discipline category not found.", 404);
+    }
+};
+
 export {
     createDisciplineCategoryService,
     listDisciplineCategoriesService,
-    updateDisciplineCategoryService
+    updateDisciplineCategoryService,
+    softDeleteDisciplineCategoryService
 };
