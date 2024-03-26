@@ -3,7 +3,7 @@ import { UserDTO, UserSingleDTO } from "../classes";
 import { AppDataSource } from "../data-source";
 import { Institution, User } from "../entities";
 
-import { Repository, UpdateResult } from "typeorm";
+import { Repository, SelectQueryBuilder, UpdateResult } from "typeorm";
 import { AppError } from "../errors";
 
 import { hashSync } from "bcryptjs";
@@ -14,23 +14,31 @@ const passwordHashService = (plainPassword: string): string => {
     return hashSync(plainPassword, numSaltRounds);
 };
 
-const listUsersService = async(): Promise<UserDTO[]> => {
-    const userRepo: Repository<User> = AppDataSource.getRepository(User);
-    const users: User[] = await userRepo.find({
-        relations: {
-            student: true,
-            instructor: true,
-            administrator: true
-        }
-    });
+const listUsersService = async(idInstitution?: string): Promise<UserDTO[]> => {
+    let institution: Institution | null = null;
 
-    const usersShown: UserDTO[] = [];
-    users.forEach((user) => {
-        usersShown.push(new UserDTO(user))
-    });
+    if (idInstitution) {
+        let institutionRepo: Repository<Institution> = AppDataSource.getRepository(Institution);
+        institution = await institutionRepo.findOneBy({idInstitution: idInstitution});
+    }
+
+    const userRepo: Repository<User> = AppDataSource.getRepository(User);
+    let query: SelectQueryBuilder<User> = userRepo.createQueryBuilder('person')
+
+    if (institution !== null) {
+        query = query
+            .innerJoinAndSelect("person.institution", "institution")
+            .where(
+                'person.institutionIdInstitution = :idInstitution',
+                { idInstitution: institution.idInstitution }
+            );
+    }
+
+    const users: User[] = await query.getMany();
+    const usersShown: UserDTO[] = users.map((user) => new UserDTO(user));
 
     return usersShown;
-}
+};
 
 const createUserService = async(payload: IUserCreatePayload): Promise<object> => {
     const institutionRepo: Repository<Institution> = AppDataSource.getRepository(Institution);

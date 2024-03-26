@@ -45,6 +45,6 @@ export class User {
     @OneToOne(() => Administrator, (administrator) => administrator.user)
     administrator!: Administrator;
 
-    @ManyToOne(() => Institution, (institution) => institution.users)
+    @ManyToOne(() => Institution, (institution) => institution.users, {nullable: false})
     institution!: Institution;
 }
