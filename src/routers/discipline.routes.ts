@@ -9,7 +9,8 @@ disciplineRouter.post(
     authenticateToken,
     (req, res, next) => {
         res.locals.requirements = {
-            admin: false
+            adminAndBosch: false,
+            adminNotBosch: false
         };
         return next();
     },
