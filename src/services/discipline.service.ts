@@ -6,7 +6,39 @@ import { Discipline, DisciplineCategory, IsBosch } from "../entities";
 import { Repository } from "typeorm";
 import { AppError } from "../errors";
 
-const createDisciplineService = async(payload: ICreateDisciplinePayload, isBosch: IsBosch): Promise<DisciplineSingleDTO> => {
+const listDisciplinesService = async(
+    isBosch: IsBosch,
+    categoryName?: string
+): Promise<DisciplineDTO[]> => {
+
+    let category: DisciplineCategory | null = null;
+    if (categoryName) {
+        const categoryRepo = AppDataSource.getRepository(DisciplineCategory);
+        category = await categoryRepo.findOneBy({name: categoryName});
+    }
+
+    const disciplineRepo = AppDataSource.getRepository(Discipline);
+    let query = disciplineRepo.createQueryBuilder('discipline');
+
+    if (category !== null) {
+        query = query
+            .innerJoinAndSelect("discipline.disciplineCategory", "disciplineCategory")
+            .where(
+                "LOWER(disciplineCategory.name) = :categoryName",
+                { categoryName: categoryName }
+            );
+    }
+
+    const disciplines: Discipline[] = await query.getMany();
+    const disciplinesShown: DisciplineDTO[] = disciplines.map(
+        (discipline) => new DisciplineDTO(discipline)
+    );
+
+    return disciplinesShown;
+};
+
+const createDisciplineService = async(payload: ICreateDisciplinePayload, isBosch: IsBosch)
+        :Promise<DisciplineSingleDTO> => {
     const categoryRepo: Repository<DisciplineCategory> = AppDataSource
         .getRepository(DisciplineCategory);
 
@@ -29,4 +61,7 @@ const createDisciplineService = async(payload: ICreateDisciplinePayload, isBosch
     return new DisciplineSingleDTO(discipline);
 };
 
-export { createDisciplineService };
+export {
+    listDisciplinesService,
+    createDisciplineService
+};

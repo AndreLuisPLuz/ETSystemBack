@@ -1,8 +1,27 @@
 import { Router } from "express";
-import { createDisciplineController } from "../controllers";
+import {
+    listDisciplinesController,
+    createDisciplineController
+} from "../controllers";
 import { authenticateToken, buildRequirements } from "../middlewares";
 
 const disciplineRouter: Router = Router();
+
+disciplineRouter.get(
+    "",
+    authenticateToken,
+    (req, res, next)=> {
+        res.locals.requirements = {
+            adminAndBosch: false,
+            adminNotBosch: false,
+            instructorAndBosch: false,
+            instructorNotBosch: false
+        };
+        return next();
+    },
+    buildRequirements,
+    listDisciplinesController
+);
 
 disciplineRouter.post(
     "",

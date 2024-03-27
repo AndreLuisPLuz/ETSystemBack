@@ -54,6 +54,18 @@ const buildRequirements = async(req: Request, res: Response, next: NextFunction)
                     && (requestingUser.institution.isBosch == IsBosch.FALSE)
                 );
                 break;
+            case RequirementTypes.INSTRUCTOR_AND_BOSCH:
+                requirements[property] = (
+                    (requestingUser.instructor != undefined)
+                    && (requestingUser.institution.isBosch == IsBosch.TRUE)
+                );
+                break;
+            case RequirementTypes.INSTRUCTOR_NOT_BOSCH:
+                requirements[property] = (
+                    (requestingUser.instructor != undefined)
+                    && (requestingUser.institution.isBosch == IsBosch.FALSE)
+                );
+                break;
         }
     }
 

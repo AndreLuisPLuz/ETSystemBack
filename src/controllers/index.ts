@@ -39,7 +39,10 @@ import {
     softDeleteDisciplineCategoryController
 } from "./disciplineCategory.controller";
 
-import { createDisciplineController } from "./discipline.controller";
+import {
+    listDisciplinesController,
+    createDisciplineController
+} from "./discipline.controller";
 
 export {
     loginController,
@@ -73,5 +76,6 @@ export {
     updateDisciplineCategoryController,
     softDeleteDisciplineCategoryController,
 
+    listDisciplinesController,
     createDisciplineController
 }
