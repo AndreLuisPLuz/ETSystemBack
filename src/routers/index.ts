@@ -3,7 +3,7 @@ import loginRouter from "./login.routes";
 import studentGroupRouter from "./studentGroup.routes";
 import institutionRouter from "./institution.routes";
 import disciplineCategoryRouter from "./disciplineCategory.routes";
-import disciplineRouter from "./discipline.router";
+import disciplineRouter from "./discipline.routes";
 
 export {
     userRouter,
