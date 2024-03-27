@@ -21,6 +21,8 @@ const buildRequirements = async(req: Request, res: Response, next: NextFunction)
         }
     });
 
+    res.locals.isBosch = requestingUser.institution.isBosch;
+
     for (let property in requirements) {
         switch(property) {
             case RequirementTypes.OWN_USER:
@@ -45,16 +47,12 @@ const buildRequirements = async(req: Request, res: Response, next: NextFunction)
                     (requestingUser.administrator != undefined)
                     && (requestingUser.institution.isBosch == IsBosch.TRUE)
                 );
-
-                res.locals.isBosch = IsBosch.TRUE;
                 break;
             case RequirementTypes.ADMIN_NOT_BOSCH:
                 requirements[property] = (
                     (requestingUser.administrator != undefined)
                     && (requestingUser.institution.isBosch == IsBosch.FALSE)
                 );
-
-                res.locals.isBosch = IsBosch.FALSE;
                 break;
         }
     }
