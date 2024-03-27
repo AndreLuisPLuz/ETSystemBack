@@ -9,7 +9,16 @@ import { StudentSingleDTO, UserSingleDTO } from "../classes";
 
 const createStudentService = async(idUser: string, idStudentGroup: string): Promise<UserSingleDTO> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
-    const user: User | null = await userRepo.findOneBy({idUser: idUser});
+    const user: User | null = await userRepo.findOne({
+        where: {
+            idUser: idUser
+        },
+        relations: {
+            administrator: true,
+            instructor: true,
+            institution: true
+        }
+    });
 
     if (!user) {
         throw new AppError("User not found.", 404);
@@ -35,7 +44,7 @@ const createStudentService = async(idUser: string, idStudentGroup: string): Prom
         student: student        
     })
 
-    return new UserSingleDTO(user);
+    return new UserSingleDTO(updatedUser);
 };
 
 const retrieveStudentService = async(idStudent: string): Promise<StudentSingleDTO> => {
