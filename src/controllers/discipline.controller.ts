@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import {
     listDisciplinesService,
-    createDisciplineService
+    createDisciplineService,
+    updateDisciplineService
 } from "../services";
 import { DisciplineDTO, DisciplineSingleDTO, Paginator } from "../classes";
 
@@ -35,7 +36,16 @@ const createDisciplineController = async(req: Request, res: Response): Promise<R
     return res.status(201).json(discipline);
 };
 
+const updateDisciplineController = async(req: Request, res: Response): Promise<Response> => {
+    const discipline: DisciplineSingleDTO = await updateDisciplineService(
+        req.params.idDiscipline,
+        req.body
+    );
+    return res.status(200).json(discipline);
+};
+
 export {
     listDisciplinesController,
-    createDisciplineController
+    createDisciplineController,
+    updateDisciplineController
 };

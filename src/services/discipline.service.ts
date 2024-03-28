@@ -100,5 +100,6 @@ const updateDisciplineService = async(
 
 export {
     listDisciplinesService,
-    createDisciplineService
+    createDisciplineService,
+    updateDisciplineService
 };

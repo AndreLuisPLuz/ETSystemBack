@@ -30,7 +30,8 @@ import {
 
 import {
     listDisciplinesService,
-    createDisciplineService
+    createDisciplineService,
+    updateDisciplineService
 } from "./discipline.service";
 
 import { createAdministratorService, retrieveAdministratorService } from "./administrator.service";
@@ -69,5 +70,6 @@ export {
     softDeleteDisciplineCategoryService,
 
     listDisciplinesService,
-    createDisciplineService
+    createDisciplineService,
+    updateDisciplineService
 }
