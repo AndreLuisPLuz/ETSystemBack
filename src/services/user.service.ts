@@ -83,7 +83,10 @@ const retrieveUserService = async(searchId: string): Promise<UserSingleDTO> => {
 
 const updateUserInformationService = async(searchId: string,
         payload: IUserRegisterPayload): Promise<UserDTO> => {
-    payload.password = passwordHashService(payload.password);
+    
+    if(payload.password) {
+        payload.password = passwordHashService(payload.password);
+    }
 
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const result: UpdateResult = await userRepo.update(
