@@ -9,9 +9,9 @@ import {
 import { UserDTO, Paginator, UserSingleDTO } from "../classes";
 
 const listUsersController = async(req: Request, res: Response): Promise<Response> => {
-    req.query.idInstitution = req.query.idInstitution != undefined
-                            ? String(req.query.idInstitution)
-                            : undefined;
+    req.query.idInstitution = (req.query.idInstitution != undefined)
+        ? String(req.query.idInstitution)
+        : undefined;
 
     const users: UserDTO[] = await listUsersService(req.query.idInstitution);
     const paginatedUsers: Paginator<UserDTO> = new Paginator(

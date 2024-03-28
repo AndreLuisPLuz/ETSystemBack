@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMan
 import { DisciplineCategory } from "./disciplineCategory.entity";
 import { CompetenceGroup } from "./competenceGroup.entity";
 import { DisciplineStudentGroup } from "./disciplineStudentGroup.entity";
+import { IsBosch } from "./institution.entity";
 
 @Entity('discipline')
 export class Discipline {
@@ -11,6 +12,9 @@ export class Discipline {
 
     @Column({ type: "varchar", length: 255 })
     name!: string;
+
+    @Column({type: 'bit'})
+    isBosch!: IsBosch;
 
     @CreateDateColumn({type: 'datetime'})
     createdAt!: Date;

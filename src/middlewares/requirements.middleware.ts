@@ -6,8 +6,56 @@ import { RequirementTypes, IReqRequirements } from "../contracts";
 import { Repository } from "typeorm";
 import { IsBosch, User } from "../entities";
 
-const buildRequirements = async(req: Request, res: Response, next: NextFunction) => {
-    const requirements: IReqRequirements = res.locals.requirements;
+const checkOwnUser = async (requestingUser: User, res: Response): Promise<boolean> => {
+    return requestingUser.idUser == res.locals.idRequestingUser;
+};
+
+const checkInstructor = async (requestingUser: User): Promise<boolean> => {
+    return requestingUser.instructor !== undefined;
+};
+
+const checkAdmin = async (requestingUser: User): Promise<boolean> => {
+    return requestingUser.administrator !== undefined;
+};
+
+const checkIsBosch = async (requestingUser: User): Promise<boolean> => {
+    return requestingUser.institution.isBosch == IsBosch.TRUE;
+};
+
+const checkMaster = async (requestingUser: User): Promise<boolean> => {
+    return requestingUser.administrator !== undefined && requestingUser.administrator.isMaster;
+};
+
+const checkAdminAndBosch = async (requestingUser: User): Promise<boolean> => {
+    return requestingUser.administrator !== undefined && requestingUser.institution.isBosch == IsBosch.TRUE;
+};
+
+const checkAdminNotBosch = async (requestingUser: User): Promise<boolean> => {
+    return requestingUser.administrator !== undefined && requestingUser.institution.isBosch == IsBosch.FALSE;
+};
+
+const checkInstructorAndBosch = async (requestingUser: User): Promise<boolean> => {
+    return requestingUser.instructor !== undefined && requestingUser.institution.isBosch == IsBosch.TRUE;
+};
+
+const checkInstructorNotBosch = async (requestingUser: User): Promise<boolean> => {
+    return requestingUser.instructor !== undefined && requestingUser.institution.isBosch == IsBosch.FALSE;
+};
+
+const requirementChecks: { [key: string]: (user: User, res: Response) => Promise<boolean> } = {
+    [RequirementTypes.OWN_USER]: checkOwnUser,
+    [RequirementTypes.INSTRUCTOR]: checkInstructor,
+    [RequirementTypes.ADMIN]: checkAdmin,
+    [RequirementTypes.IS_BOSCH]: checkIsBosch,
+    [RequirementTypes.MASTER]: checkMaster,
+    [RequirementTypes.ADMIN_AND_BOSCH]: checkAdminAndBosch,
+    [RequirementTypes.ADMIN_NOT_BOSCH]: checkAdminNotBosch,
+    [RequirementTypes.INSTRUCTOR_AND_BOSCH]: checkInstructorAndBosch,
+    [RequirementTypes.INSTRUCTOR_NOT_BOSCH]: checkInstructorNotBosch,
+};
+
+const buildRequirements = async (req: Request, res: Response, next: NextFunction) => {
+    let requirements: IReqRequirements = res.locals.requirements;
 
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const requestingUser: User = await userRepo.findOneOrFail({
@@ -21,47 +69,23 @@ const buildRequirements = async(req: Request, res: Response, next: NextFunction)
         }
     });
 
-    for (let property in requirements) {
-        switch(property) {
-            case RequirementTypes.OWN_USER:
-                requirements[property] = (requestingUser.idUser == res.locals.idRequestingUser);
-                break;
-            case RequirementTypes.INSTRUCTOR:
-                requirements[property] = (requestingUser.instructor != undefined);
-                break;
-            case RequirementTypes.ADMIN:
-                requirements[property] = (requestingUser.administrator != undefined);
-                break;
-            case RequirementTypes.IS_BOSCH:
-                requirements[property] = (requestingUser.institution.isBosch == IsBosch.TRUE);
-                break;
-            case RequirementTypes.MASTER:
-                if (requestingUser.administrator != undefined) {
-                    requirements[property] = (requestingUser.administrator.isMaster);
-                }
-                break;
-            case RequirementTypes.ADMIN_AND_BOSCH:
-                requirements[property] = (
-                    (requestingUser.administrator != undefined)
-                    && (requestingUser.institution.isBosch == IsBosch.TRUE)
-                );
-                break;
-            case RequirementTypes.ADMIN_NOT_BOSCH:
-                requirements[property] = (
-                    (requestingUser.administrator != undefined)
-                    && (requestingUser.institution.isBosch == IsBosch.FALSE)
-                );
-                break;
-        }
-    }
+    res.locals.isBosch = requestingUser.institution.isBosch;
 
-    for (let property in requirements) {
-        if (requirements[property]) {
-            return next();
+    const checksPromises = Object.keys(requirements).map(async (property) => {
+        if (requirementChecks[property]) {
+            requirements[property] = await requirementChecks[property](requestingUser, res);
         }
+    });
+
+    await Promise.all(checksPromises);
+
+    const allowed = Object.values(requirements).some((value) => value);
+
+    if (allowed) {
+        return next();
+    } else {
+        throw new AppError("Action not allowed with user access level.", 403);
     }
-    
-    throw new AppError("Action not allowed with user access level.", 403);
-}
+};
 
 export { buildRequirements };

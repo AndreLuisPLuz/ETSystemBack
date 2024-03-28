@@ -35,11 +35,18 @@
                 <th class="column-header"><span>Restrições de Domínio (PK, FK, Not Null, Check, Default, Identity)</span></th>
             </tr>
             <tr>
-                <td class="row-signifier">id_person</td>
+                <td class="row-signifier">id_user</td>
                 <td><span>Identificador único de person</span></td>
                 <td><span>uniqueidentifier</span></td>
                 <td><span></span></td>
                 <td><span>PK, NOT NULL</span></td>
+            </tr>
+            <tr>
+                <td class="row-signifier">id_institution</td>
+                <td><span>Identificador único de institution à qual a person pertence</span></td>
+                <td><span>uniqueidentifier</span></td>
+                <td><span></span></td>
+                <td><span>FK, NOT NULL</span></td>
             </tr>
             <tr>
                 <td class="row-signifier">name</td>
