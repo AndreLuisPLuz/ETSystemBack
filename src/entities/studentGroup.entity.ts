@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { AppliedDiscipline } from "./disciplineStudentGroup.entity";
+import { AppliedDiscipline } from "./appliedDiscipline.entity";
 import { Student } from "./student.entity";
 
 export enum WorkPeriod {
