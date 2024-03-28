@@ -3,23 +3,13 @@ import { DisciplineDTO, DisciplineSingleDTO } from "../classes/dataTransfer/disc
 import { AppDataSource } from "../data-source";
 import { Discipline, DisciplineCategory, IsBosch } from "../entities";
 
-import { Repository } from "typeorm";
+import { Repository, UpdateResult } from "typeorm";
 import { AppError } from "../errors";
 
 const listDisciplinesService = async(
     isBosch: IsBosch,
     categoryName?: string
 ): Promise<DisciplineDTO[]> => {
-
-    let category: DisciplineCategory | null = null;
-    if (categoryName) {
-        const categoryRepo = AppDataSource.getRepository(DisciplineCategory);
-        category = await categoryRepo.findOneBy({name: categoryName});
-
-        if (!category) {
-            throw new AppError("Discipline category not found.", 404);
-        }
-    }
 
     const disciplineRepo = AppDataSource.getRepository(Discipline);
     let query = disciplineRepo
@@ -29,12 +19,12 @@ const listDisciplinesService = async(
             { isBosch: isBosch }
         );
 
-    if (category !== null) {
+    if (categoryName) {
         query = query
             .innerJoin("discipline.disciplineCategory", "disciplineCategory")
             .andWhere(
                 "LOWER(disciplineCategory.name) = :categoryName",
-                { categoryName: categoryName }
+                { categoryName: categoryName?.toLowerCase() }
             );
     }
 
@@ -68,6 +58,44 @@ const createDisciplineService = async(payload: ICreateDisciplinePayload, isBosch
 
     await disciplineRepo.save(discipline);
     return new DisciplineSingleDTO(discipline);
+};
+
+const updateDisciplineService = async(
+    idDiscipline: string,
+    payload: ICreateDisciplinePayload
+): Promise<DisciplineSingleDTO> => {
+
+    const categoryRepo: Repository<DisciplineCategory> = AppDataSource
+        .getRepository(DisciplineCategory);
+
+    const category: DisciplineCategory | null = await categoryRepo.findOneBy({
+        idDisciplineCategory: payload.idCategory
+    });
+
+    if (!category) {
+        throw new AppError("Discipline category not found.", 404);
+    }
+
+    const disciplineRepo = AppDataSource.getRepository(Discipline);
+    const result: UpdateResult = await disciplineRepo.update(
+        {
+            idDiscipline: idDiscipline,
+            disciplineCategory: category
+        },
+        { ...payload }
+    );
+
+    if (result.affected == 0 || result.affected === undefined) {
+        throw new AppError("Discipline not found.", 404);
+    }
+
+    const updatedDiscipline: Discipline = disciplineRepo.create({
+        idDiscipline: idDiscipline,
+        disciplineCategory: category,
+        ...payload
+    });
+
+    return new DisciplineSingleDTO(updatedDiscipline);
 };
 
 export {
