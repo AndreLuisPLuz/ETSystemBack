@@ -5,6 +5,7 @@ import { Discipline, DisciplineCategory, IsBosch } from "../entities";
 
 import { Repository, UpdateQueryBuilder, UpdateResult } from "typeorm";
 import { AppError } from "../errors";
+import { set } from "zod";
 
 const listDisciplinesService = async(
     isBosch: IsBosch,
@@ -65,21 +66,22 @@ const updateDisciplineService = async(
     payload: ICreateDisciplinePayload
 ): Promise<DisciplineSingleDTO> => {
 
-    let query: UpdateQueryBuilder<Discipline> = AppDataSource
-        .createQueryBuilder()
-        .update('discipline')
-        .set({ name: payload.name });
+    const setFields: Record<string, any> = {
+        name: payload.name
+    };
 
     if (payload.idCategory) {
-        query = query.set({
-            disciplineCategory: {idDisciplineCategory: payload.idCategory} 
-        });
+        setFields.disciplineCategory = {idDisciplineCategory: payload.idCategory};
     }
-    
-    query = query.where(
-        "idDiscipline = :idDiscipline",
-        { idDiscipline: idDiscipline }
-    );
+
+    const query: UpdateQueryBuilder<Discipline> = AppDataSource
+        .createQueryBuilder()
+        .update('discipline')
+        .set(setFields)
+        .where(
+            "idDiscipline = :idDiscipline",
+            { idDiscipline: idDiscipline }
+        );
 
     const result: UpdateResult = await query.execute();
 
