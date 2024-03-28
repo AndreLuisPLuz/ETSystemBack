@@ -3,43 +3,44 @@ import { StudentGroupDTO, StudentGroupSingleDTO } from "../classes";
 import { AppDataSource } from "../data-source";
 import { StudentGroup, WorkPeriod } from "../entities";
 
-import { Repository, LessThanOrEqual, MoreThanOrEqual, UpdateResult } from "typeorm";
+import { Repository, LessThanOrEqual, MoreThanOrEqual, UpdateResult, SelectQueryBuilder } from "typeorm";
 import { AppError } from "../errors";
 
 /**
  * Fetches the full list of student groups in the database. This return must
  * be paginated on the controller, though use of a Paginator object.
- * @param workPeriodSearch - Work period search; 'm' for mornings, 'a' for afternoons.
+ * @param workPeriodSearch - Work period search; 'm' for mornings, 'a' for
+ * afternoons.
  * @param year - Year in which the student groups must be active.
  * @returns List of all student groups found.
  */
 const listStudentGroupsService = async(
-        workPeriodSearch: string,
-        year: number
-)       :Promise<StudentGroupDTO[]> => {
-    const searchDate = new Date(year, 11);
+    workPeriodSearch?: string,
+    year?: number
+): Promise<StudentGroupDTO[]> => {
 
-    let workPeriod: WorkPeriod;
-    switch (workPeriodSearch) {
-        case "m":
-            workPeriod = WorkPeriod.MORNING;
-            break;
-        case "a":
-            workPeriod = WorkPeriod.AFTERNOON;
-            break;
-        default:
-            throw new AppError("Invalid argument for work period.", 400);
+    const studentGroupRepo = AppDataSource.getRepository(StudentGroup);
+    let query: SelectQueryBuilder<StudentGroup> = studentGroupRepo
+        .createQueryBuilder('studentGroup')
+        .where("1 = 1");
+    
+    if (workPeriodSearch) {
+        query = query.andWhere(
+            "studentGroup.workPeriod = :workPeriod",
+            { workPeriod: workPeriodSearch }
+        );
     }
 
-    const studentGroupRepo: Repository<StudentGroup> = AppDataSource.getRepository(StudentGroup);
-    const studentGroups: StudentGroup[] = await studentGroupRepo.find({
-        where: {
-            workPeriod: workPeriod,
-            dateOfStart: LessThanOrEqual(searchDate),
-            dateOfFinish: MoreThanOrEqual(searchDate)
-        }
-    })
+    if (year) {
+        query = query.andWhere(
+            `:year BETWEEN YEAR(studentGroup.dateOfStart) AND COALESCE(
+                YEAR(studentGroup.dateOfFinish), YEAR(studentGroup.dateOfStart) + 2
+            )`,
+            { year: year }
+        );
+    }
 
+    const studentGroups: StudentGroup[] = await query.getMany();
     const studentGroupsShown: StudentGroupDTO[] = [];
     studentGroups.forEach((studentGroup) => {
         studentGroupsShown.push(new StudentGroupDTO(studentGroup));
