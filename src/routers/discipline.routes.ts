@@ -2,7 +2,8 @@ import { Router } from "express";
 import {
     listDisciplinesController,
     createDisciplineController,
-    updateDisciplineController
+    updateDisciplineController,
+    softDeleteDisciplineController
 } from "../controllers";
 import { authenticateToken, buildRequirements } from "../middlewares";
 
@@ -47,6 +48,19 @@ disciplineRouter.patch(
     },
     buildRequirements,
     updateDisciplineController
+);
+
+disciplineRouter.delete(
+    "/:idDiscipline",
+    authenticateToken,
+    (req, res, next) => {
+        res.locals.requirements = {
+            master: false
+        };
+        return next();
+    },
+    buildRequirements,
+    softDeleteDisciplineController
 );
 
 export default disciplineRouter;
