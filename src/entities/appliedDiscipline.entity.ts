@@ -7,16 +7,16 @@ import { Instructor } from "./instructor.entity";
 export class AppliedDiscipline {
 
     @PrimaryGeneratedColumn("uuid")
-    idDisciplineStudentGroup!: string;
+    idAppliedDiscipline!: string;
 
     @Column({ type: 'smallint' })
     period!: number;
 
     @Column({ type: 'bit', default: 0 })
-    is_complete!: number;
+    isComplete: boolean = false;
 
     @Column({ type: 'float' })
-    total_hours!: number;
+    totalHours!: number;
 
     @ManyToOne(() => Discipline, (discipline) => discipline.appliedDisciplines)
     discipline!: Discipline;
