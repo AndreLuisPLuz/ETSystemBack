@@ -3,7 +3,7 @@ import { DisciplineDTO, DisciplineSingleDTO } from "../classes/dataTransfer/disc
 import { AppDataSource } from "../data-source";
 import { Discipline, DisciplineCategory, IsBosch } from "../entities";
 
-import { Repository, UpdateResult } from "typeorm";
+import { Repository, UpdateQueryBuilder, UpdateResult } from "typeorm";
 import { AppError } from "../errors";
 
 const listDisciplinesService = async(
@@ -65,34 +65,36 @@ const updateDisciplineService = async(
     payload: ICreateDisciplinePayload
 ): Promise<DisciplineSingleDTO> => {
 
-    const categoryRepo: Repository<DisciplineCategory> = AppDataSource
-        .getRepository(DisciplineCategory);
+    let query: UpdateQueryBuilder<Discipline> = AppDataSource
+        .createQueryBuilder()
+        .update('discipline')
+        .set({ name: payload.name });
 
-    const category: DisciplineCategory | null = await categoryRepo.findOneBy({
-        idDisciplineCategory: payload.idCategory
-    });
-
-    if (!category) {
-        throw new AppError("Discipline category not found.", 404);
+    if (payload.idCategory) {
+        query = query.set({
+            disciplineCategory: {idDisciplineCategory: payload.idCategory} 
+        });
     }
-
-    const disciplineRepo = AppDataSource.getRepository(Discipline);
-    const result: UpdateResult = await disciplineRepo.update(
-        {
-            idDiscipline: idDiscipline,
-            disciplineCategory: category
-        },
-        { ...payload }
+    
+    query = query.where(
+        "idDiscipline = :idDiscipline",
+        { idDiscipline: idDiscipline }
     );
+
+    const result: UpdateResult = await query.execute();
 
     if (result.affected == 0 || result.affected === undefined) {
         throw new AppError("Discipline not found.", 404);
     }
 
-    const updatedDiscipline: Discipline = disciplineRepo.create({
-        idDiscipline: idDiscipline,
-        disciplineCategory: category,
-        ...payload
+    const disciplineRepo = AppDataSource.getRepository(Discipline);
+    const updatedDiscipline = await disciplineRepo.findOneOrFail({
+        where: {
+            idDiscipline: idDiscipline
+        },
+        relations: {
+            disciplineCategory: true
+        }
     });
 
     return new DisciplineSingleDTO(updatedDiscipline);
