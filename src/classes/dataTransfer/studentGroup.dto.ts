@@ -1,8 +1,7 @@
 import { StudentGroup, Student, WorkPeriod } from "../../entities";
 import { UserDTO } from "./user.dto";
 
-import { retrieveStudentService } from "../../services";
-import { StudentSingleDTO } from "./student.dto";
+import { StudentDTO } from "./student.dto";
 
 /**
  * Data-transfer object representing a student group without its relations.
@@ -37,7 +36,7 @@ class StudentGroupDTO {
  * such as tne ones with idStudentGroup path parameter.
  */
 class StudentGroupSingleDTO extends StudentGroupDTO {
-    students!: UserDTO[];
+    students!: StudentDTO[];
 
     /**
      * Builds a studentGroupSingleDTO instance with only relevant,
@@ -50,7 +49,7 @@ class StudentGroupSingleDTO extends StudentGroupDTO {
         if (studentGroup.students != undefined) {
             this.students = [];
             studentGroup.students.forEach((student) => {
-                this.students.push(new UserDTO(student.user));
+                this.students.push(new StudentDTO(student));
             });
         }
     }

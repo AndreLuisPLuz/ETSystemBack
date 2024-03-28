@@ -24,14 +24,14 @@ const listStudentGroupsService = async(
         .createQueryBuilder('studentGroup')
         .where("1 = 1");
     
-    if (workPeriodSearch) {
+    if (workPeriodSearch != "undefined") {
         query = query.andWhere(
             "studentGroup.workPeriod = :workPeriod",
             { workPeriod: workPeriodSearch }
         );
     }
 
-    if (year) {
+    if (!Number.isNaN(year)) {
         query = query.andWhere(
             `:year BETWEEN YEAR(studentGroup.dateOfStart) AND COALESCE(
                 YEAR(studentGroup.dateOfFinish), YEAR(studentGroup.dateOfStart) + 2
@@ -73,7 +73,15 @@ const createStudentGroupService = async (payload: IStudentGroupCreatePayload):
 const retrieveStudentGroupService = async (searchId: string):
         Promise<StudentGroupSingleDTO> => {
     const studentGroupRepo: Repository<StudentGroup> = AppDataSource.getRepository(StudentGroup);
-    const studentGroup: StudentGroup | null = await studentGroupRepo.findOneBy({idStudentGroup: searchId});
+    const studentGroup: StudentGroup | null = await studentGroupRepo.findOne({
+        where: {
+            idStudentGroup: searchId
+        },
+        relations: [
+            'students',
+            'students.user'
+        ]
+    });
 
     if (!studentGroup) {
         throw new AppError('Student group not found.', 404);
