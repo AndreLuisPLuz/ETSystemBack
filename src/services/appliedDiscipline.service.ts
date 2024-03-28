@@ -6,6 +6,7 @@ import {
     Discipline,
     Instructor,
     IsBosch,
+    Student,
     StudentGroup
 } from "../entities";
 
@@ -14,6 +15,8 @@ import { AppError } from "../errors";
 
 const listAppliedDisciplinesService = async(
     isBosch: IsBosch,
+    accessLevel: number,
+    idStudent: string,
     idDiscipline?: string,
     idStudentGroup?: string,
     idInstructor?: string,
@@ -21,31 +24,60 @@ const listAppliedDisciplinesService = async(
 
     const appliedDisciplineRepo = AppDataSource.getRepository(AppliedDiscipline);
     let query = appliedDisciplineRepo
-        .createQueryBuilder("appliedDiscipline")
-        .where(
-            "appliedDiscipline.isBosch = :isBosch",
+        .createQueryBuilder("applied_discipline")
+        .innerJoinAndSelect("applied_discipline.discipline", "discipline")
+        .innerJoinAndSelect("applied_discipline.studentGroup", "student_group")
+        .innerJoinAndSelect("applied_discipline.instructor", "instructor")
+        .where("1 = 1");
+
+    if (isBosch == IsBosch.FALSE) {
+        query = query.andWhere(
+            "applied_discipline.isBosch = :isBosch",
             { isBosch: isBosch }
         );
+    }
     
     if (idDiscipline != "undefined") {
         query = query.andWhere(
-            "appliedDiscipline.[disciplineIdDiscipline] = :idDiscipline",
+            "applied_discipline.[disciplineIdDiscipline] = :idDiscipline",
             { idDiscipline: idDiscipline }
         );
     }
 
-    if (idStudentGroup != "undefined") {
+    if (idStudentGroup != "undefined") {        
         query = query.andWhere(
-            "appliedDiscipline.[studentGroupIdStudentGroup] = :idStudentGroup",
+            "applied_discipline.[studentGroupIdStudentGroup] = :idStudentGroup",
             { idStudentGroup: idStudentGroup }
         );
     }
 
     if (idInstructor != "undefined") {
         query = query.andWhere(
-            "appliedDiscipline.[instructorInstructorId] = :idInstructor",
+            "applied_discipline.[instructorInstructorId] = :idInstructor",
             { idInstructor: idInstructor }
         );
+    }
+
+    if (accessLevel == 1) {
+        const studentRepo = AppDataSource.getRepository(Student);
+        const student = await studentRepo.findOne({
+            where: {
+                idStudent: idStudent
+            },
+            relations: {
+                studentGroup: true
+            }
+        });
+    
+        if (!student) {
+            throw new AppError("Student not found.", 404);
+        }
+    
+        query = query
+            .andWhere(
+                "student_group.idStudentGroup = :idStudentGroup",
+                { idStudentGroup: student.studentGroup.idStudentGroup }
+            );
     }
 
     const appliedDisciplines = await query.getMany();
