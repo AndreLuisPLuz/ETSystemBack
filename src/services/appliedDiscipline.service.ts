@@ -1,18 +1,20 @@
 import { IAppliedDisciplineCreatePayload } from "../contracts";
 import { AppliedDisciplineDTO } from "../classes";
 import { AppDataSource } from "../data-source";
-import { AppliedDiscipline, Discipline, Instructor, StudentGroup } from "../entities";
+import { AppliedDiscipline, Discipline, Instructor, IsBosch, StudentGroup } from "../entities";
 
 import { Repository, SelectQueryBuilder } from "typeorm";
 import { AppError } from "../errors";
 
 const createAppliedDisciplineService = async(
-    payload: IAppliedDisciplineCreatePayload
+    payload: IAppliedDisciplineCreatePayload,
+    isBosch: IsBosch
 ): Promise<AppliedDisciplineDTO> => {
 
     const disciplineRepo = AppDataSource.getRepository(Discipline);
     const discipline = await disciplineRepo.findOneBy({
-        idDiscipline: payload.idDiscipline
+        idDiscipline: payload.idDiscipline,
+        isBosch: isBosch
     });
 
     if (!discipline) {
