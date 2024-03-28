@@ -15,15 +15,24 @@ const listDisciplinesService = async(
     if (categoryName) {
         const categoryRepo = AppDataSource.getRepository(DisciplineCategory);
         category = await categoryRepo.findOneBy({name: categoryName});
+
+        if (!category) {
+            throw new AppError("Discipline category not found.", 404);
+        }
     }
 
     const disciplineRepo = AppDataSource.getRepository(Discipline);
-    let query = disciplineRepo.createQueryBuilder('discipline');
+    let query = disciplineRepo
+        .createQueryBuilder('discipline')
+        .where(
+            "discipline.isBosch = :isBosch",
+            { isBosch: isBosch }
+        );
 
     if (category !== null) {
         query = query
-            .innerJoinAndSelect("discipline.disciplineCategory", "disciplineCategory")
-            .where(
+            .innerJoin("discipline.disciplineCategory", "disciplineCategory")
+            .andWhere(
                 "LOWER(disciplineCategory.name) = :categoryName",
                 { categoryName: categoryName }
             );

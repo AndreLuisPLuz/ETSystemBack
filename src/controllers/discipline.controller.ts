@@ -3,7 +3,7 @@ import {
     listDisciplinesService,
     createDisciplineService
 } from "../services";
-import { DisciplineDTO, DisciplineSingleDTO } from "../classes/dataTransfer/discipline.dto";
+import { DisciplineDTO, DisciplineSingleDTO, Paginator } from "../classes";
 
 const listDisciplinesController = async(req: Request, res: Response): Promise<Response> => {
     // TS will yield a string from String(undefined), so we need to actually
@@ -18,7 +18,13 @@ const listDisciplinesController = async(req: Request, res: Response): Promise<Re
         category
     );
 
-    return res.status(200).json(disciplines);
+    const paginatedDisciplines: Paginator<DisciplineDTO> = new Paginator(
+        disciplines,
+        Number(req.query.page),
+        Number(req.query.limit)
+    );
+
+    return res.status(200).json(paginatedDisciplines);
 };
 
 const createDisciplineController = async(req: Request, res: Response): Promise<Response> => {
