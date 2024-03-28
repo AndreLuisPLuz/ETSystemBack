@@ -3,8 +3,8 @@ import { Discipline } from "./discipline.entity";
 import { StudentGroup } from "./studentGroup.entity";
 import { Instructor } from "./instructor.entity";
 
-@Entity('discipline_student_group')
-export class DisciplineStudentGroup {
+@Entity('applied_discipline')
+export class AppliedDiscipline {
 
     @PrimaryGeneratedColumn("uuid")
     idDisciplineStudentGroup!: string;
@@ -18,12 +18,12 @@ export class DisciplineStudentGroup {
     @Column({ type: 'float' })
     total_hours!: number;
 
-    @ManyToOne(() => Discipline, (discipline) => discipline.disciplineStudentGroups)
+    @ManyToOne(() => Discipline, (discipline) => discipline.appliedDisciplines)
     discipline!: Discipline;
 
-    @ManyToOne(() => StudentGroup, (studentGroup) => studentGroup.disciplineStudentGroups)
+    @ManyToOne(() => StudentGroup, (studentGroup) => studentGroup.appliedDisciplines)
     studentGroup!: StudentGroup;
 
-    @ManyToOne(() => Instructor, (instructor) => instructor.disciplineStudentGroups)
+    @ManyToOne(() => Instructor, (instructor) => instructor.appliedDisciplines)
     instructor!: Instructor;
 }

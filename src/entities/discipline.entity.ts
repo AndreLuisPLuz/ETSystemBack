@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { DisciplineCategory } from "./disciplineCategory.entity";
 import { CompetenceGroup } from "./competenceGroup.entity";
-import { DisciplineStudentGroup } from "./disciplineStudentGroup.entity";
+import { AppliedDiscipline } from "./disciplineStudentGroup.entity";
 import { IsBosch } from "./institution.entity";
 
 @Entity('discipline')
@@ -31,6 +31,6 @@ export class Discipline {
     @OneToMany(() => CompetenceGroup, (competenceGroup) => competenceGroup.discipline)
     competenceGroups!: CompetenceGroup[];
 
-    @OneToMany(() => DisciplineStudentGroup, (disciplineStudentGroup) => disciplineStudentGroup.discipline)
-    disciplineStudentGroups!: DisciplineStudentGroup[];
+    @OneToMany(() => AppliedDiscipline, (appliedDiscipline) => appliedDiscipline.discipline)
+    appliedDisciplines!: AppliedDiscipline[];
 }

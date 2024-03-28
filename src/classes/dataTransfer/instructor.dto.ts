@@ -1,6 +1,6 @@
 import { 
     Instructor,
-    DisciplineStudentGroup
+    AppliedDiscipline
 } from "../../entities";
 
 /**
@@ -9,7 +9,7 @@ import {
  * ones with idInstructor path parameter.
  */
 export class InstructorSingleDTO {
-    disciplineStudentGroups!: DisciplineStudentGroup[]; // TODO: change to DTO when available
+    appliedDisciplines!: AppliedDiscipline[]; // TODO: change to DTO when available
 
     /**
      * Builds an InstructorSingleDTO instance with only relevant, non-sensible
@@ -17,6 +17,6 @@ export class InstructorSingleDTO {
      * @param instructor - The Instructor this DTO represents.
      */
     public constructor(instructor: Instructor) {
-        this.disciplineStudentGroups = instructor.disciplineStudentGroups; // TODO: change to DTO when available
+        this.appliedDisciplines = instructor.appliedDisciplines; // TODO: change to DTO when available
     }
 }

@@ -5,7 +5,7 @@ import { CompetenceGroup } from "./competenceGroup.entity"
 import { CompetenceStudent } from "./competenceStudent.entity"
 import { Discipline } from "./discipline.entity"
 import { DisciplineCategory } from "./disciplineCategory.entity"
-import { DisciplineStudentGroup } from "./disciplineStudentGroup.entity"
+import { AppliedDiscipline } from "./disciplineStudentGroup.entity"
 import { Institution, IsBosch } from "./institution.entity"
 import { Instructor } from "./instructor.entity"
 import { Student } from "./student.entity"
@@ -19,7 +19,7 @@ export {
     CompetenceStudent,
     Discipline,
     DisciplineCategory,
-    DisciplineStudentGroup,
+    AppliedDiscipline,
     Institution, IsBosch,
     Instructor,
     Student,
