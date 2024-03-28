@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import {
     listDisciplinesService,
     createDisciplineService,
-    updateDisciplineService
+    updateDisciplineService,
+    softDeleteDisciplineService
 } from "../services";
 import { DisciplineDTO, DisciplineSingleDTO, Paginator } from "../classes";
 
@@ -44,8 +45,14 @@ const updateDisciplineController = async(req: Request, res: Response): Promise<R
     return res.status(200).json(discipline);
 };
 
+const softDeleteDisciplineController = async(req: Request, res: Response): Promise<Response> => {
+    await softDeleteDisciplineService(req.params.idDiscipline);
+    return res.status(204).json();
+};
+
 export {
     listDisciplinesController,
     createDisciplineController,
-    updateDisciplineController
+    updateDisciplineController,
+    softDeleteDisciplineController
 };

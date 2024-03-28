@@ -102,8 +102,20 @@ const updateDisciplineService = async(
     return new DisciplineSingleDTO(updatedDiscipline);
 };
 
+const softDeleteDisciplineService = async(idDiscipline: string): Promise<void> => {
+    const disciplineRepo = AppDataSource.getRepository(Discipline);
+    const result: UpdateResult = await disciplineRepo.softDelete({
+        idDiscipline: idDiscipline
+    });
+
+    if (result.affected == 0 || result.affected === undefined) {
+        throw new AppError("Discipline not found.", 404);
+    }
+}
+
 export {
     listDisciplinesService,
     createDisciplineService,
-    updateDisciplineService
+    updateDisciplineService,
+    softDeleteDisciplineService
 };

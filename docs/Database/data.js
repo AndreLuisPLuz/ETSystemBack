@@ -17,16 +17,25 @@
 
 export const tables = [
     {
-        table: "",
-        description: "",
+        table: "person",
+        description: "Representa uma pessoa. Especializa-se em student, instructor e administrator. Nenhuma dessas especializações é exclusiva.",
         observations: "",
         columns: [
             {
-                name: "",
-                description: "",
-                datatype:"",
+                name: "idUser",
+                description: "Identifica um registro person unicamente.",
+                datatype:"uniqueidentifier",
                 size: "",
-                keyTypes: [""],
+                keyTypes: ["primary"],
+                notNull: true,
+                default: "auto-generate"
+            },
+            {
+                name: "username",
+                description: "Nome de usuário para login no sistema.",
+                datatype:"varchar",
+                size: "255",
+                keyTypes: [],
                 notNull: true,
                 default: ""
             }
