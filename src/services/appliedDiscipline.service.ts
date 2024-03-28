@@ -1,10 +1,60 @@
 import { IAppliedDisciplineCreatePayload } from "../contracts";
 import { AppliedDisciplineDTO } from "../classes";
 import { AppDataSource } from "../data-source";
-import { AppliedDiscipline, Discipline, Instructor, IsBosch, StudentGroup } from "../entities";
+import {
+    AppliedDiscipline,
+    Discipline,
+    Instructor,
+    IsBosch,
+    StudentGroup
+} from "../entities";
 
 import { Repository, SelectQueryBuilder } from "typeorm";
 import { AppError } from "../errors";
+
+const listAppliedDisciplinesService = async(
+    isBosch: IsBosch,
+    idDiscipline?: string,
+    idStudentGroup?: string,
+    idInstructor?: string,
+): Promise<AppliedDisciplineDTO[]> => {
+
+    const appliedDisciplineRepo = AppDataSource.getRepository(AppliedDiscipline);
+    let query = appliedDisciplineRepo
+        .createQueryBuilder("appliedDiscipline")
+        .where(
+            "appliedDiscipline.isBosch = :isBosch",
+            { isBosch: isBosch }
+        );
+    
+    if (idDiscipline != "undefined") {
+        query = query.andWhere(
+            "appliedDiscipline.[disciplineIdDiscipline] = :idDiscipline",
+            { idDiscipline: idDiscipline }
+        );
+    }
+
+    if (idStudentGroup != "undefined") {
+        query = query.andWhere(
+            "appliedDiscipline.[studentGroupIdStudentGroup] = :idStudentGroup",
+            { idStudentGroup: idStudentGroup }
+        );
+    }
+
+    if (idInstructor != "undefined") {
+        query = query.andWhere(
+            "appliedDiscipline.[instructorInstructorId] = :idInstructor",
+            { idInstructor: idInstructor }
+        );
+    }
+
+    const appliedDisciplines = await query.getMany();
+    const appliedDisciplinesShown = appliedDisciplines.map(
+        (appliedDiscipline) => new AppliedDisciplineDTO(appliedDiscipline)
+    );
+
+    return appliedDisciplinesShown
+};
 
 const createAppliedDisciplineService = async(
     payload: IAppliedDisciplineCreatePayload,
@@ -52,4 +102,7 @@ const createAppliedDisciplineService = async(
     return new AppliedDisciplineDTO(appliedDiscipline);
 };
 
-export { createAppliedDisciplineService };
+export {
+    createAppliedDisciplineService,
+    listAppliedDisciplinesService
+};
