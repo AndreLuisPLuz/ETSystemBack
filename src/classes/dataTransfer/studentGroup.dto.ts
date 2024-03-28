@@ -46,12 +46,7 @@ class StudentGroupSingleDTO extends StudentGroupDTO {
     public constructor(studentGroup: StudentGroup) {
         super(studentGroup);
 
-        if (studentGroup.students != undefined) {
-            this.students = [];
-            studentGroup.students.forEach((student) => {
-                this.students.push(new StudentDTO(student));
-            });
-        }
+        this.students = studentGroup.students.map((student) => new StudentDTO(student));
     }
 }
 
