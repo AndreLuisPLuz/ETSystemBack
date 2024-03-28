@@ -18,12 +18,12 @@ export class AppliedDiscipline {
     @Column({ type: 'float' })
     totalHours!: number;
 
-    @ManyToOne(() => Discipline, (discipline) => discipline.appliedDisciplines)
+    @ManyToOne(() => Discipline, (discipline) => discipline.appliedDisciplines, {nullable: false})
     discipline!: Discipline;
 
-    @ManyToOne(() => StudentGroup, (studentGroup) => studentGroup.appliedDisciplines)
+    @ManyToOne(() => StudentGroup, (studentGroup) => studentGroup.appliedDisciplines, {nullable: false})
     studentGroup!: StudentGroup;
 
-    @ManyToOne(() => Instructor, (instructor) => instructor.appliedDisciplines)
+    @ManyToOne(() => Instructor, (instructor) => instructor.appliedDisciplines, {nullable: false})
     instructor!: Instructor;
 }
