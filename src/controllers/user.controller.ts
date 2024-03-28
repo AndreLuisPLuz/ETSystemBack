@@ -24,8 +24,8 @@ const listUsersController = async(req: Request, res: Response): Promise<Response
 
 const createUserController = async(req: Request, res: Response):
         Promise<Response> => {
-    const message = await createUserService(req.body);
-    return res.status(201).json(message);
+    const user: UserSingleDTO = await createUserService(req.body);
+    return res.status(201).json(user);
 };
 
 const retrieveUserController = async (req: Request, res: Response):
