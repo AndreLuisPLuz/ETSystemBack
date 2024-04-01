@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { DisciplineStudentGroup } from "./disciplineStudentGroup.entity";
+import { AppliedDiscipline } from "./appliedDiscipline.entity";
 import { Student } from "./student.entity";
 
 export enum WorkPeriod {
@@ -33,8 +33,8 @@ export class StudentGroup {
     @DeleteDateColumn({type: 'datetime', nullable: true})
     deletedAt!: Date | null;
 
-    @OneToMany(() => DisciplineStudentGroup, (disciplineStudentGroup) => disciplineStudentGroup.studentGroup)
-    disciplineStudentGroups!: DisciplineStudentGroup[];
+    @OneToMany(() => AppliedDiscipline, (appliedDisciplines) => appliedDisciplines.studentGroup)
+    appliedDisciplines!: AppliedDiscipline[];
 
     @OneToMany(() => Student, (student) => student.studentGroup)
     students!: Student[];

@@ -6,10 +6,14 @@ import { StudentGroupDTO } from "./studentGroup.dto";
  * be used on the context of paginated data or inside a DTO as a relation.
  */
 export class StudentDTO {
-    studentGroup!: StudentGroupDTO;
+    idUser!: string;
+    idStudent!: string;
+    username!: string;
 
     public constructor(student: Student) {
-        this.studentGroup = new StudentGroupDTO(student.studentGroup);
+        this.idUser = student.user.idUser;
+        this.idStudent = student.idStudent;
+        this.username = student.user.username;
     }
 };
 
@@ -19,6 +23,7 @@ export class StudentDTO {
  * with idStudent path parameter.
  */
 export class StudentSingleDTO extends StudentDTO {
+    studentGroup!: StudentGroupDTO;
     competences!: CompetenceStudent[]; // TODO: change to DTO when Competence DTO is ready
 
     /**
@@ -29,5 +34,6 @@ export class StudentSingleDTO extends StudentDTO {
     public constructor(student: Student) {
         super(student);
         this.competences = student.competences; // TODO: change to DTO when Competence DTO is ready
+        this.studentGroup = new StudentGroupDTO(student.studentGroup);
     }
 };

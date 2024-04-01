@@ -1,6 +1,6 @@
 import { CreateDateColumn, DeleteDateColumn, JoinColumn, OneToOne, UpdateDateColumn, Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToOne } from "typeorm";
 import { User } from "./user.entity";
-import { DisciplineStudentGroup } from "./disciplineStudentGroup.entity";
+import { AppliedDiscipline } from "./appliedDiscipline.entity";
 
 @Entity('instructor')
 export class Instructor {
@@ -20,6 +20,6 @@ export class Instructor {
     @JoinColumn()
     user!: User;
 
-    @OneToMany(() => DisciplineStudentGroup, (disciplineStudentGroup) => disciplineStudentGroup.instructor)
-    disciplineStudentGroups!: DisciplineStudentGroup[];
+    @OneToMany(() => AppliedDiscipline, (appliedDiscipline) => appliedDiscipline.instructor)
+    appliedDisciplines!: AppliedDiscipline[];
 }

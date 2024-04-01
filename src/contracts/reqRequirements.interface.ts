@@ -1,5 +1,6 @@
 enum RequirementTypes {
     OWN_USER = "ownUser",
+    STUDENT = "student",
     INSTRUCTOR = "instructor",
     ADMIN = "admin",
     MASTER = "master",

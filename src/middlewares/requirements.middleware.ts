@@ -6,9 +6,15 @@ import { RequirementTypes, IReqRequirements } from "../contracts";
 import { Repository } from "typeorm";
 import { IsBosch, User } from "../entities";
 
+import { AccessLevel } from "../classes";
+
 const checkOwnUser = async (requestingUser: User, res: Response): Promise<boolean> => {
     return requestingUser.idUser == res.locals.idRequestingUser;
 };
+
+const checkStudent = async (requestingUser: User): Promise<boolean> => {
+    return requestingUser.student !== undefined;
+}
 
 const checkInstructor = async (requestingUser: User): Promise<boolean> => {
     return requestingUser.instructor !== undefined;
@@ -44,6 +50,7 @@ const checkInstructorNotBosch = async (requestingUser: User): Promise<boolean> =
 
 const requirementChecks: { [key: string]: (user: User, res: Response) => Promise<boolean> } = {
     [RequirementTypes.OWN_USER]: checkOwnUser,
+    [RequirementTypes.STUDENT]: checkStudent,
     [RequirementTypes.INSTRUCTOR]: checkInstructor,
     [RequirementTypes.ADMIN]: checkAdmin,
     [RequirementTypes.IS_BOSCH]: checkIsBosch,
@@ -62,14 +69,25 @@ const buildRequirements = async (req: Request, res: Response, next: NextFunction
         where: {
             idUser: res.locals.idRequestingUser
         },
-        relations: {
-            administrator: true,
-            instructor: true,
-            institution: true
-        }
+        relations: [
+            'administrator',
+            'instructor',
+            'student',
+            'student.studentGroup',
+            'institution'
+        ]
     });
 
     res.locals.isBosch = requestingUser.institution.isBosch;
+    res.locals.accessLevel = () => {
+        if (requestingUser.administrator) { return AccessLevel.ADMINISTRATOR };
+        if (requestingUser.instructor) { return AccessLevel.INSTRUCTOR };
+        if (requestingUser.student) { return AccessLevel.STUDENT };
+    };
+
+    if (res.locals.accessLevel == 1) {
+        res.locals.idStudent = requestingUser.student.idStudent;
+    }
 
     const checksPromises = Object.keys(requirements).map(async (property) => {
         if (requirementChecks[property]) {
