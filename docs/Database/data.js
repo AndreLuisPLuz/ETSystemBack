@@ -10,7 +10,7 @@
 //             size: string | null,
 //             keyTypes: string[],
 //             notNull: boolean,
-//             default: string | null
+//             default: string | undefined
 //         }
 //     ]
 // }
@@ -26,9 +26,8 @@ export const tables = [
                 description: "Identifica um registro person unicamente.",
                 datatype:"uniqueidentifier",
                 size: "",
-                keyTypes: ["primary"],
+                keyTypes: ["PK"],
                 notNull: true,
-                default: "auto-generate"
             },
             {
                 name: "username",
@@ -37,7 +36,6 @@ export const tables = [
                 size: "255",
                 keyTypes: [],
                 notNull: true,
-                default: ""
             }
         ]
     }
