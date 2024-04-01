@@ -3,12 +3,12 @@ export interface IAppliedDisciplineCreatePayload {
     idStudentGroup: string,
     idInstructor: string,
     period: number,
-    total_horus: number
+    totalHours: number
 }
 
 export interface IAppliedDisciplineUpdatePayload {
     idInstructor: string,
     period: number,
-    total_hours: number,
+    totalHours: number,
     isComplete: boolean
 }

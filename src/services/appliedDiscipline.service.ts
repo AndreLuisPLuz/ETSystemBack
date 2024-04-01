@@ -142,17 +142,35 @@ const updateAppliedDisciplineService = async(
     payload: IAppliedDisciplineUpdatePayload
 ): Promise<AppliedDisciplineDTO> => {
 
+    type UpdatePayload = Omit<IAppliedDisciplineUpdatePayload, 'idInstructor'>;
+
     type InstructorUpdatePayload = Omit<
         IAppliedDisciplineUpdatePayload,
-        'idInstructor' | 'period' | 'total_hours'
-    >;
+        'idInstructor' | 'period' | 'totalHours'
+    > & {
+        instructor: Instructor
+    };
 
-    let updateFields: IAppliedDisciplineUpdatePayload | InstructorUpdatePayload;
+    let updateFields: UpdatePayload | InstructorUpdatePayload;
 
     if (accessLevel == AccessLevel.INSTRUCTOR) {
-        updateFields = { isComplete: payload.isComplete };
+        const instructorRepo = AppDataSource.getRepository(Instructor);
+        const instructor = await instructorRepo.findOneBy({instructorId: payload.idInstructor});
+
+        if (!instructor) {
+            throw new AppError("Instructor not found.", 404);
+        }
+
+        updateFields = {
+            instructor: instructor,
+            isComplete: payload.isComplete
+        };
     } else {
-        updateFields = payload;
+        updateFields = {
+            period: payload.period,
+            totalHours: payload.totalHours,
+            isComplete: payload.isComplete
+        };
     }
 
     const appliedDisciplineRepo = AppDataSource.getRepository(AppliedDiscipline);
@@ -165,8 +183,15 @@ const updateAppliedDisciplineService = async(
         throw new AppError("Applied discipline not found.", 404);
     }
 
-    const updatedAppliedDiscipline = await appliedDisciplineRepo.findOneByOrFail({
-        idAppliedDiscipline: idAppliedDiscipline
+    const updatedAppliedDiscipline = await appliedDisciplineRepo.findOneOrFail({
+        where: {
+            idAppliedDiscipline: idAppliedDiscipline
+        },
+        relations: {
+            discipline: true,
+            studentGroup: true,
+            instructor: true
+        }
     });
 
     return new AppliedDisciplineDTO(updatedAppliedDiscipline);

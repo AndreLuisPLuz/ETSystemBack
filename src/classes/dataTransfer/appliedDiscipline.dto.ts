@@ -6,7 +6,7 @@ export class AppliedDisciplineDTO {
     idStudentGroup!: string;
     idInstructor!: string;
     period!: number;
-    total_hours!: number;
+    totalHours!: number;
     isComplete!: boolean;
 
     public constructor(appliedDiscipline: AppliedDiscipline) {
@@ -15,7 +15,7 @@ export class AppliedDisciplineDTO {
         this.idStudentGroup = appliedDiscipline.studentGroup.idStudentGroup;
         this.idInstructor = appliedDiscipline.instructor.instructorId;
         this.period = appliedDiscipline.period;
-        this.total_hours = appliedDiscipline.totalHours;
+        this.totalHours = appliedDiscipline.totalHours;
         this.isComplete = appliedDiscipline.isComplete;
     }
 }
