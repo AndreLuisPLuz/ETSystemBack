@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Discipline } from "./discipline.entity";
 import { StudentGroup } from "./studentGroup.entity";
 import { Instructor } from "./instructor.entity";
@@ -17,6 +17,15 @@ export class AppliedDiscipline {
 
     @Column({ type: 'float' })
     totalHours!: number;
+
+    @CreateDateColumn({type: 'datetime'})
+    createdAt!: Date;
+
+    @UpdateDateColumn({type: 'datetime'})
+    updatedAt!: Date;
+
+    @DeleteDateColumn({type: 'datetime', nullable: true})
+    deletedAt!: Date | null;
 
     @ManyToOne(() => Discipline, (discipline) => discipline.appliedDisciplines, {nullable: false})
     discipline!: Discipline;
