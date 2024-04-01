@@ -6,6 +6,8 @@ import { RequirementTypes, IReqRequirements } from "../contracts";
 import { Repository } from "typeorm";
 import { IsBosch, User } from "../entities";
 
+import { AccessLevel } from "../classes";
+
 const checkOwnUser = async (requestingUser: User, res: Response): Promise<boolean> => {
     return requestingUser.idUser == res.locals.idRequestingUser;
 };
@@ -78,9 +80,9 @@ const buildRequirements = async (req: Request, res: Response, next: NextFunction
 
     res.locals.isBosch = requestingUser.institution.isBosch;
     res.locals.accessLevel = () => {
-        if (requestingUser.administrator) { return 3 };
-        if (requestingUser.instructor) { return 2 };
-        if (requestingUser.student) { return 1 };
+        if (requestingUser.administrator) { return AccessLevel.ADMINISTRATOR };
+        if (requestingUser.instructor) { return AccessLevel.INSTRUCTOR };
+        if (requestingUser.student) { return AccessLevel.STUDENT };
     };
 
     if (res.locals.accessLevel == 1) {

@@ -1,5 +1,8 @@
-import { IAppliedDisciplineCreatePayload } from "../contracts";
-import { AppliedDisciplineDTO } from "../classes";
+import {
+    IAppliedDisciplineCreatePayload,
+    IAppliedDisciplineUpdatePayload
+} from "../contracts";
+import { AppliedDisciplineDTO, AccessLevel } from "../classes";
 import { AppDataSource } from "../data-source";
 import {
     AppliedDiscipline,
@@ -10,12 +13,11 @@ import {
     StudentGroup
 } from "../entities";
 
-import { Repository, SelectQueryBuilder } from "typeorm";
 import { AppError } from "../errors";
 
 const listAppliedDisciplinesService = async(
     isBosch: IsBosch,
-    accessLevel: number,
+    accessLevel: AccessLevel,
     idStudent: string,
     idDiscipline?: string,
     idStudentGroup?: string,
@@ -58,7 +60,7 @@ const listAppliedDisciplinesService = async(
         );
     }
 
-    if (accessLevel == 1) {
+    if (accessLevel == AccessLevel.STUDENT) {
         const studentRepo = AppDataSource.getRepository(Student);
         const student = await studentRepo.findOne({
             where: {
@@ -132,6 +134,23 @@ const createAppliedDisciplineService = async(
     await appliedDisciplineRepo.save(appliedDiscipline);
 
     return new AppliedDisciplineDTO(appliedDiscipline);
+};
+
+const updateAppliedDisciplineService = async(
+    accessLevel: AccessLevel,
+    payload: IAppliedDisciplineUpdatePayload
+): Promise<AppliedDisciplineDTO> => {
+
+    let updateFields = payload;
+
+    if (accessLevel == AccessLevel.STUDENT) {
+        type InstructorUpdatePayload = Omit<
+            IAppliedDisciplineUpdatePayload,
+            'idInstructor' | 'period' | 'total_hours'
+        >;
+
+
+    }
 };
 
 export {
