@@ -197,8 +197,44 @@ const updateAppliedDisciplineService = async(
     return new AppliedDisciplineDTO(updatedAppliedDiscipline);
 };
 
+const softDeleteAppliedDisciplineService = async(
+    isBosch: IsBosch,
+    accessLevel: AccessLevel,
+    idAppliedDiscipline: string
+): Promise<void> => {
+
+    const appliedDisciplineRepo = AppDataSource.getRepository(AppliedDiscipline);
+
+    if (accessLevel != AccessLevel.MASTER) {
+        const appliedDiscipline = await appliedDisciplineRepo.findOne({
+            where: {
+                idAppliedDiscipline: idAppliedDiscipline
+            },
+            relations: {
+                discipline: true
+            }
+        });
+
+        // Institution check does NOT raise a 403 FORBIDDEN error since we
+        // don't want an attacker to be able to tell that this discipline
+        // exists.
+        if (!appliedDiscipline || appliedDiscipline.discipline.isBosch != isBosch) {
+            throw new AppError("Applied discipline not found.", 404);
+        }
+    }
+
+    const result = await appliedDisciplineRepo.softDelete({
+        idAppliedDiscipline: idAppliedDiscipline
+    });
+
+    if (result.affected == 0 || result.affected === undefined) {
+        throw new AppError("Applied discipline not found.", 404);
+    }
+};
+
 export {
     createAppliedDisciplineService,
     listAppliedDisciplinesService,
-    updateAppliedDisciplineService
+    updateAppliedDisciplineService,
+    softDeleteAppliedDisciplineService
 };

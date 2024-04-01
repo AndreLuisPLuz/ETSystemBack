@@ -1,7 +1,8 @@
 enum AccessLevel {
     STUDENT = 1,
     INSTRUCTOR,
-    ADMINISTRATOR
+    ADMINISTRATOR,
+    MASTER
 };
 
 export { AccessLevel };

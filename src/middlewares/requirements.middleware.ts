@@ -29,23 +29,39 @@ const checkIsBosch = async (requestingUser: User): Promise<boolean> => {
 };
 
 const checkMaster = async (requestingUser: User): Promise<boolean> => {
-    return requestingUser.administrator !== undefined && requestingUser.administrator.isMaster;
+    console.log(requestingUser.administrator);
+    if (!requestingUser.administrator) {
+        return false;
+    }
+    return requestingUser.administrator.isMaster;
 };
 
 const checkAdminAndBosch = async (requestingUser: User): Promise<boolean> => {
-    return requestingUser.administrator !== undefined && requestingUser.institution.isBosch == IsBosch.TRUE;
+    if (!requestingUser.administrator) {
+        return false;
+    }
+    return requestingUser.institution.isBosch == IsBosch.TRUE;
 };
 
 const checkAdminNotBosch = async (requestingUser: User): Promise<boolean> => {
-    return requestingUser.administrator !== undefined && requestingUser.institution.isBosch == IsBosch.FALSE;
+    if (!requestingUser.administrator) {
+        return false;
+    }
+    return requestingUser.institution.isBosch == IsBosch.FALSE;
 };
 
 const checkInstructorAndBosch = async (requestingUser: User): Promise<boolean> => {
-    return requestingUser.instructor !== undefined && requestingUser.institution.isBosch == IsBosch.TRUE;
+    if (!requestingUser.instructor) {
+        return false;
+    }
+    return requestingUser.institution.isBosch == IsBosch.TRUE;
 };
 
 const checkInstructorNotBosch = async (requestingUser: User): Promise<boolean> => {
-    return requestingUser.instructor !== undefined && requestingUser.institution.isBosch == IsBosch.FALSE;
+    if (!requestingUser.instructor) {
+        return false;
+    }
+    return requestingUser.institution.isBosch == IsBosch.FALSE;
 };
 
 const requirementChecks: { [key: string]: (user: User, res: Response) => Promise<boolean> } = {
@@ -85,8 +101,15 @@ const buildRequirements = async (req: Request, res: Response, next: NextFunction
         if (requestingUser.student) { return AccessLevel.STUDENT };
     };
 
-    if (res.locals.accessLevel == 1) {
-        res.locals.idStudent = requestingUser.student.idStudent;
+    switch(res.locals.accessLevel) {
+        case AccessLevel.ADMINISTRATOR:
+            res.locals.accessLevel = requestingUser.administrator.isMaster
+                ? AccessLevel.MASTER
+                : AccessLevel.ADMINISTRATOR;
+            break;
+        case AccessLevel.STUDENT:
+            res.locals.idStudent = requestingUser.student.idStudent;
+            break;
     }
 
     const checksPromises = Object.keys(requirements).map(async (property) => {

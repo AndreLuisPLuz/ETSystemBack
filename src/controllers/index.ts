@@ -49,7 +49,8 @@ import {
 import {
     createAppliedDisciplineController,
     listAppliedDisciplinesController,
-    updateAppliedDisciplineController
+    updateAppliedDisciplineController,
+    softDeleteAppliedDisciplineController
 } from "./appliedDiscipline.controller";
 
 export {
@@ -91,5 +92,6 @@ export {
 
     createAppliedDisciplineController,
     listAppliedDisciplinesController,
-    updateAppliedDisciplineController
+    updateAppliedDisciplineController,
+    softDeleteAppliedDisciplineController
 }
