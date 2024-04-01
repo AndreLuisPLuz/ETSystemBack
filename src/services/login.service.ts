@@ -25,7 +25,9 @@ const loginService = async(payload: ILoginPayload): Promise<ILoginResponse> => {
     const token: string = sign(
         { idRequestingUser: foundUser.idUser },
         String(process.env.SECRET_KEY),
-        { expiresIn: '2 days' }
+        (process.env.NODE_ENV === "dev")
+            ? {}
+            : { expiresIn: '2 days' }
     );
 
     return {token, idUser};

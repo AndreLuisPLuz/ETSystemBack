@@ -137,23 +137,104 @@ const createAppliedDisciplineService = async(
 };
 
 const updateAppliedDisciplineService = async(
+    idAppliedDiscipline: string,
     accessLevel: AccessLevel,
     payload: IAppliedDisciplineUpdatePayload
 ): Promise<AppliedDisciplineDTO> => {
 
-    let updateFields = payload;
+    type UpdatePayload = Omit<IAppliedDisciplineUpdatePayload, 'idInstructor'>;
 
-    if (accessLevel == AccessLevel.STUDENT) {
-        type InstructorUpdatePayload = Omit<
-            IAppliedDisciplineUpdatePayload,
-            'idInstructor' | 'period' | 'total_hours'
-        >;
+    type InstructorUpdatePayload = Omit<
+        IAppliedDisciplineUpdatePayload,
+        'idInstructor' | 'period' | 'totalHours'
+    > & {
+        instructor: Instructor
+    };
 
+    let updateFields: UpdatePayload | InstructorUpdatePayload;
 
+    if (accessLevel == AccessLevel.INSTRUCTOR) {
+        const instructorRepo = AppDataSource.getRepository(Instructor);
+        const instructor = await instructorRepo.findOneBy({instructorId: payload.idInstructor});
+
+        if (!instructor) {
+            throw new AppError("Instructor not found.", 404);
+        }
+
+        updateFields = {
+            instructor: instructor,
+            isComplete: payload.isComplete
+        };
+    } else {
+        updateFields = {
+            period: payload.period,
+            totalHours: payload.totalHours,
+            isComplete: payload.isComplete
+        };
+    }
+
+    const appliedDisciplineRepo = AppDataSource.getRepository(AppliedDiscipline);
+    const result = await appliedDisciplineRepo.update(
+        {idAppliedDiscipline: idAppliedDiscipline},
+        {...updateFields}
+    );
+
+    if (result.affected == 0 || result.affected === undefined) {
+        throw new AppError("Applied discipline not found.", 404);
+    }
+
+    const updatedAppliedDiscipline = await appliedDisciplineRepo.findOneOrFail({
+        where: {
+            idAppliedDiscipline: idAppliedDiscipline
+        },
+        relations: {
+            discipline: true,
+            studentGroup: true,
+            instructor: true
+        }
+    });
+
+    return new AppliedDisciplineDTO(updatedAppliedDiscipline);
+};
+
+const softDeleteAppliedDisciplineService = async(
+    isBosch: IsBosch,
+    accessLevel: AccessLevel,
+    idAppliedDiscipline: string
+): Promise<void> => {
+
+    const appliedDisciplineRepo = AppDataSource.getRepository(AppliedDiscipline);
+
+    if (accessLevel != AccessLevel.MASTER) {
+        const appliedDiscipline = await appliedDisciplineRepo.findOne({
+            where: {
+                idAppliedDiscipline: idAppliedDiscipline
+            },
+            relations: {
+                discipline: true
+            }
+        });
+
+        // Institution check does NOT raise a 403 FORBIDDEN error since we
+        // don't want an attacker to be able to tell that this discipline
+        // exists.
+        if (!appliedDiscipline || appliedDiscipline.discipline.isBosch != isBosch) {
+            throw new AppError("Applied discipline not found.", 404);
+        }
+    }
+
+    const result = await appliedDisciplineRepo.softDelete({
+        idAppliedDiscipline: idAppliedDiscipline
+    });
+
+    if (result.affected == 0 || result.affected === undefined) {
+        throw new AppError("Applied discipline not found.", 404);
     }
 };
 
 export {
     createAppliedDisciplineService,
-    listAppliedDisciplinesService
+    listAppliedDisciplinesService,
+    updateAppliedDisciplineService,
+    softDeleteAppliedDisciplineService
 };

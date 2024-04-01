@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import {
     createAppliedDisciplineService,
-    listAppliedDisciplinesService
+    listAppliedDisciplinesService,
+    updateAppliedDisciplineService,
+    softDeleteAppliedDisciplineService
 } from "../services";
 import { Paginator } from "../classes";
 
@@ -32,7 +34,27 @@ const createAppliedDisciplineController = async(req: Request, res: Response): Pr
     return res.status(201).json(appliedDiscipline);
 };
 
+const updateAppliedDisciplineController = async(req: Request, res: Response): Promise<Response> => {
+    const appliedDiscipline = await updateAppliedDisciplineService(
+        req.params.idAppliedDiscipline,
+        res.locals.accessLevel,
+        req.body
+    );
+    return res.status(200).json(appliedDiscipline);
+};
+
+const softDeleteAppliedDisciplineController = async(req: Request, res: Response): Promise<Response> => {
+    await softDeleteAppliedDisciplineService(
+        res.locals.isBosch,
+        res.locals.accessLevel,
+        req.params.idAppliedDiscipline
+    );
+    return res.status(204).json();
+};
+
 export {
     createAppliedDisciplineController,
-    listAppliedDisciplinesController
+    listAppliedDisciplinesController,
+    updateAppliedDisciplineController,
+    softDeleteAppliedDisciplineController
 };
