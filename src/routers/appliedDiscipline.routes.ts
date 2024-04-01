@@ -1,7 +1,8 @@
 import { Router } from "express";
 import {
     createAppliedDisciplineController,
-    listAppliedDisciplinesController
+    listAppliedDisciplinesController,
+    updateAppliedDisciplineController
 } from "../controllers";
 import { authenticateToken, buildRequirements } from "../middlewares";
 
@@ -31,6 +32,20 @@ appliedDisciplineRouter.post(
     },
     buildRequirements,
     createAppliedDisciplineController
+);
+
+appliedDisciplineRouter.patch(
+    "/:idAppliedDiscipline",
+    authenticateToken,
+    (req, res, next) => {
+        res.locals.requirements = {
+            admin: false,
+            instructor: false
+        };
+        return next();
+    },
+    buildRequirements,
+    updateAppliedDisciplineController
 );
 
 export default appliedDisciplineRouter;

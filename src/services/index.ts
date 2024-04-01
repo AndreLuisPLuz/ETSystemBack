@@ -37,7 +37,8 @@ import {
 
 import {
     createAppliedDisciplineService,
-    listAppliedDisciplinesService
+    listAppliedDisciplinesService,
+    updateAppliedDisciplineService
 } from "./appliedDiscipline.service";
 
 import { createAdministratorService, retrieveAdministratorService } from "./administrator.service";
@@ -81,5 +82,6 @@ export {
     softDeleteDisciplineService,
 
     createAppliedDisciplineService,
-    listAppliedDisciplinesService
+    listAppliedDisciplinesService,
+    updateAppliedDisciplineService
 }

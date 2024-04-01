@@ -7,8 +7,8 @@ export interface IAppliedDisciplineCreatePayload {
 }
 
 export interface IAppliedDisciplineUpdatePayload {
-    idInstructor?: string,
-    period?: number,
-    total_hours?: number,
-    isComplete?: boolean
+    idInstructor: string,
+    period: number,
+    total_hours: number,
+    isComplete: boolean
 }

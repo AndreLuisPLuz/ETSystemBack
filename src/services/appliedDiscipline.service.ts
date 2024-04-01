@@ -137,23 +137,43 @@ const createAppliedDisciplineService = async(
 };
 
 const updateAppliedDisciplineService = async(
+    idAppliedDiscipline: string,
     accessLevel: AccessLevel,
     payload: IAppliedDisciplineUpdatePayload
 ): Promise<AppliedDisciplineDTO> => {
 
-    let updateFields = payload;
+    type InstructorUpdatePayload = Omit<
+        IAppliedDisciplineUpdatePayload,
+        'idInstructor' | 'period' | 'total_hours'
+    >;
 
-    if (accessLevel == AccessLevel.STUDENT) {
-        type InstructorUpdatePayload = Omit<
-            IAppliedDisciplineUpdatePayload,
-            'idInstructor' | 'period' | 'total_hours'
-        >;
+    let updateFields: IAppliedDisciplineUpdatePayload | InstructorUpdatePayload;
 
-
+    if (accessLevel == AccessLevel.INSTRUCTOR) {
+        updateFields = { isComplete: payload.isComplete };
+    } else {
+        updateFields = payload;
     }
+
+    const appliedDisciplineRepo = AppDataSource.getRepository(AppliedDiscipline);
+    const result = await appliedDisciplineRepo.update(
+        {idAppliedDiscipline: idAppliedDiscipline},
+        {...updateFields}
+    );
+
+    if (result.affected == 0 || result.affected === undefined) {
+        throw new AppError("Applied discipline not found.", 404);
+    }
+
+    const updatedAppliedDiscipline = await appliedDisciplineRepo.findOneByOrFail({
+        idAppliedDiscipline: idAppliedDiscipline
+    });
+
+    return new AppliedDisciplineDTO(updatedAppliedDiscipline);
 };
 
 export {
     createAppliedDisciplineService,
-    listAppliedDisciplinesService
+    listAppliedDisciplinesService,
+    updateAppliedDisciplineService
 };
