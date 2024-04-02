@@ -14,7 +14,7 @@ import {
   buildRequirements,
   validateBody
 } from "../middlewares";
-import { postUserSchema } from "../schemas";
+import { postUserSchema, updateUserSchema } from "../schemas";
 
 const userRouter = Router();
 
@@ -65,6 +65,7 @@ userRouter.get(
 
 userRouter.patch(
   "/:idUser",
+  validateBody(updateUserSchema),
   authenticateToken,
   (req, res, next) => {
     res.locals.requirements = {
