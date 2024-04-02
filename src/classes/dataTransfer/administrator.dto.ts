@@ -6,6 +6,7 @@ import { Administrator } from "../../entities";
  * relation.
  */
 export default class AdministratorDTO {
+    idAdministrator: string
     isMaster: boolean;
 
     /**
@@ -15,5 +16,6 @@ export default class AdministratorDTO {
      */
     public constructor(administrator: Administrator) {
         this.isMaster = administrator.isMaster;
+        this.idAdministrator = administrator.idAdministrator
     }
 }

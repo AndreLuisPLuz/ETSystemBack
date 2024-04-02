@@ -6,14 +6,10 @@ import { StudentGroupDTO } from "./studentGroup.dto";
  * be used on the context of paginated data or inside a DTO as a relation.
  */
 export class StudentDTO {
-    idUser!: string;
     idStudent!: string;
-    username!: string;
 
     public constructor(student: Student) {
-        this.idUser = student.user.idUser;
         this.idStudent = student.idStudent;
-        this.username = student.user.username;
     }
 };
 

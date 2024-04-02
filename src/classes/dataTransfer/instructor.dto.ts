@@ -10,6 +10,7 @@ import {
  */
 export class InstructorSingleDTO {
     appliedDisciplines!: AppliedDiscipline[]; // TODO: change to DTO when available
+    idInstructor: string
 
     /**
      * Builds an InstructorSingleDTO instance with only relevant, non-sensible
@@ -18,5 +19,6 @@ export class InstructorSingleDTO {
      */
     public constructor(instructor: Instructor) {
         this.appliedDisciplines = instructor.appliedDisciplines; // TODO: change to DTO when available
+        this.idInstructor = instructor.instructorId
     }
 }
