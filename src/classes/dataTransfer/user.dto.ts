@@ -15,9 +15,9 @@ class UserDTO {
     email!: string | null;
     dateOfBirth!: Date | null;
     contact!: string | null;
-    idAdministrator!: string | null;
-    idInstructor!: string | null;
-    idStudent!: string | null;
+    idAdministrator!: string | null | undefined;
+    idInstructor!: string | null | undefined;
+    idStudent!: string | null | undefined;
 
     /**
      * Builds an UserDTO instance with only relevant, non-sensible data.
@@ -62,6 +62,10 @@ class UserSingleDTO extends UserDTO {
      */
     public constructor(user: User) {
         super(user);
+
+        this.idAdministrator = undefined
+        this.idInstructor = undefined
+        this.idStudent = undefined
 
         this.administrator = (user.administrator)
             ? new AdministratorDTO(user.administrator)
