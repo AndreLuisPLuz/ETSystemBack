@@ -11,8 +11,10 @@ import {
 } from "../controllers";
 import { 
   authenticateToken,
-  buildRequirements
+  buildRequirements,
+  validateBody
 } from "../middlewares";
+import { postUserSchema } from "../schemas";
 
 const userRouter = Router();
 
@@ -32,6 +34,7 @@ userRouter.get(
 
 userRouter.post(
   "", 
+  validateBody(postUserSchema),
   authenticateToken,
   (req, res, next) => {
     res.locals.requirements = {
