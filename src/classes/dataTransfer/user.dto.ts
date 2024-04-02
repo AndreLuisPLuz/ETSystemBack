@@ -1,5 +1,8 @@
-import { User } from "../../entities"
+import { Instructor, User } from "../../entities"
+import AdministratorDTO from "./administrator.dto";
 import InstitutionDTO from "./institution.dto";
+import { InstructorSingleDTO } from "./instructor.dto";
+import { StudentDTO } from "./student.dto";
 
 /**
  * Data-transfer object representing a user without its relations. Should be
@@ -12,6 +15,9 @@ class UserDTO {
     email!: string | null;
     dateOfBirth!: Date | null;
     contact!: string | null;
+    idAdministrator!: string | null;
+    idInstructor!: string | null;
+    idStudent!: string | null;
 
     /**
      * Builds an UserDTO instance with only relevant, non-sensible data.
@@ -24,6 +30,18 @@ class UserDTO {
         this.email = user.email;
         this.dateOfBirth = user.dateOfBirth;
         this.contact = user.contact;
+
+        this.idAdministrator = (user.administrator)
+            ? user.administrator.idAdministrator
+            : null;
+
+        this.idInstructor = (user.instructor)
+            ? user.instructor.instructorId
+            : null;
+
+        this.idStudent = (user.student)
+            ? user.student.idStudent
+            :null;
     }
 }
 
@@ -33,9 +51,9 @@ class UserDTO {
  * idUser path parameter.
  */
 class UserSingleDTO extends UserDTO {
-    idAdministrator!: string | null;
-    idInstructor!: string | null;
-    idStudent!: string | null;
+    administrator!: AdministratorDTO | null;
+    instructor!: InstructorSingleDTO | null;
+    student!: StudentDTO | null;
     institution!: InstitutionDTO;
 
     /**
@@ -45,17 +63,17 @@ class UserSingleDTO extends UserDTO {
     public constructor(user: User) {
         super(user);
 
-        this.idAdministrator = (user.administrator != undefined)
-            ? user.administrator.idAdministrator
+        this.administrator = (user.administrator)
+            ? new AdministratorDTO(user.administrator)
             : null;
 
-        this.idInstructor = (user.instructor != undefined)
-            ? user.instructor.instructorId
+        this.instructor = (user.instructor)
+            ? new InstructorSingleDTO(user.instructor)
             : null;
 
-        this.idStudent = (user.student != undefined)
-            ? user.student.idStudent
-            :null;
+        this.student = (user.student)
+            ? new StudentDTO(user.student)
+            : null;
 
         this.institution = new InstitutionDTO(user.institution);
     }

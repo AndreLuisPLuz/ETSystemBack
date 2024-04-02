@@ -3,14 +3,23 @@ import { AppDataSource } from "../data-source";
 import { Administrator } from "../entities";
 import { User } from "../entities";
 
-import { AdministratorDTO } from "../classes";
+import { UserSingleDTO } from "../classes";
 
 import { Repository } from "typeorm";
 import { AppError } from "../errors";
 
-const createAdministratorService = async(idUser: string, payload: IAdministratorCreatePayload): Promise<AdministratorDTO> => {    
+const createAdministratorService = async(idUser: string, payload: IAdministratorCreatePayload): Promise<UserSingleDTO> => {    
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
-    const user: User | null = await userRepo.findOneBy({idUser: idUser});
+    const user: User | null = await userRepo.findOne({
+        where: {
+            idUser: idUser
+        },
+        relations: {
+            student: true,
+            instructor: true,
+            institution: true
+        }
+    });
 
     if (!user) {
         throw new AppError("User was not found and cannot be bound to an admin access.", 404);
@@ -23,7 +32,12 @@ const createAdministratorService = async(idUser: string, payload: IAdministrator
     })
 
     await administratorRepo.save(administrator);
-    return new AdministratorDTO(administrator);
+    const updatedUser = userRepo.create({
+        ...user,
+        administrator: administrator
+    });
+
+    return new UserSingleDTO(updatedUser);
 }
 
 const retrieveAdministratorService = async(searchId: string): Promise<Administrator> => {

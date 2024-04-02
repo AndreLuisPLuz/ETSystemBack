@@ -4,10 +4,9 @@ import {
     retrieveAdministratorService
 } from "../services";
 import { Administrator } from "../entities";
-import { AdministratorDTO } from "../classes";
 
 const createAdministratorController = async(req: Request, res: Response): Promise<Response> => {
-    const admin: AdministratorDTO = await createAdministratorService(req.params.idUser, req.body);
+    const admin = await createAdministratorService(req.params.idUser, req.body);
     return res.status(201).json(admin);
 };
 
