@@ -10,7 +10,9 @@ export const handleError = (err:Error, req:Request, res:Response, next:NextFunct
     }
 
     if(err instanceof ZodError) {
-        res.status(400).json({ message: err.flatten().fieldErrors })
+        const errors = err.flatten().fieldErrors
+        const resMessage = Object.keys(errors).length > 0 ? errors : { message: "Invalid request" }
+        res.status(400).json(resMessage)
     }
 
     console.log(err)
