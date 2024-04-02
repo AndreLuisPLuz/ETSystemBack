@@ -21,7 +21,4 @@ export class CompetenceGroup {
 
     @OneToMany(() => Competence, (competence) => competence.competenceGroup)
     competences!: Competence[];
-
-    @ManyToOne(() => Discipline, (discipline) => discipline.competenceGroups)
-    discipline!: Discipline;
 }
