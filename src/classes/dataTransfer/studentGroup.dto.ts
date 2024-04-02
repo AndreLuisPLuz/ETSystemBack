@@ -1,6 +1,4 @@
 import { StudentGroup, Student, WorkPeriod } from "../../entities";
-import { UserDTO } from "./user.dto";
-
 import { StudentDTO } from "./student.dto";
 
 /**

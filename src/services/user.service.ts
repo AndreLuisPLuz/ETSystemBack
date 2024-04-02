@@ -3,7 +3,7 @@ import { UserDTO, UserSingleDTO } from "../classes";
 import { AppDataSource } from "../data-source";
 import { Institution, User } from "../entities";
 
-import { Repository, SelectQueryBuilder, UpdateResult } from "typeorm";
+import { Repository, UpdateResult } from "typeorm";
 import { AppError } from "../errors";
 
 import { hashSync } from "bcryptjs";
@@ -20,22 +20,30 @@ const listUsersService = async(idInstitution?: string): Promise<UserDTO[]> => {
     if (idInstitution) {
         let institutionRepo: Repository<Institution> = AppDataSource.getRepository(Institution);
         institution = await institutionRepo.findOneBy({idInstitution: idInstitution});
+
+        if (!institution) {
+            throw new AppError("Intitution not found.", 404);
+        }
     }
 
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
-    let query: SelectQueryBuilder<User> = userRepo.createQueryBuilder('person')
-
+    let query = userRepo
+        .createQueryBuilder("person")
+        .leftJoinAndSelect("person.administrator", "administrator")
+        .leftJoinAndSelect("person.instructor", "instructor")
+        .leftJoinAndSelect("person.student", "student");
+        
     if (institution !== null) {
         query = query
-            .innerJoinAndSelect("person.institution", "institution")
-            .where(
-                'person.institutionIdInstitution = :idInstitution',
-                { idInstitution: institution.idInstitution }
-            );
+        .innerJoinAndSelect("person.institution", "institution")
+        .where(
+            "person.institutionIdInstitution = :idInstitution",
+            { idInstitution: institution.idInstitution }
+        );
     }
 
-    const users: User[] = await query.getMany();
-    const usersShown: UserDTO[] = users.map((user) => new UserDTO(user));
+    const users = await query.getMany();
+    const usersShown = users.map((user) => new UserDTO(user));
 
     return usersShown;
 };
@@ -81,8 +89,10 @@ const retrieveUserService = async(searchId: string): Promise<UserSingleDTO> => {
     return new UserSingleDTO(user);
 };
 
-const updateUserInformationService = async(searchId: string,
-        payload: IUserRegisterPayload): Promise<UserDTO> => {
+const updateUserInformationService = async(
+    searchId: string,
+    payload: IUserRegisterPayload
+): Promise<UserDTO> => {
     
     if(payload.password) {
         payload.password = passwordHashService(payload.password);
@@ -98,7 +108,16 @@ const updateUserInformationService = async(searchId: string,
         throw new AppError('User not found.', 404);
     }
 
-    const updatedUser: User = await userRepo.findOneByOrFail({idUser: searchId})
+    const updatedUser: User = await userRepo.findOneOrFail({
+        where: {
+            idUser: searchId
+        },
+        relations: {
+            administrator: true,
+            instructor: true,
+            student: true
+        }
+    })
     return new UserDTO(updatedUser);
 };
 
