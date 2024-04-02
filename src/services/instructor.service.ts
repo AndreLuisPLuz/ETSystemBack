@@ -1,12 +1,12 @@
 import { AppDataSource } from "../data-source";
-import { UserDTO } from "../classes";
+import { UserSingleDTO } from "../classes";
 import { Instructor } from "../entities";
 import { User } from "../entities";
 
 import { Repository } from "typeorm";
 import { AppError } from "../errors";
 
-const createInstructorService = async(idUser: string): Promise<UserDTO> => {
+const createInstructorService = async(idUser: string): Promise<UserSingleDTO> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
     const user: User | null = await userRepo.findOne({
         where: {
@@ -14,7 +14,8 @@ const createInstructorService = async(idUser: string): Promise<UserDTO> => {
         },
         relations: {
             administrator: true,
-            student: true
+            student: true,
+            institution: true
         }
     });
 
@@ -27,13 +28,13 @@ const createInstructorService = async(idUser: string): Promise<UserDTO> => {
         user: user
     });
 
-    await instructorRepo.insert(instructor);
+    await instructorRepo.save(instructor);
     const updatedUser: User = userRepo.create({
         ...user,
         instructor: instructor,
     });
 
-    return new UserDTO(updatedUser);
+    return new UserSingleDTO(updatedUser);
 }
 
 export { createInstructorService };

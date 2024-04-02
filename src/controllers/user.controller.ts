@@ -6,15 +6,15 @@ import {
     retrieveUserService,
     softDeleteUserService
 } from "../services";
-import { UserDTO, Paginator, UserSingleDTO } from "../classes";
+import { Paginator } from "../classes";
 
 const listUsersController = async(req: Request, res: Response): Promise<Response> => {
     req.query.idInstitution = (req.query.idInstitution != undefined)
         ? String(req.query.idInstitution)
         : undefined;
 
-    const users: UserDTO[] = await listUsersService(req.query.idInstitution);
-    const paginatedUsers: Paginator<UserDTO> = new Paginator(
+    const users = await listUsersService(req.query.idInstitution);
+    const paginatedUsers = new Paginator(
         users, 
         Number(req.query.page), 
         Number(req.query.limit)
@@ -24,19 +24,19 @@ const listUsersController = async(req: Request, res: Response): Promise<Response
 
 const createUserController = async(req: Request, res: Response):
         Promise<Response> => {
-    const user: UserSingleDTO = await createUserService(req.body);
+    const user = await createUserService(req.body);
     return res.status(201).json(user);
 };
 
 const retrieveUserController = async (req: Request, res: Response):
         Promise<Response> => {
-    const user: UserSingleDTO | null = await retrieveUserService(req.params.idUser);
+    const user = await retrieveUserService(req.params.idUser);
     return res.status(200).json(user);
 };
 
 const updateUserInformationController = async(req: Request, res: Response):
         Promise<Response> => {
-    const user: UserDTO = await updateUserInformationService(
+    const user = await updateUserInformationService(
         req.params.idUser,
         req.body
     );
