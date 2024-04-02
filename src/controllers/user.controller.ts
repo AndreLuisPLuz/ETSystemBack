@@ -6,7 +6,7 @@ import {
     retrieveUserService,
     softDeleteUserService
 } from "../services";
-import { UserDTO, Paginator, UserSingleDTO } from "../classes";
+import { Paginator } from "../classes";
 
 const listUsersController = async(req: Request, res: Response): Promise<Response> => {
     req.query.idInstitution = (req.query.idInstitution != undefined)
@@ -14,7 +14,7 @@ const listUsersController = async(req: Request, res: Response): Promise<Response
         : undefined;
 
     const users = await listUsersService(req.query.idInstitution);
-    const paginatedUsers: Paginator<UserDTO> = new Paginator(
+    const paginatedUsers = new Paginator(
         users, 
         Number(req.query.page), 
         Number(req.query.limit)
