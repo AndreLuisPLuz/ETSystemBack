@@ -3,12 +3,12 @@ import { CompetenceDTO } from "./competence.dto";
 
 export class CompetenceGroupDTO {
     idCompetenceGroup!: string;
-    idDiscipline!: string;
+    idAppliedDiscipline!: string;
     description!: string;
 
     public constructor(competenceGroup: CompetenceGroup) {
         this.idCompetenceGroup = competenceGroup.idCompetenceGroup;
-        this.idDiscipline = competenceGroup.discipline.idDiscipline;
+        this.idAppliedDiscipline = competenceGroup.appliedDiscipline.idAppliedDiscipline;
         this.description = competenceGroup.description;
     }
 };
