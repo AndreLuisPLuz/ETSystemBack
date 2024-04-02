@@ -4,12 +4,9 @@ import { CompetenceGroup } from "./competenceGroup.entity";
 @Entity('competence')
 export class Competence {
     @PrimaryGeneratedColumn("uuid")
-    idDiscipline!: string;
+    idCompetence!: string;
 
-    @Column({type: 'varchar', length: 255})
-    name!: string;
-
-    @Column({type: 'text'})
+    @Column({type: "nvarchar", length: 4000})
     description!: string;
 
     @Column({type: 'smallint'})

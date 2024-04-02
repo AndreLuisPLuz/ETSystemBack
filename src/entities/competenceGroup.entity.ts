@@ -5,10 +5,10 @@ import { Competence } from "./competence.entity";
 @Entity('competence_group')
 export class CompetenceGroup {
     @PrimaryGeneratedColumn('uuid')
-    idCompetence!: string;
+    idCompetenceGroup!: string;
 
-    @Column({type: 'varchar', length: 255})
-    name!: string;
+    @Column({type: "nvarchar", length: 4000})
+    description!: string;
 
     @CreateDateColumn({type: 'datetime'})
     createdAt!: Date;

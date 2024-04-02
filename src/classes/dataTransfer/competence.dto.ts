@@ -6,7 +6,7 @@ export class CompetenceDTO {
     weight!: number;
 
     public constructor(competence: Competence) {
-        this.idCompetence = competence.idDiscipline;
+        this.idCompetence = competence.idCompetence;
         this.description = competence.description;
         this.weight = competence.weight;
     }

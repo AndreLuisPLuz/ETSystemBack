@@ -7,9 +7,9 @@ export class CompetenceGroupDTO {
     description!: string;
 
     public constructor(competenceGroup: CompetenceGroup) {
-        this.idCompetenceGroup = competenceGroup.idCompetence;
+        this.idCompetenceGroup = competenceGroup.idCompetenceGroup;
         this.idDiscipline = competenceGroup.discipline.idDiscipline;
-        this.description = competenceGroup.name;
+        this.description = competenceGroup.description;
     }
 };
 
