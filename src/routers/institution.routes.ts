@@ -7,8 +7,10 @@ import {
 } from "../controllers";
 import {
     authenticateToken,
-    buildRequirements
+    buildRequirements,
+    validateBody
 } from "../middlewares";
+import { postInstitutionSchema, updateInstitutionSchema } from "../schemas";
 
 const institutionRouter = Router();
 
@@ -28,6 +30,7 @@ institutionRouter.get(
 
 institutionRouter.post(
     "",
+    validateBody(postInstitutionSchema),
     authenticateToken,
     (req, res, next) => {
         res.locals.requirements = {
@@ -41,6 +44,7 @@ institutionRouter.post(
 
 institutionRouter.patch(
     "/:idInstitution",
+    validateBody(updateInstitutionSchema),
     authenticateToken,
     (req, res, next) => {
         res.locals.requirements = {
