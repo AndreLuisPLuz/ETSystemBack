@@ -5,14 +5,20 @@ import {
     updateInstitutionService,
     softDeleteInstitutionService
 } from "../services";
-import { InstitutionDTO } from "../classes";
+import { InstitutionDTO, Paginator } from "../classes";
 
 const listIntitutionsController = async(req: Request, res: Response):
         Promise<Response> => {
     const institutions: InstitutionDTO[] = await listIntitutionsService(
         Boolean(req.query.is_bosch)
     );
-    return res.status(200).json(institutions);
+    const paginatedInstitutions = new Paginator(
+        institutions,
+        Number(req.query.page), 
+        Number(req.query.limit)
+    );
+
+    return res.status(200).json(paginatedInstitutions);
 };
 
 const createInstitutionController = async(req: Request, res: Response):
