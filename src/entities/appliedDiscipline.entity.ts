@@ -3,6 +3,7 @@ import { Discipline } from "./discipline.entity";
 import { StudentGroup } from "./studentGroup.entity";
 import { Instructor } from "./instructor.entity";
 import { CompetenceGroup } from "./competenceGroup.entity";
+import { StudentAvaliation } from "./studentAvaliation.entity";
 
 @Entity('applied_discipline')
 export class AppliedDiscipline {
@@ -30,6 +31,9 @@ export class AppliedDiscipline {
 
     @OneToMany(() => CompetenceGroup, (competenceGroup) => competenceGroup.appliedDiscipline)
     competenceGroups!: CompetenceGroup[];
+
+    @OneToMany(() => StudentAvaliation, (studentAvaliation) => studentAvaliation.appliedDiscipline)
+    avaliations!: StudentAvaliation[];
 
     @ManyToOne(() => Discipline, (discipline) => discipline.appliedDisciplines, {nullable: false})
     discipline!: Discipline;
