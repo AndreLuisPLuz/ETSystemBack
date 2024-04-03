@@ -103,9 +103,13 @@ const buildRequirements = async (req: Request, res: Response, next: NextFunction
 
     switch(res.locals.accessLevel) {
         case AccessLevel.ADMINISTRATOR:
+            res.locals.idAdministrator = requestingUser.administrator.idAdministrator;
             res.locals.accessLevel = requestingUser.administrator.isMaster
                 ? AccessLevel.MASTER
                 : AccessLevel.ADMINISTRATOR;
+            break;
+        case AccessLevel.INSTRUCTOR:
+            res.locals.idInstructor = requestingUser.instructor.instructorId;
             break;
         case AccessLevel.STUDENT:
             res.locals.idStudent = requestingUser.student.idStudent;

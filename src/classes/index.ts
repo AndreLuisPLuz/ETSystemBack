@@ -8,7 +8,7 @@ import { DisciplineCategoryDTO, DisciplineCategorySingleDTO } from "./dataTransf
 import { DisciplineDTO, DisciplineSingleDTO } from "./dataTransfer/discipline.dto";
 import { AppliedDisciplineDTO } from "./dataTransfer/appliedDiscipline.dto";
 
-import { AccessLevel } from "./enums/accesLevel.enum";
+import { AccessLevel } from "./enums/accessLevel.enum";
 
 import Paginator from "./paginator.class";
 

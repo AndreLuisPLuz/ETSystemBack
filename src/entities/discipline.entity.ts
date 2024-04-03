@@ -26,10 +26,7 @@ export class Discipline {
     deletedAt!: Date | null;
 
     @ManyToOne(() => DisciplineCategory, (disciplineCategory) => disciplineCategory.disciplines)
-    disciplineCategory: DisciplineCategory
-
-    @OneToMany(() => CompetenceGroup, (competenceGroup) => competenceGroup.discipline)
-    competenceGroups!: CompetenceGroup[];
+    disciplineCategory: DisciplineCategory;
 
     @OneToMany(() => AppliedDiscipline, (appliedDiscipline) => appliedDiscipline.discipline)
     appliedDisciplines!: AppliedDiscipline[];

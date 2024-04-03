@@ -7,6 +7,7 @@ import { ILoginPayload, ILoginResponse } from "./login.interface";
 import { RequirementTypes, IReqRequirements } from "./reqRequirements.interface";
 import { IDisciplineCategoryCreatePayload } from "./disciplineCategory.interface";
 import { IAppliedDisciplineCreatePayload, IAppliedDisciplineUpdatePayload } from "./appliedDiscipline.interface";
+import { ICompetenceGroupCreatePayload } from "./competenceGroup.interface";
 
 export {
     IUserCreatePayload, IUserRegisterPayload,
@@ -18,5 +19,6 @@ export {
     RequirementTypes,
     IReqRequirements,
     IDisciplineCategoryCreatePayload,
-    IAppliedDisciplineCreatePayload, IAppliedDisciplineUpdatePayload
+    IAppliedDisciplineCreatePayload, IAppliedDisciplineUpdatePayload,
+    ICompetenceGroupCreatePayload
 }

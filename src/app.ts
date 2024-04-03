@@ -14,9 +14,9 @@ import {
     institutionRouter,
     disciplineCategoryRouter,
     disciplineRouter,
-    appliedDisciplineRouter
- } from "./routers";
-
+    appliedDisciplineRouter,
+    competenceGroupRouter
+} from "./routers";
 
 const app = express();
 app.use(express.json());
@@ -33,6 +33,7 @@ app.use("/studentGroup", studentGroupRouter);
 app.use("/disciplineCategory", disciplineCategoryRouter);
 app.use("/discipline", disciplineRouter);
 app.use("/appliedDiscipline", appliedDisciplineRouter);
+app.use("/competenceGroup", competenceGroupRouter);
 
 app.use(handleError);
 
