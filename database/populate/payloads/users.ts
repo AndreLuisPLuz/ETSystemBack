@@ -1,4 +1,9 @@
-const userPayloads = [
+interface IUserCreateInsertionPayload {
+    username: string;
+    institutionIndex: number;
+}
+
+const userPayloads:IUserCreateInsertionPayload[] = [
     {
         username: "Master",
         institutionIndex: 0
@@ -16,7 +21,7 @@ const userPayloads = [
         institutionIndex: 1
     },
     {
-        username: "JoséIOT",
+        username: "JoseIOT",
         institutionIndex: 2
     },
     {
@@ -25,6 +30,14 @@ const userPayloads = [
     },
     {
         username: "NiltonMeira",
+        institutionIndex: 3
+    },
+    {
+        username: "MuryloSaladino",
+        institutionIndex: 3
+    },
+    {
+        username: "AndreLuz",
         institutionIndex: 3
     },
     {

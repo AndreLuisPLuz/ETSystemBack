@@ -1,23 +1,26 @@
-const institutionPayloads = [
+import { IInstitutionCreatePayload } from "../../../src/contracts"
+import { IsBosch } from "../../../src/entities"
+
+const institutionPayloads:IInstitutionCreatePayload[] = [
     {
 		name: "Bosch Central",
-		isBosch: 1
+		isBosch: IsBosch.TRUE
 	},
 	{
 		name: "Senai Centro",
-		isBosch: 0
+		isBosch: IsBosch.FALSE
 	},
 	{
 		name: "Senai CIC",
-		isBosch: 0
+		isBosch: IsBosch.FALSE
 	},
 	{
 		name: "Bosch Curitiba",
-		isBosch: 1
+		isBosch: IsBosch.TRUE
 	},
 	{
 		name: "Bosch Campinas",
-		isBosch: 1
+		isBosch: IsBosch.TRUE
 	},
 ]
 
