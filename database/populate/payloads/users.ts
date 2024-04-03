@@ -60,6 +60,14 @@ const userPayloads:IUserCreateInsertionPayload[] = [
         username: "AdminCampinas",
         institutionIndex: 4
     },
+    {
+        username: "LeonardoTrevisan",
+        institutionIndex: 3
+    },
+    {
+        username: "Andressa",
+        institutionIndex: 3
+    },
 ]
 
 export default userPayloads

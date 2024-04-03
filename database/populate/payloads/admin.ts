@@ -28,6 +28,10 @@ const adminPayloads:IAdminCreateInsertionPayload[] = [
         userIndex: 13,
         isMaster: false
     },
+    {
+        userIndex: 15,
+        isMaster: false
+    },
 ]
 
 export default adminPayloads

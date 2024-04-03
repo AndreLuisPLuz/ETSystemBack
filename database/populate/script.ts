@@ -1,15 +1,18 @@
 import { IncomingMessage, Server, ServerResponse } from "http";
 import { AppDataSource } from "../../src/data-source";
-import { Administrator, AppliedDiscipline, Discipline, DisciplineCategory, Institution, Instructor, Student, StudentGroup, User } from "../../src/entities";
+import { Administrator, AppliedDiscipline, Competence, CompetenceGroup, Discipline, DisciplineCategory, Institution, Instructor, Student, StudentGroup, User } from "../../src/entities";
+import { Repository } from "typeorm";
+import { hashSync } from "bcryptjs";
+import app from "../../src/app"
 import institutionPayloads from "./payloads/institutions";
 import userPayloads from "./payloads/users";
 import studentGroupPayloads from "./payloads/studentGroups";
 import studentPayloads from "./payloads/students";
 import instructorPayloads from "./payloads/instructor";
 import adminPayloads from "./payloads/admin";
-import app from "../../src/app"
-import { Repository } from "typeorm";
-import { hashSync } from "bcryptjs";
+import disciplineCategoryPayloads from "./payloads/disciplineCategory";
+import disciplinePayloads from "./payloads/disciplines";
+import appliedDisciplinePayloads from "./payloads/appliedDisciplines";
 
 async function populateDatabase() {
 
@@ -30,8 +33,10 @@ async function populateDatabase() {
     const disciplineCategoryRepo: Repository<DisciplineCategory> = AppDataSource.getRepository(DisciplineCategory);
     const disciplineRepo:Repository<Discipline> = AppDataSource.getRepository(Discipline);
     const appliedDisciplineRepo:Repository<AppliedDiscipline> = AppDataSource.getRepository(AppliedDiscipline);
+    const competenceGroupRepo:Repository<CompetenceGroup> = AppDataSource.getRepository(CompetenceGroup)
+    const competenceRepo:Repository<Competence> = AppDataSource.getRepository(Competence);
 
-    
+
     const institutions = institutionPayloads.map(async (payload) => {
       const current = institutionRepo.create(payload)
       await institutionRepo.save(current)
@@ -76,6 +81,32 @@ async function populateDatabase() {
       return current
     })
 
+    const disciplineCategories = disciplineCategoryPayloads.map(async (payload) => {
+      const current = disciplineCategoryRepo.create(payload)
+      await disciplineCategoryRepo.save(current)
+      return current
+    })
+
+    const disciplines = disciplinePayloads.map(async (payload) => {
+      const current = disciplineRepo.create({
+        name: payload.name,
+        disciplineCategory: await disciplineCategories[payload.categoryIndex]
+      })
+      await disciplineRepo.save(current)
+      return current
+    })
+
+    const appliedDisciplines = appliedDisciplinePayloads.map(async (payload) => {
+      const current = appliedDisciplineRepo.create({
+        period: payload.period,
+        totalHours: payload.total_hours,
+        discipline: await disciplines[payload.disciplineIndex],
+        studentGroup: await studentGroups[payload.studentGroupIndex],
+        instructor: await instructors[payload.instructorIndex],
+      })
+      await appliedDisciplineRepo.save(current)
+      return current
+    })
 
 
     console.log('Database populated successfully');

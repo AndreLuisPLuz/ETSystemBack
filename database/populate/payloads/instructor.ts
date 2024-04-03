@@ -21,6 +21,12 @@ const instructorPayloads:IInstructorCreateInsertionPayload[] = [
     {
         userIndex: 12
     },
+    {
+        userIndex: 14
+    },
+    {
+        userIndex: 15
+    },
 ]
 
 export default instructorPayloads

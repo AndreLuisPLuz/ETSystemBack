@@ -14,9 +14,14 @@ const studentGroupPayloads:IStudentGroupCreatePayload[] = [
         workPeriod: WorkPeriod.MORNING
     },
     {
+        name: "Manufatura Avançada 2023",
+        dateOfStart: new Date("2023-06-15"),
+        workPeriod: WorkPeriod.AFTERNOON
+    },
+    {
         name: "DTA Campinas",
         dateOfStart: new Date("2023-08-14"),
-        workPeriod: WorkPeriod.AFTERNOON
+        workPeriod: WorkPeriod.MORNING
     },
 ]
 
