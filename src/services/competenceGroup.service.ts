@@ -5,6 +5,7 @@ import { AppDataSource } from "../data-source";
 
 import { AppError } from "../errors";
 import { AccessLevel } from "../classes";
+import { query } from "express";
 
 const createCompetenceGroupService = async(
     accessLevel: AccessLevel,
@@ -101,6 +102,26 @@ const updateCompetenceGroupService = async(
     });
 
     return new CompetenceGroupSingleDTO(updatedCompetenceGroup);
+};
+
+const softDeleteCompetenceGroupService = async(
+    isBosch: IsBosch,
+    accessLevel: AccessLevel,
+    idCompetenceGroup: string
+): Promise<void> => {
+
+    const competenceGroupRepo = AppDataSource.getRepository(CompetenceGroup);
+    let query = competenceGroupRepo
+        .createQueryBuilder("competenceGroup")
+        .softDelete()
+        .where(
+            "idCompetenceGroup = :idCompetenceGroup",
+            { idCompetenceGroup: idCompetenceGroup }
+        );
+
+    if (accessLevel == AccessLevel.INSTRUCTOR) {
+        // figure out how to set this up
+    }
 };
 
 export {
