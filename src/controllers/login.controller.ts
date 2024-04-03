@@ -4,7 +4,7 @@ import { loginService } from "../services/login.service";
 import { ILoginResponse } from "../contracts";
 
 const loginController = async(req: Request, res: Response): Promise<Response> => {
-    const response: ILoginResponse = await loginService(req.body);
+    const response = await loginService(req.body);
     return res.status(200).json(response);
 }
 

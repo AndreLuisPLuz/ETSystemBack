@@ -13,11 +13,11 @@ import {
 } from "../classes";
 
 const listStudentGroupsController = async(req: Request, res: Response): Promise<Response> => {
-    const studentGroups: StudentGroupDTO[] = await listStudentGroupsService(
+    const studentGroups = await listStudentGroupsService(
         String(req.query.wperiod),
         Number(req.query.year)
     );
-    const paginatedStudentGroups: Paginator<StudentGroupDTO> = new Paginator(
+    const paginatedStudentGroups = new Paginator(
         studentGroups, 
         Number(req.query.page), 
         Number(req.query.limit)
@@ -26,17 +26,17 @@ const listStudentGroupsController = async(req: Request, res: Response): Promise<
 };
 
 const createStudentGroupController = async(req: Request, res: Response): Promise<Response> => {
-    const studentGroup: StudentGroupSingleDTO = await createStudentGroupService(req.body);
+    const studentGroup = await createStudentGroupService(req.body);
     return res.status(201).json(studentGroup);
 };
 
 const retrieveStudentGroupController = async(req: Request, res: Response): Promise<Response> => {
-    const studentGroup: StudentGroupSingleDTO = await retrieveStudentGroupService(req.params.idStudentGroup);
+    const studentGroup = await retrieveStudentGroupService(req.params.idStudentGroup);
     return res.status(200).json(studentGroup);
 };
 
 const updateStudentGroupController = async(req: Request, res: Response): Promise<Response> => {
-    const studentGroup: StudentGroupSingleDTO = await updateStudentGroupService(
+    const studentGroup = await updateStudentGroupService(
         req.params.idStudentGroup,
         req.body
     );
