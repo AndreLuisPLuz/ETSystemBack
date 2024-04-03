@@ -14,13 +14,15 @@ export class CompetenceGroupDTO {
 };
 
 export class CompetenceGroupSingleDTO extends CompetenceGroupDTO {
-    competences!: CompetenceDTO[];
+    competences!: CompetenceDTO[] | null;
 
     public constructor(competenceGroup: CompetenceGroup) {
         super(competenceGroup);
 
-        this.competences = competenceGroup.competences.map((competence) => 
-            new CompetenceDTO(competence)
-        );
+        this.competences = (competenceGroup.competences)
+            ? competenceGroup.competences.map(
+                (competence) => new CompetenceDTO(competence)
+            )
+            : null;
     }
 }
