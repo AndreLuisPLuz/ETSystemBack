@@ -42,7 +42,7 @@ import {
     softDeleteAppliedDisciplineService
 } from "./appliedDiscipline.service";
 
-import { competenceGroupCreateService } from "./competenceGroup.service";
+import { createCompetenceGroupService } from "./competenceGroup.service";
 
 import { createAdministratorService, retrieveAdministratorService } from "./administrator.service";
 import { createStudentService, retrieveStudentService } from "./student.service";
@@ -89,5 +89,5 @@ export {
     updateAppliedDisciplineService,
     softDeleteAppliedDisciplineService,
 
-    competenceGroupCreateService
+    createCompetenceGroupService
 }

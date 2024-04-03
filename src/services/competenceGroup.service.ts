@@ -6,7 +6,7 @@ import { AppDataSource } from "../data-source";
 import { AppError } from "../errors";
 import { AccessLevel } from "../classes";
 
-const competenceGroupCreateService = async(
+const createCompetenceGroupService = async(
     accessLevel: AccessLevel,
     idRequestingUser: string,
     idAppliedDiscipline: string,
@@ -65,4 +65,4 @@ const competenceGroupCreateService = async(
     return new CompetenceGroupSingleDTO(competenceGroup);
 };
 
-export { competenceGroupCreateService };
+export { createCompetenceGroupService };

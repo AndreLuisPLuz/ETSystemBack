@@ -5,6 +5,7 @@ import institutionRouter from "./institution.routes";
 import disciplineCategoryRouter from "./disciplineCategory.routes";
 import disciplineRouter from "./discipline.routes";
 import appliedDisciplineRouter from "./appliedDiscipline.routes";
+import competenceGroupRouter from "./competenceGroup.routes";
 
 export {
     userRouter,
@@ -13,5 +14,6 @@ export {
     institutionRouter,
     disciplineCategoryRouter,
     disciplineRouter,
-    appliedDisciplineRouter
+    appliedDisciplineRouter,
+    competenceGroupRouter
 };
