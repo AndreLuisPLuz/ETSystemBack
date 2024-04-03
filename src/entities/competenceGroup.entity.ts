@@ -1,14 +1,15 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Discipline } from "./discipline.entity";
 import { Competence } from "./competence.entity";
+import { AppliedDiscipline } from "./appliedDiscipline.entity";
 
 @Entity('competence_group')
 export class CompetenceGroup {
     @PrimaryGeneratedColumn('uuid')
-    idCompetence!: string;
+    idCompetenceGroup!: string;
 
-    @Column({type: 'varchar', length: 255})
-    name!: string;
+    @Column({type: "nvarchar", length: 4000})
+    description!: string;
 
     @CreateDateColumn({type: 'datetime'})
     createdAt!: Date;
@@ -22,6 +23,6 @@ export class CompetenceGroup {
     @OneToMany(() => Competence, (competence) => competence.competenceGroup)
     competences!: Competence[];
 
-    @ManyToOne(() => Discipline, (discipline) => discipline.competenceGroups)
-    discipline!: Discipline;
+    @ManyToOne(() => AppliedDiscipline, (appliedDiscipline) => appliedDiscipline.competenceGroups)
+    appliedDiscipline!: AppliedDiscipline;
 }

@@ -54,8 +54,7 @@ const retrieveStudentService = async(idStudent: string): Promise<StudentSingleDT
             idStudent: idStudent
         },
         relations: {
-            studentGroup: true,
-            competences: true
+            studentGroup: true
         }
     });
 

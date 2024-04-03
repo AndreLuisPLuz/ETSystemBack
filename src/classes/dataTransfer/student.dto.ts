@@ -1,4 +1,4 @@
-import { CompetenceStudent, Student } from "../../entities";
+import { Student } from "../../entities";
 import { StudentGroupDTO } from "./studentGroup.dto";
 
 /**
@@ -20,7 +20,6 @@ export class StudentDTO {
  */
 export class StudentSingleDTO extends StudentDTO {
     studentGroup!: StudentGroupDTO;
-    competences!: CompetenceStudent[]; // TODO: change to DTO when Competence DTO is ready
 
     /**
      * Builds a StudentSingleDTO instance with only relevant, non-sensible
@@ -29,7 +28,6 @@ export class StudentSingleDTO extends StudentDTO {
      */
     public constructor(student: Student) {
         super(student);
-        this.competences = student.competences; // TODO: change to DTO when Competence DTO is ready
         this.studentGroup = new StudentGroupDTO(student.studentGroup);
     }
 };

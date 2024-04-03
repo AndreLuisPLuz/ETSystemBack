@@ -1,7 +1,8 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Discipline } from "./discipline.entity";
 import { StudentGroup } from "./studentGroup.entity";
 import { Instructor } from "./instructor.entity";
+import { CompetenceGroup } from "./competenceGroup.entity";
 
 @Entity('applied_discipline')
 export class AppliedDiscipline {
@@ -26,6 +27,9 @@ export class AppliedDiscipline {
 
     @DeleteDateColumn({type: 'datetime', nullable: true})
     deletedAt!: Date | null;
+
+    @OneToMany(() => CompetenceGroup, (competenceGroup) => competenceGroup.appliedDiscipline)
+    competenceGroups!: CompetenceGroup[];
 
     @ManyToOne(() => Discipline, (discipline) => discipline.appliedDisciplines, {nullable: false})
     discipline!: Discipline;
