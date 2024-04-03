@@ -3,7 +3,8 @@ import {
     createAppliedDisciplineController,
     listAppliedDisciplinesController,
     updateAppliedDisciplineController,
-    softDeleteAppliedDisciplineController
+    softDeleteAppliedDisciplineController,
+    retrieveAppliedDisciplineController
 } from "../controllers";
 import { authenticateToken, buildRequirements } from "../middlewares";
 
@@ -35,6 +36,20 @@ appliedDisciplineRouter.post(
     },
     buildRequirements,
     createAppliedDisciplineController
+);
+
+appliedDisciplineRouter.get(
+    "/:idAppliedDiscipline",
+    authenticateToken,
+    (req, res, next) => {
+        res.locals.requirements = {
+            admin: false,
+            instructor: false
+        };
+        return next();
+    },
+    buildRequirements,
+    retrieveAppliedDisciplineController
 );
 
 appliedDisciplineRouter.patch(

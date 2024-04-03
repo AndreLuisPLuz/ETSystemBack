@@ -49,6 +49,7 @@ import {
 import {
     createAppliedDisciplineController,
     listAppliedDisciplinesController,
+    retrieveAppliedDisciplineController,
     updateAppliedDisciplineController,
     softDeleteAppliedDisciplineController
 } from "./appliedDiscipline.controller";
@@ -94,6 +95,7 @@ export {
 
     createAppliedDisciplineController,
     listAppliedDisciplinesController,
+    retrieveAppliedDisciplineController,
     updateAppliedDisciplineController,
     softDeleteAppliedDisciplineController,
 
