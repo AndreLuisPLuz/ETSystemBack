@@ -54,7 +54,10 @@ import {
     softDeleteAppliedDisciplineController
 } from "./appliedDiscipline.controller";
 
-import { createCompetenceGroupController } from "./competenceGroup.controller";
+import {
+    createCompetenceGroupController,
+    updateCompetenceGroupController
+} from "./competenceGroup.controller";
 
 export {
     loginController,
@@ -99,5 +102,6 @@ export {
     updateAppliedDisciplineController,
     softDeleteAppliedDisciplineController,
 
-    createCompetenceGroupController
+    createCompetenceGroupController,
+    updateCompetenceGroupController
 }

@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { createCompetenceGroupController } from "../controllers";
+import {
+    createCompetenceGroupController,
+    updateCompetenceGroupController
+} from "../controllers";
 import { authenticateToken, buildRequirements } from "../middlewares";
 
 const competenceGroupRouter = Router();
@@ -16,6 +19,20 @@ competenceGroupRouter.post(
     },
     buildRequirements,
     createCompetenceGroupController
+);
+
+competenceGroupRouter.patch(
+    "/:idCompetenceGroup",
+    authenticateToken,
+    (req, res, next) => {
+        res.locals.requirements = {
+            admin: false,
+            instructor: false
+        };
+        return next();
+    },
+    buildRequirements,
+    updateCompetenceGroupController
 );
 
 export default competenceGroupRouter;

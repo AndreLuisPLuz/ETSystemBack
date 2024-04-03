@@ -65,4 +65,45 @@ const createCompetenceGroupService = async(
     return new CompetenceGroupSingleDTO(competenceGroup);
 };
 
-export { createCompetenceGroupService };
+const updateCompetenceGroupService = async(
+    isBosch: IsBosch,
+    idCompetenceGroup: string,
+    payload: ICompetenceGroupCreatePayload
+): Promise<CompetenceGroupSingleDTO> => {
+
+    const competenceGroupRepo = AppDataSource.getRepository(CompetenceGroup);
+    const competenceGroup = await competenceGroupRepo.findOne({
+        where: {
+            idCompetenceGroup: idCompetenceGroup
+        },
+        relations: [
+            "appliedDiscipline",
+            "appliedDiscipline.discipline"
+        ]
+    });
+
+    if (!competenceGroup) {
+        throw new AppError("Competence group not found.", 404);
+    }
+
+    if (competenceGroup.appliedDiscipline.discipline.isBosch != isBosch) {
+        throw new AppError("Competence group not found.", 404);
+    }
+
+    await competenceGroupRepo.update(
+        {idCompetenceGroup: competenceGroup.idCompetenceGroup},
+        payload
+    );
+
+    const updatedCompetenceGroup = competenceGroupRepo.create({
+        ...competenceGroup,
+        ...payload
+    });
+
+    return new CompetenceGroupSingleDTO(updatedCompetenceGroup);
+};
+
+export {
+    createCompetenceGroupService,
+    updateCompetenceGroupService
+};
