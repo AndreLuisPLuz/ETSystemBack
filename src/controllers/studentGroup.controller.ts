@@ -6,11 +6,7 @@ import {
     updateStudentGroupService,
     softDeleteStudentGroupService
 } from "../services";
-import {
-    StudentGroupDTO,
-    StudentGroupSingleDTO,
-    Paginator
-} from "../classes";
+import { Paginator } from "../classes";
 
 const listStudentGroupsController = async(req: Request, res: Response): Promise<Response> => {
     const studentGroups = await listStudentGroupsService(

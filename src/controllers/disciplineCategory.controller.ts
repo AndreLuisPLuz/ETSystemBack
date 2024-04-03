@@ -5,7 +5,7 @@ import {
     updateDisciplineCategoryService,
     softDeleteDisciplineCategoryService
 } from "../services";
-import { DisciplineCategoryDTO, Paginator } from "../classes";
+import { Paginator } from "../classes";
 
 const listDisciplineCategoriesController = async(req: Request, res: Response): Promise<Response> => {
     const categories = await listDisciplineCategoriesService();

@@ -5,7 +5,6 @@ import {
     updateInstitutionService,
     softDeleteInstitutionService
 } from "../services";
-import { InstitutionDTO } from "../classes";
 
 const listIntitutionsController = async(req: Request, res: Response):
         Promise<Response> => {

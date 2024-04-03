@@ -5,7 +5,7 @@ import {
     updateDisciplineService,
     softDeleteDisciplineService
 } from "../services";
-import { DisciplineDTO, DisciplineSingleDTO, Paginator } from "../classes";
+import { Paginator } from "../classes";
 
 const listDisciplinesController = async(req: Request, res: Response): Promise<Response> => {
     // TS will yield a string from String(undefined), so we need to actually
