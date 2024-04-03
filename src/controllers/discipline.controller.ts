@@ -5,7 +5,7 @@ import {
     updateDisciplineService,
     softDeleteDisciplineService
 } from "../services";
-import { DisciplineDTO, DisciplineSingleDTO, Paginator } from "../classes";
+import { Paginator } from "../classes";
 
 const listDisciplinesController = async(req: Request, res: Response): Promise<Response> => {
     // TS will yield a string from String(undefined), so we need to actually
@@ -15,12 +15,12 @@ const listDisciplinesController = async(req: Request, res: Response): Promise<Re
         ? String(req.query.category)
         : undefined;
 
-    const disciplines: DisciplineDTO[] = await listDisciplinesService(
+    const disciplines = await listDisciplinesService(
         res.locals.isBosch,
         category
     );
 
-    const paginatedDisciplines: Paginator<DisciplineDTO> = new Paginator(
+    const paginatedDisciplines = new Paginator(
         disciplines,
         Number(req.query.page),
         Number(req.query.limit)
@@ -30,7 +30,7 @@ const listDisciplinesController = async(req: Request, res: Response): Promise<Re
 };
 
 const createDisciplineController = async(req: Request, res: Response): Promise<Response> => {
-    const discipline: DisciplineSingleDTO = await createDisciplineService(
+    const discipline = await createDisciplineService(
         req.body,
         res.locals.isBosch
     );
@@ -38,7 +38,7 @@ const createDisciplineController = async(req: Request, res: Response): Promise<R
 };
 
 const updateDisciplineController = async(req: Request, res: Response): Promise<Response> => {
-    const discipline: DisciplineSingleDTO = await updateDisciplineService(
+    const discipline = await updateDisciplineService(
         req.params.idDiscipline,
         req.body
     );
