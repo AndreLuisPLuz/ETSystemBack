@@ -37,7 +37,7 @@ const appliedDisciplinePayloads:IAppliedDisciplineCreationInsertion[] = [
     },
     {
         disciplineIndex: 3,
-        studentGroupIndex: 1,
+        studentGroupIndex: 2,
         instructorIndex: 7,
         period: 1,
         total_hours: 120,

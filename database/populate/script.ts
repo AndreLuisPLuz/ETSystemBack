@@ -53,7 +53,7 @@ async function populateDatabase() {
 
     const studentGroups = studentGroupPayloads.map(async (payload) => {
       const current = studentGroupRepo.create(payload)
-      await studentGroupRepo.save(payload)
+      await studentGroupRepo.save(current)
       return current
     })
 
@@ -90,6 +90,7 @@ async function populateDatabase() {
     const disciplines = disciplinePayloads.map(async (payload) => {
       const current = disciplineRepo.create({
         name: payload.name,
+        isBosch: payload.isBosch,
         disciplineCategory: await disciplineCategories[payload.categoryIndex]
       })
       await disciplineRepo.save(current)
@@ -98,23 +99,21 @@ async function populateDatabase() {
 
     const appliedDisciplines = appliedDisciplinePayloads.map(async (payload) => {
       const current = appliedDisciplineRepo.create({
+        studentGroup: await studentGroups[payload.studentGroupIndex],
+        discipline: await disciplines[payload.disciplineIndex],
+        instructor: await instructors[payload.instructorIndex],
         period: payload.period,
         totalHours: payload.total_hours,
-        discipline: await disciplines[payload.disciplineIndex],
-        studentGroup: await studentGroups[payload.studentGroupIndex],
-        instructor: await instructors[payload.instructorIndex],
       })
       await appliedDisciplineRepo.save(current)
       return current
     })
-
-
-    console.log('Database populated successfully');
   } catch (error) {
-    console.error('Error populating database:', error);
+      console.error('Error populating database:', error);
   } finally {
     if(server) {
-      await server.close();
+      console.log('Database populated successfully');
+      server.close();
     }
   }
 }
