@@ -111,20 +111,33 @@ const softDeleteCompetenceGroupService = async(
 ): Promise<void> => {
 
     const competenceGroupRepo = AppDataSource.getRepository(CompetenceGroup);
-    let query = competenceGroupRepo
+    let findGroupsQuery = competenceGroupRepo
         .createQueryBuilder("competenceGroup")
-        .softDelete()
         .where(
             "idCompetenceGroup = :idCompetenceGroup",
             { idCompetenceGroup: idCompetenceGroup }
         );
 
     if (accessLevel == AccessLevel.INSTRUCTOR) {
-        // figure out how to set this up
+        findGroupsQuery = findGroupsQuery
+            .innerJoin("competenceGroup.appliedDiscipline", "appliedDiscipline")
+            .innerJoin("appliedDiscipline.discipline", "discipline")
+            .andWhere(
+                "discipline.isBosch = :isBosch",
+                { isBosch: isBosch }
+            );
     }
+
+    const groupsToDelete = await findGroupsQuery.getMany();
+    const idsToDelete = groupsToDelete.map(
+        (group) => group.idCompetenceGroup
+    );
+
+    await competenceGroupRepo.softDelete(idsToDelete);
 };
 
 export {
     createCompetenceGroupService,
-    updateCompetenceGroupService
+    updateCompetenceGroupService,
+    softDeleteCompetenceGroupService
 };
