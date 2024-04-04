@@ -3,7 +3,6 @@ import {
     createAdministratorService,
     retrieveAdministratorService
 } from "../services";
-import { Administrator } from "../entities";
 
 const createAdministratorController = async(req: Request, res: Response): Promise<Response> => {
     const admin = await createAdministratorService(req.params.idUser, req.body);
@@ -11,7 +10,7 @@ const createAdministratorController = async(req: Request, res: Response): Promis
 };
 
 const retrieveAdministratorController = async(req: Request, res: Response): Promise<Response> => {
-    const admin: Administrator = await retrieveAdministratorService(req.params.id);
+    const admin = await retrieveAdministratorService(req.params.id);
     return res.status(200).json(admin);
 };
 

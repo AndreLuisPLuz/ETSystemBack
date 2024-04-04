@@ -5,11 +5,11 @@ import {
     updateDisciplineCategoryService,
     softDeleteDisciplineCategoryService
 } from "../services";
-import { DisciplineCategoryDTO, Paginator } from "../classes";
+import { Paginator } from "../classes";
 
 const listDisciplineCategoriesController = async(req: Request, res: Response): Promise<Response> => {
-    const categories: DisciplineCategoryDTO[] = await listDisciplineCategoriesService();
-    const paginatedCategories: Paginator<DisciplineCategoryDTO> = new Paginator(
+    const categories = await listDisciplineCategoriesService();
+    const paginatedCategories = new Paginator(
         categories,
         Number(req.query.page),
         Number(req.query.limit)
@@ -19,12 +19,12 @@ const listDisciplineCategoriesController = async(req: Request, res: Response): P
 };
 
 const createDisciplineCategoryController = async(req: Request, res: Response): Promise<Response> => {
-    const disciplineCategory: DisciplineCategoryDTO = await createDisciplineCategoryService(req.body);
+    const disciplineCategory = await createDisciplineCategoryService(req.body);
     return res.status(201).json(disciplineCategory);
 };
 
 const updateDisciplineCategoryController = async(req: Request, res: Response): Promise<Response> => {
-    const disciplineCategory: DisciplineCategoryDTO = await updateDisciplineCategoryService(
+    const disciplineCategory = await updateDisciplineCategoryService(
         String(req.params.idDisciplineCategory),
         req.body
     );
@@ -32,7 +32,9 @@ const updateDisciplineCategoryController = async(req: Request, res: Response): P
 };
 
 const softDeleteDisciplineCategoryController = async(req: Request, res: Response): Promise<Response> => {
-    await softDeleteDisciplineCategoryService(String(req.params.idDisciplineCategory));
+    await softDeleteDisciplineCategoryService(
+        String(req.params.idDisciplineCategory
+    ));
     return res.status(204).json();
 };
 
