@@ -1,7 +1,8 @@
 import { Router } from "express";
 import {
     createCompetenceGroupController,
-    updateCompetenceGroupController
+    updateCompetenceGroupController,
+    softDeleteCompetenceGroupController
 } from "../controllers";
 import { authenticateToken, buildRequirements } from "../middlewares";
 
@@ -33,6 +34,20 @@ competenceGroupRouter.patch(
     },
     buildRequirements,
     updateCompetenceGroupController
+);
+
+competenceGroupRouter.delete(
+    "/:idCompetenceGroup",
+    authenticateToken,
+    (req, res, next) => {
+        res.locals.requirements = {
+            admin: false,
+            instructor: false
+        };
+        return next();
+    },
+    buildRequirements,
+    softDeleteCompetenceGroupController
 );
 
 export default competenceGroupRouter;
