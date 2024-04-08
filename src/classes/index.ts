@@ -5,7 +5,7 @@ import { StudentDTO, StudentSingleDTO } from "./dataTransfer/student.dto";
 import { UserDTO, UserSingleDTO}  from "./dataTransfer/user.dto";
 import { StudentGroupDTO, StudentGroupSingleDTO } from "./dataTransfer/studentGroup.dto";
 import { DisciplineCategoryDTO, DisciplineCategorySingleDTO } from "./dataTransfer/disciplineCategory.dto";
-import { DisciplineDTO, DisciplineSingleDTO } from "./dataTransfer/discipline.dto";
+import { DisciplineDTO } from "./dataTransfer/discipline.dto";
 import { AppliedDisciplineDTO, AppliedDisciplineSingleDTO } from "./dataTransfer/appliedDiscipline.dto";
 
 import { AccessLevel } from "./enums/accessLevel.enum";
@@ -25,7 +25,6 @@ export {
     DisciplineCategoryDTO,
     DisciplineCategorySingleDTO,
     DisciplineDTO,
-    DisciplineSingleDTO,
     AppliedDisciplineDTO,
     AppliedDisciplineSingleDTO,
     AccessLevel,
