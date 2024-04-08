@@ -130,7 +130,55 @@ const updateCompetenceService = async(
     return new CompetenceDTO(updatedCompetence);
 };
 
+const softDeleteCompetenceService = async(
+    accessLevel: AccessLevel,
+    idRequestingUser: string,
+    idCompetence: string
+): Promise<void> => {
+
+    const competenceRepo = AppDataSource.getRepository(Competence);
+    let findCompetenceQuery = competenceRepo
+        .createQueryBuilder("competence")
+        .select()
+        .where(
+            "idCompetence = :idCompetence",
+            { idCompetence: idCompetence }
+        );
+    
+    if (accessLevel != AccessLevel.MASTER) {
+        const userRepo = AppDataSource.getRepository(User);
+        const requestingUser = await userRepo.findOneOrFail({
+            where: {
+                idUser: idRequestingUser
+            },
+            relations: {
+                institution: true
+            }
+        });
+
+        findCompetenceQuery = findCompetenceQuery
+            .innerJoin("competence.competenceGroup", "competenceGroup")
+            .innerJoin("competenceGroup.appliedDiscipline", "appliedDiscipline")
+            .innerJoin("appliedDiscipline.discipline", "discipline")
+            .andWhere(
+                "discipline.isBosch = :isBosch",
+                { isBosch: requestingUser.institution.isBosch }
+            );
+    }
+
+    const competenceToDelete = await findCompetenceQuery.getOne();
+
+    if (!competenceToDelete) {
+        throw new AppError("Competence not found.", 404);
+    }
+
+    await competenceRepo.softDelete({
+        idCompetence: competenceToDelete.idCompetence
+    });
+}
+
 export {
     createCompetenceService,
-    updateCompetenceService
+    updateCompetenceService,
+    softDeleteCompetenceService
 };
