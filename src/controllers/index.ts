@@ -60,6 +60,10 @@ import {
     softDeleteCompetenceGroupController
 } from "./competenceGroup.controller";
 
+import {
+    createCompetenceController
+} from "./competence.controller";
+
 export {
     loginController,
 
@@ -105,5 +109,7 @@ export {
 
     createCompetenceGroupController,
     updateCompetenceGroupController,
-    softDeleteCompetenceGroupController
+    softDeleteCompetenceGroupController,
+
+    createCompetenceController
 }
