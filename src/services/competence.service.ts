@@ -61,6 +61,8 @@ const createCompetenceService = async(
         competenceGroup: competenceGroup
     });
 
+    await competenceRepo.save(competence);
+
     return new CompetenceDTO(competence);
 };
 
