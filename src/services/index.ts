@@ -51,7 +51,8 @@ import {
 
 import {
     createCompetenceService,
-    updateCompetenceService
+    updateCompetenceService,
+    softDeleteCompetenceService
 } from "./competence.service";
 
 import { createAdministratorService, retrieveAdministratorService } from "./administrator.service";
@@ -105,5 +106,6 @@ export {
     softDeleteCompetenceGroupService,
 
     createCompetenceService,
-    updateCompetenceService
+    updateCompetenceService,
+    softDeleteCompetenceService
 }

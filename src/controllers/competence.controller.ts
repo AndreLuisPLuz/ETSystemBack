@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import {
     createCompetenceService,
-    updateCompetenceService
+    updateCompetenceService,
+    softDeleteCompetenceService
 } from "../services";
 import { Paginator } from "../classes";
 
@@ -27,7 +28,18 @@ const updateCompetenceController = async(req: Request, res: Response): Promise<R
     return res.status(200).json(competence);
 }
 
+const softDeleteCompetenceController = async(req: Request, res: Response): Promise<Response> => {
+    await softDeleteCompetenceService(
+        res.locals.accessLevel,
+        res.locals.idRequestingUser,
+        req.params.idCompetence
+    );
+
+    return res.status(204).json();
+};
+
 export {
     createCompetenceController,
-    updateCompetenceController
+    updateCompetenceController,
+    softDeleteCompetenceController
 };
