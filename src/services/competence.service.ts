@@ -64,6 +64,71 @@ const createCompetenceService = async(
     return new CompetenceDTO(competence);
 };
 
+const updateCompetenceService = async(
+    accessLevel: AccessLevel,
+    idRequestingUser: string,
+    idCompetence: string,
+    payload: ICompetenceCreatePayload
+): Promise<CompetenceDTO> => {
+
+    const competenceRepo = AppDataSource.getRepository(Competence);
+    let query = competenceRepo
+        .createQueryBuilder("competence")
+        .select()
+        .innerJoin("competence.competenceGroup", "competenceGroup")
+        .innerJoin("competenceGroup.appliedDiscipline", "appliedDiscipline")
+        .where(
+            "idCompetence = :idCompetence",
+            { idCompetence: idCompetence }
+        );
+    
+    const userRepo = AppDataSource.getRepository(User);
+    const requestingUser = await userRepo.findOneOrFail({
+        where: {
+            idUser: idRequestingUser
+        },
+        relations: {
+            instructor: true,
+            institution: true
+        }
+    });
+
+    if (accessLevel == AccessLevel.ADMINISTRATOR || accessLevel == AccessLevel.MASTER) {
+        query = query
+            .innerJoin("appliedDiscipline.discipline", "discipline")
+            .andWhere(
+                "discipline.isBosch = :isBosch",
+                { isBosch: requestingUser.institution.isBosch }
+            );
+    } else {
+        query = query
+            .innerJoin("competenceGroup.instructor", "instructor")
+            .andWhere(
+                "instructor.instructorId = :idInstructor",
+                { idInstructor: requestingUser.instructor.instructorId }
+            );
+    }
+
+    const competenceToUpdate = await query.getOne();
+
+    if (!competenceToUpdate) {
+        throw new AppError("Competence not found.", 404);
+    }
+
+    await competenceRepo.update(
+        {idCompetence: idCompetence},
+        payload
+    );
+
+    const updatedCompetence = competenceRepo.create({
+        ...competenceToUpdate,
+        ...payload
+    });
+
+    return new CompetenceDTO(updatedCompetence);
+};
+
 export {
-    createCompetenceService
+    createCompetenceService,
+    updateCompetenceService
 };
