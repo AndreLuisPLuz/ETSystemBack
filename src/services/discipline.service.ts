@@ -5,7 +5,6 @@ import { Discipline, DisciplineCategory, IsBosch } from "../entities";
 
 import { Repository, UpdateQueryBuilder, UpdateResult } from "typeorm";
 import { AppError } from "../errors";
-import { set } from "zod";
 
 const listDisciplinesService = async(
     isBosch: IsBosch,
