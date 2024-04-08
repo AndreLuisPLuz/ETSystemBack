@@ -51,7 +51,7 @@ const createCompetenceService = async(
         const appliedDiscipline = competenceGroup.appliedDiscipline;
 
         if (appliedDiscipline.instructor != requestingUser.instructor) {
-            throw new AppError("Incorrect instructor access..", 403);
+            throw new AppError("Incorrect instructor access.", 403);
         }
     }
 

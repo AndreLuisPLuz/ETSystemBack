@@ -95,11 +95,11 @@ const buildRequirements = async (req: Request, res: Response, next: NextFunction
     });
 
     res.locals.isBosch = requestingUser.institution.isBosch;
-    res.locals.accessLevel = () => {
+    res.locals.accessLevel = (() => {
         if (requestingUser.administrator) { return AccessLevel.ADMINISTRATOR };
         if (requestingUser.instructor) { return AccessLevel.INSTRUCTOR };
         if (requestingUser.student) { return AccessLevel.STUDENT };
-    };
+    })();
 
     switch(res.locals.accessLevel) {
         case AccessLevel.ADMINISTRATOR:
