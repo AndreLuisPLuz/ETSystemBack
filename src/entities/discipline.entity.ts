@@ -25,7 +25,7 @@ export class Discipline {
     @DeleteDateColumn({type: 'datetime', nullable: true})
     deletedAt!: Date | null;
 
-    @ManyToOne(() => DisciplineCategory, (disciplineCategory) => disciplineCategory.disciplines)
+    @ManyToOne(() => DisciplineCategory, (disciplineCategory) => disciplineCategory.disciplines, { nullable: false })
     disciplineCategory: DisciplineCategory;
 
     @OneToMany(() => AppliedDiscipline, (appliedDiscipline) => appliedDiscipline.discipline)

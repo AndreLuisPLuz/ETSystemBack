@@ -17,10 +17,11 @@ const listIntitutionsController = async(
     );
     const paginatedInstitutions = new Paginator(
         institutions,
-        Number(req.query.page),
+        Number(req.query.page), 
         Number(req.query.limit)
     );
-    return res.status(200).json(institutions);
+
+    return res.status(200).json(paginatedInstitutions);
 };
 
 const createInstitutionController = async(
