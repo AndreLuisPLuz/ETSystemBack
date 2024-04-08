@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
     createAppliedDisciplineService,
     listAppliedDisciplinesService,
+    retrieveAppliedDisciplineService,
     updateAppliedDisciplineService,
     softDeleteAppliedDisciplineService
 } from "../services";
@@ -34,6 +35,14 @@ const createAppliedDisciplineController = async(req: Request, res: Response): Pr
     return res.status(201).json(appliedDiscipline);
 };
 
+const retrieveAppliedDisciplineController = async(req: Request, res: Response): Promise<Response> => {
+    const appliedDiscipline = await retrieveAppliedDisciplineService(
+        res.locals.isBosch,
+        req.params.idAppliedDiscipline
+    );
+    return res.status(200).json(appliedDiscipline);
+};
+
 const updateAppliedDisciplineController = async(req: Request, res: Response): Promise<Response> => {
     const appliedDiscipline = await updateAppliedDisciplineService(
         req.params.idAppliedDiscipline,
@@ -55,6 +64,7 @@ const softDeleteAppliedDisciplineController = async(req: Request, res: Response)
 export {
     createAppliedDisciplineController,
     listAppliedDisciplinesController,
+    retrieveAppliedDisciplineController,
     updateAppliedDisciplineController,
     softDeleteAppliedDisciplineController
 };

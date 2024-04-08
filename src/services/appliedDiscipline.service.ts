@@ -2,7 +2,7 @@ import {
     IAppliedDisciplineCreatePayload,
     IAppliedDisciplineUpdatePayload
 } from "../contracts";
-import { AppliedDisciplineDTO, AccessLevel } from "../classes";
+import { AppliedDisciplineDTO, AccessLevel, AppliedDisciplineSingleDTO } from "../classes";
 import { AppDataSource } from "../data-source";
 import {
     AppliedDiscipline,
@@ -136,6 +136,39 @@ const createAppliedDisciplineService = async(
     return new AppliedDisciplineDTO(appliedDiscipline);
 };
 
+const retrieveAppliedDisciplineService = async(
+    isBosch: IsBosch,
+    idAppliedDiscipline: string
+): Promise<AppliedDisciplineSingleDTO> => {
+
+    const appliedDisciplineRepo = AppDataSource.getRepository(AppliedDiscipline);
+    const appliedDiscipline = await appliedDisciplineRepo.findOne({
+        where: {
+            idAppliedDiscipline: idAppliedDiscipline
+        },
+        relations: [
+            "competenceGroups",
+            "competenceGroups.competences",
+            "studentGroup",
+            "instructor",
+            "discipline"
+        ]
+    });
+
+    if (!appliedDiscipline) {
+        throw new AppError("Applied discipline not found.", 404);
+    }
+
+    // Institution check does NOT raise a 403 FORBIDDEN error since we
+    // don't want an attacker to be able to tell that this discipline
+    // exists.
+    if (appliedDiscipline.discipline.isBosch != isBosch) {
+        throw new AppError("Applied discipline not found.", 404);
+    }
+
+    return new AppliedDisciplineSingleDTO(appliedDiscipline);
+};
+
 const updateAppliedDisciplineService = async(
     idAppliedDiscipline: string,
     accessLevel: AccessLevel,
@@ -235,6 +268,7 @@ const softDeleteAppliedDisciplineService = async(
 export {
     createAppliedDisciplineService,
     listAppliedDisciplinesService,
+    retrieveAppliedDisciplineService,
     updateAppliedDisciplineService,
     softDeleteAppliedDisciplineService
 };

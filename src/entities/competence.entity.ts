@@ -9,7 +9,7 @@ export class Competence {
     @Column({type: "nvarchar", length: 4000})
     description!: string;
 
-    @Column({type: 'smallint'})
+    @Column({type: 'float'})
     weight!: number;
 
     @CreateDateColumn({type: 'datetime'})

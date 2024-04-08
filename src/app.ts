@@ -15,7 +15,8 @@ import {
     disciplineCategoryRouter,
     disciplineRouter,
     appliedDisciplineRouter,
-    competenceGroupRouter
+    competenceGroupRouter,
+    competenceRouter
 } from "./routers";
 
 const app = express();
@@ -34,6 +35,7 @@ app.use("/disciplineCategory", disciplineCategoryRouter);
 app.use("/discipline", disciplineRouter);
 app.use("/appliedDiscipline", appliedDisciplineRouter);
 app.use("/competenceGroup", competenceGroupRouter);
+app.use("/competence", competenceRouter);
 
 app.use(handleError);
 

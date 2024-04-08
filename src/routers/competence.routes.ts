@@ -1,15 +1,15 @@
 import { Router } from "express";
 import {
-    createCompetenceGroupController,
-    updateCompetenceGroupController,
-    softDeleteCompetenceGroupController
+    createCompetenceController,
+    updateCompetenceController,
+    softDeleteCompetenceController
 } from "../controllers";
 import { authenticateToken, buildRequirements } from "../middlewares";
 
-const competenceGroupRouter = Router();
+const competenceRouter = Router();
 
-competenceGroupRouter.post(
-    "/appliedDiscipline/:idAppliedDiscipline",
+competenceRouter.post(
+    "/competenceGroup/:idCompetenceGroup",
     authenticateToken,
     (req, res, next) => {
         res.locals.requirements = {
@@ -19,11 +19,11 @@ competenceGroupRouter.post(
         return next();
     },
     buildRequirements,
-    createCompetenceGroupController
+    createCompetenceController
 );
 
-competenceGroupRouter.patch(
-    "/:idCompetenceGroup",
+competenceRouter.patch(
+    "/:idCompetence",
     authenticateToken,
     (req, res, next) => {
         res.locals.requirements = {
@@ -33,11 +33,11 @@ competenceGroupRouter.patch(
         return next();
     },
     buildRequirements,
-    updateCompetenceGroupController
+    updateCompetenceController
 );
 
-competenceGroupRouter.delete(
-    "/:idCompetenceGroup",
+competenceRouter.delete(
+    "/:idCompetence",
     authenticateToken,
     (req, res, next) => {
         res.locals.requirements = {
@@ -47,7 +47,7 @@ competenceGroupRouter.delete(
         return next();
     },
     buildRequirements,
-    softDeleteCompetenceGroupController
+    softDeleteCompetenceController
 );
 
-export default competenceGroupRouter;
+export default competenceRouter;

@@ -49,11 +49,22 @@ import {
 import {
     createAppliedDisciplineController,
     listAppliedDisciplinesController,
+    retrieveAppliedDisciplineController,
     updateAppliedDisciplineController,
     softDeleteAppliedDisciplineController
 } from "./appliedDiscipline.controller";
 
-import { createCompetenceGroupController } from "./competenceGroup.controller";
+import {
+    createCompetenceGroupController,
+    updateCompetenceGroupController,
+    softDeleteCompetenceGroupController
+} from "./competenceGroup.controller";
+
+import {
+    createCompetenceController,
+    updateCompetenceController,
+    softDeleteCompetenceController
+} from "./competence.controller";
 
 export {
     loginController,
@@ -94,8 +105,15 @@ export {
 
     createAppliedDisciplineController,
     listAppliedDisciplinesController,
+    retrieveAppliedDisciplineController,
     updateAppliedDisciplineController,
     softDeleteAppliedDisciplineController,
 
-    createCompetenceGroupController
+    createCompetenceGroupController,
+    updateCompetenceGroupController,
+    softDeleteCompetenceGroupController,
+
+    createCompetenceController,
+    updateCompetenceController,
+    softDeleteCompetenceController
 }

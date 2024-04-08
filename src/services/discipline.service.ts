@@ -1,11 +1,10 @@
 import { ICreateDisciplinePayload } from "../contracts/discipline.interface";
-import { DisciplineDTO, DisciplineSingleDTO } from "../classes/dataTransfer/discipline.dto";
+import { DisciplineDTO } from "../classes/dataTransfer/discipline.dto";
 import { AppDataSource } from "../data-source";
 import { Discipline, DisciplineCategory, IsBosch } from "../entities";
 
 import { Repository, UpdateQueryBuilder, UpdateResult } from "typeorm";
 import { AppError } from "../errors";
-import { set } from "zod";
 
 const listDisciplinesService = async(
     isBosch: IsBosch,
@@ -15,6 +14,7 @@ const listDisciplinesService = async(
     const disciplineRepo = AppDataSource.getRepository(Discipline);
     let query = disciplineRepo
         .createQueryBuilder('discipline')
+        .innerJoinAndSelect("discipline.disciplineCategory", "disciplineCategory")
         .where(
             "discipline.isBosch = :isBosch",
             { isBosch: isBosch }
@@ -22,7 +22,6 @@ const listDisciplinesService = async(
 
     if (categoryName) {
         query = query
-            .innerJoin("discipline.disciplineCategory", "disciplineCategory")
             .andWhere(
                 "LOWER(disciplineCategory.name) = :categoryName",
                 { categoryName: categoryName?.toLowerCase() }
@@ -37,8 +36,11 @@ const listDisciplinesService = async(
     return disciplinesShown;
 };
 
-const createDisciplineService = async(payload: ICreateDisciplinePayload, isBosch: IsBosch)
-        :Promise<DisciplineSingleDTO> => {
+const createDisciplineService = async(
+    payload: ICreateDisciplinePayload,
+    isBosch: IsBosch
+): Promise<DisciplineDTO> => {
+
     const categoryRepo: Repository<DisciplineCategory> = AppDataSource
         .getRepository(DisciplineCategory);
 
@@ -58,13 +60,14 @@ const createDisciplineService = async(payload: ICreateDisciplinePayload, isBosch
     });
 
     await disciplineRepo.save(discipline);
-    return new DisciplineSingleDTO(discipline);
+
+    return new DisciplineDTO(discipline);
 };
 
 const updateDisciplineService = async(
     idDiscipline: string,
     payload: ICreateDisciplinePayload
-): Promise<DisciplineSingleDTO> => {
+): Promise<DisciplineDTO> => {
 
     const setFields: Record<string, any> = {
         name: payload.name
@@ -99,10 +102,13 @@ const updateDisciplineService = async(
         }
     });
 
-    return new DisciplineSingleDTO(updatedDiscipline);
+    return new DisciplineDTO(updatedDiscipline);
 };
 
-const softDeleteDisciplineService = async(idDiscipline: string): Promise<void> => {
+const softDeleteDisciplineService = async(
+    idDiscipline: string
+): Promise<void> => {
+    
     const disciplineRepo = AppDataSource.getRepository(Discipline);
     const result: UpdateResult = await disciplineRepo.softDelete({
         idDiscipline: idDiscipline

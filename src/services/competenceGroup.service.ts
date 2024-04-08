@@ -5,6 +5,7 @@ import { AppDataSource } from "../data-source";
 
 import { AppError } from "../errors";
 import { AccessLevel } from "../classes";
+import { query } from "express";
 
 const createCompetenceGroupService = async(
     accessLevel: AccessLevel,
@@ -65,4 +66,78 @@ const createCompetenceGroupService = async(
     return new CompetenceGroupSingleDTO(competenceGroup);
 };
 
-export { createCompetenceGroupService };
+const updateCompetenceGroupService = async(
+    isBosch: IsBosch,
+    idCompetenceGroup: string,
+    payload: ICompetenceGroupCreatePayload
+): Promise<CompetenceGroupSingleDTO> => {
+
+    const competenceGroupRepo = AppDataSource.getRepository(CompetenceGroup);
+    const competenceGroup = await competenceGroupRepo.findOne({
+        where: {
+            idCompetenceGroup: idCompetenceGroup
+        },
+        relations: [
+            "appliedDiscipline",
+            "appliedDiscipline.discipline"
+        ]
+    });
+
+    if (!competenceGroup) {
+        throw new AppError("Competence group not found.", 404);
+    }
+
+    if (competenceGroup.appliedDiscipline.discipline.isBosch != isBosch) {
+        throw new AppError("Competence group not found.", 404);
+    }
+
+    await competenceGroupRepo.update(
+        {idCompetenceGroup: competenceGroup.idCompetenceGroup},
+        payload
+    );
+
+    const updatedCompetenceGroup = competenceGroupRepo.create({
+        ...competenceGroup,
+        ...payload
+    });
+
+    return new CompetenceGroupSingleDTO(updatedCompetenceGroup);
+};
+
+const softDeleteCompetenceGroupService = async(
+    isBosch: IsBosch,
+    accessLevel: AccessLevel,
+    idCompetenceGroup: string
+): Promise<void> => {
+
+    const competenceGroupRepo = AppDataSource.getRepository(CompetenceGroup);
+    let findGroupsQuery = competenceGroupRepo
+        .createQueryBuilder("competenceGroup")
+        .where(
+            "idCompetenceGroup = :idCompetenceGroup",
+            { idCompetenceGroup: idCompetenceGroup }
+        );
+
+    if (accessLevel == AccessLevel.INSTRUCTOR) {
+        findGroupsQuery = findGroupsQuery
+            .innerJoin("competenceGroup.appliedDiscipline", "appliedDiscipline")
+            .innerJoin("appliedDiscipline.discipline", "discipline")
+            .andWhere(
+                "discipline.isBosch = :isBosch",
+                { isBosch: isBosch }
+            );
+    }
+
+    const groupsToDelete = await findGroupsQuery.getMany();
+    const idsToDelete = groupsToDelete.map(
+        (group) => group.idCompetenceGroup
+    );
+
+    await competenceGroupRepo.softDelete(idsToDelete);
+};
+
+export {
+    createCompetenceGroupService,
+    updateCompetenceGroupService,
+    softDeleteCompetenceGroupService
+};

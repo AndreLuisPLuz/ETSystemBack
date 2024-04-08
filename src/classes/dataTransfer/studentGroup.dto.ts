@@ -34,7 +34,7 @@ class StudentGroupDTO {
  * such as tne ones with idStudentGroup path parameter.
  */
 class StudentGroupSingleDTO extends StudentGroupDTO {
-    students!: StudentDTO[];
+    students!: StudentDTO[] | null;
 
     /**
      * Builds a studentGroupSingleDTO instance with only relevant,
@@ -44,7 +44,9 @@ class StudentGroupSingleDTO extends StudentGroupDTO {
     public constructor(studentGroup: StudentGroup) {
         super(studentGroup);
 
-        this.students = studentGroup.students.map((student) => new StudentDTO(student));
+        this.students = (studentGroup.students)
+            ? studentGroup.students.map((student) => new StudentDTO(student))
+            : null;
     }
 }
 

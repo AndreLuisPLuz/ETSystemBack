@@ -6,6 +6,7 @@ import disciplineCategoryRouter from "./disciplineCategory.routes";
 import disciplineRouter from "./discipline.routes";
 import appliedDisciplineRouter from "./appliedDiscipline.routes";
 import competenceGroupRouter from "./competenceGroup.routes";
+import competenceRouter from "./competence.routes";
 
 export {
     userRouter,
@@ -15,5 +16,6 @@ export {
     disciplineCategoryRouter,
     disciplineRouter,
     appliedDisciplineRouter,
-    competenceGroupRouter
+    competenceGroupRouter,
+    competenceRouter
 };

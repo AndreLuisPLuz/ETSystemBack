@@ -38,11 +38,22 @@ import {
 import {
     createAppliedDisciplineService,
     listAppliedDisciplinesService,
+    retrieveAppliedDisciplineService,
     updateAppliedDisciplineService,
     softDeleteAppliedDisciplineService
 } from "./appliedDiscipline.service";
 
-import { createCompetenceGroupService } from "./competenceGroup.service";
+import {
+    createCompetenceGroupService,
+    updateCompetenceGroupService,
+    softDeleteCompetenceGroupService
+} from "./competenceGroup.service";
+
+import {
+    createCompetenceService,
+    updateCompetenceService,
+    softDeleteCompetenceService
+} from "./competence.service";
 
 import { createAdministratorService, retrieveAdministratorService } from "./administrator.service";
 import { createStudentService, retrieveStudentService } from "./student.service";
@@ -86,8 +97,15 @@ export {
 
     createAppliedDisciplineService,
     listAppliedDisciplinesService,
+    retrieveAppliedDisciplineService,
     updateAppliedDisciplineService,
     softDeleteAppliedDisciplineService,
 
-    createCompetenceGroupService
+    createCompetenceGroupService,
+    updateCompetenceGroupService,
+    softDeleteCompetenceGroupService,
+
+    createCompetenceService,
+    updateCompetenceService,
+    softDeleteCompetenceService
 }

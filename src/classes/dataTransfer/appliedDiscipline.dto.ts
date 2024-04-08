@@ -1,4 +1,5 @@
 import { AppliedDiscipline } from "../../entities";
+import { CompetenceGroupSingleDTO } from "./competenceGroup.dto";
 
 export class AppliedDisciplineDTO {
     idAppliedDiscipline!: string;
@@ -18,4 +19,18 @@ export class AppliedDisciplineDTO {
         this.totalHours = appliedDiscipline.totalHours;
         this.isComplete = appliedDiscipline.isComplete;
     }
-}
+};
+
+export class AppliedDisciplineSingleDTO extends AppliedDisciplineDTO {
+    competenceGroups!: CompetenceGroupSingleDTO[] | null;
+
+    public constructor(appliedDiscipline: AppliedDiscipline) {
+        super(appliedDiscipline);
+
+        this.competenceGroups = (appliedDiscipline.competenceGroups)
+            ? appliedDiscipline.competenceGroups.map(
+                (group) => new CompetenceGroupSingleDTO(group)
+            )
+            : null;
+    }
+};
