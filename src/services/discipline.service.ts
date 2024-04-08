@@ -36,8 +36,11 @@ const listDisciplinesService = async(
     return disciplinesShown;
 };
 
-const createDisciplineService = async(payload: ICreateDisciplinePayload, isBosch: IsBosch)
-        :Promise<DisciplineDTO> => {
+const createDisciplineService = async(
+    payload: ICreateDisciplinePayload,
+    isBosch: IsBosch
+): Promise<DisciplineDTO> => {
+
     const categoryRepo: Repository<DisciplineCategory> = AppDataSource
         .getRepository(DisciplineCategory);
 
@@ -57,6 +60,7 @@ const createDisciplineService = async(payload: ICreateDisciplinePayload, isBosch
     });
 
     await disciplineRepo.save(discipline);
+
     return new DisciplineDTO(discipline);
 };
 
@@ -101,7 +105,10 @@ const updateDisciplineService = async(
     return new DisciplineDTO(updatedDiscipline);
 };
 
-const softDeleteDisciplineService = async(idDiscipline: string): Promise<void> => {
+const softDeleteDisciplineService = async(
+    idDiscipline: string
+): Promise<void> => {
+    
     const disciplineRepo = AppDataSource.getRepository(Discipline);
     const result: UpdateResult = await disciplineRepo.softDelete({
         idDiscipline: idDiscipline
