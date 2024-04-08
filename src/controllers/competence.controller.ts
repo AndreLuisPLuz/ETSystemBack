@@ -4,7 +4,6 @@ import {
     updateCompetenceService,
     softDeleteCompetenceService
 } from "../services";
-import { Paginator } from "../classes";
 
 const createCompetenceController = async(req: Request, res: Response): Promise<Response> => {
     const competence = await createCompetenceService(
