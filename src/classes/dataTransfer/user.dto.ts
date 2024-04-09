@@ -2,7 +2,6 @@ import { User } from "../../entities"
 import AdministratorDTO from "./administrator.dto";
 import InstitutionDTO from "./institution.dto";
 import { InstructorSingleDTO } from "./instructor.dto";
-import { StudentDTO } from "./student.dto";
 
 /**
  * Data-transfer object representing a user without its relations. Should be
