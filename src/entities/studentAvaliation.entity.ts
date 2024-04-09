@@ -8,7 +8,7 @@ export class StudentAvaliation {
     idStudentAvaliation!: string;
 
     @Column({type: "float"})
-    general_grade!: number;
+    generalGrade!: number;
 
     @Column({type: "nvarchar", length: 4000})
     competencesJson!: string;
