@@ -9,6 +9,7 @@ import { Institution, IsBosch } from "./institution.entity";
 import { Instructor } from "./instructor.entity";
 import { Student } from "./student.entity";
 import { User } from "./user.entity";
+import { StudentAvaliation } from "./studentAvaliation.entity";
 
 export {
     Administrator,
@@ -21,5 +22,6 @@ export {
     Institution, IsBosch,
     Instructor,
     Student,
-    User
+    User,
+    StudentAvaliation
 }

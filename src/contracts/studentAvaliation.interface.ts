@@ -11,8 +11,12 @@ interface ISubCompetenceGroupPayload {
 }
 
 interface IStudentAvaliationCreatePayload {
-    observation: string;
+    observations: string;
     competenceGroups: ISubCompetenceGroupPayload[];
 }
 
-export type { IStudentAvaliationCreatePayload };
+export type {
+    ISubCompetencePayload,
+    ISubCompetenceGroupPayload,
+    IStudentAvaliationCreatePayload
+};
