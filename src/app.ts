@@ -16,7 +16,8 @@ import {
     disciplineRouter,
     appliedDisciplineRouter,
     competenceGroupRouter,
-    competenceRouter
+    competenceRouter,
+    studentAvaliationRouter
 } from "./routers";
 
 const app = express();
@@ -36,6 +37,7 @@ app.use("/discipline", disciplineRouter);
 app.use("/appliedDiscipline", appliedDisciplineRouter);
 app.use("/competenceGroup", competenceGroupRouter);
 app.use("/competence", competenceRouter);
+app.use("/studentAvaliation", studentAvaliationRouter);
 
 app.use(handleError);
 

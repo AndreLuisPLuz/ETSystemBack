@@ -2,9 +2,9 @@ import { Router } from "express";
 import { createStudentAvaliationController } from "../controllers";
 import { authenticateToken, buildRequirements } from "../middlewares";
 
-const studentRouter = Router();
+const studentAvaliationRouter = Router();
 
-studentRouter.post(
+studentAvaliationRouter.post(
     "/appliedDiscipline/:idAppliedDiscipline/student/:idStudent",
     authenticateToken,
     (req, res, next) => {
@@ -16,4 +16,6 @@ studentRouter.post(
     },
     buildRequirements,
     createStudentAvaliationController
-)
+);
+
+export default studentAvaliationRouter;
