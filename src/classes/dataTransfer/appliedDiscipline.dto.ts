@@ -4,6 +4,7 @@ import { CompetenceGroupSingleDTO } from "./competenceGroup.dto";
 export class AppliedDisciplineDTO {
     idAppliedDiscipline!: string;
     idDiscipline!: string;
+    disciplineName!: string;
     idStudentGroup!: string;
     idInstructor!: string;
     period!: number;
@@ -13,6 +14,7 @@ export class AppliedDisciplineDTO {
     public constructor(appliedDiscipline: AppliedDiscipline) {
         this.idAppliedDiscipline = appliedDiscipline.idAppliedDiscipline;
         this.idDiscipline = appliedDiscipline.discipline.idDiscipline;
+        this.disciplineName = appliedDiscipline.discipline.name;
         this.idStudentGroup = appliedDiscipline.studentGroup.idStudentGroup;
         this.idInstructor = appliedDiscipline.instructor.instructorId;
         this.period = appliedDiscipline.period;
