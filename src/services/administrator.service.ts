@@ -14,11 +14,12 @@ const createAdministratorService = async(idUser: string, payload: IAdministrator
         where: {
             idUser: idUser
         },
-        relations: {
-            student: true,
-            instructor: true,
-            institution: true
-        }
+        relations: [
+            "student",
+            "student.studentGroup",
+            "instructor",
+            "administrator"
+        ]
     });
 
     if (!user) {

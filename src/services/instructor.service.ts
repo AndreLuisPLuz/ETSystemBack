@@ -12,11 +12,12 @@ const createInstructorService = async(idUser: string): Promise<UserSingleDTO> =>
         where: {
             idUser: idUser
         },
-        relations: {
-            administrator: true,
-            student: true,
-            institution: true
-        }
+        relations: [
+            "student",
+            "student.studentGroup",
+            "instructor",
+            "administrator"
+        ]
     });
 
     if (!user) {
