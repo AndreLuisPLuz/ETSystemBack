@@ -20,7 +20,7 @@ const listStudentGroupsService = async(
 ): Promise<StudentGroupDTO[]> => {
 
     const studentGroupRepo = AppDataSource.getRepository(StudentGroup);
-    let query: SelectQueryBuilder<StudentGroup> = studentGroupRepo
+    let query = studentGroupRepo
         .createQueryBuilder('studentGroup')
         .where("1 = 1");
     
@@ -40,11 +40,10 @@ const listStudentGroupsService = async(
         );
     }
 
-    const studentGroups: StudentGroup[] = await query.getMany();
-    const studentGroupsShown: StudentGroupDTO[] = [];
-    studentGroups.forEach((studentGroup) => {
-        studentGroupsShown.push(new StudentGroupDTO(studentGroup));
-    });
+    const studentGroups = await query.getMany();
+    const studentGroupsShown = studentGroups.map(
+        (group) => new StudentGroupDTO(group)
+    );
 
     return studentGroupsShown;
 }
@@ -54,10 +53,12 @@ const listStudentGroupsService = async(
  * @param payload - The body of the requisition.
  * @returns The student group created, without any sensible data.
  */
-const createStudentGroupService = async (payload: IStudentGroupCreatePayload):
-        Promise<StudentGroupDTO> => {
-    const studentGroupRepo: Repository<StudentGroup> = AppDataSource.getRepository(StudentGroup);
-    const studentGroup: StudentGroup = studentGroupRepo.create(payload);
+const createStudentGroupService = async (
+    payload: IStudentGroupCreatePayload
+): Promise<StudentGroupDTO> => {
+
+    const studentGroupRepo = AppDataSource.getRepository(StudentGroup);
+    const studentGroup = studentGroupRepo.create(payload);
 
     return new StudentGroupDTO(await studentGroupRepo.save(studentGroup));
 }
@@ -70,10 +71,12 @@ const createStudentGroupService = async (payload: IStudentGroupCreatePayload):
  * @param searchId - Unique ID of the student group to be retrieved.
  * @returns The student group retrieved, without any sensible data.
  */
-const retrieveStudentGroupService = async (searchId: string):
-        Promise<StudentGroupSingleDTO> => {
-    const studentGroupRepo: Repository<StudentGroup> = AppDataSource.getRepository(StudentGroup);
-    const studentGroup: StudentGroup | null = await studentGroupRepo.findOne({
+const retrieveStudentGroupService = async (
+    searchId: string
+): Promise<StudentGroupSingleDTO> => {
+
+    const studentGroupRepo = AppDataSource.getRepository(StudentGroup);
+    const studentGroup = await studentGroupRepo.findOne({
         where: {
             idStudentGroup: searchId
         },
@@ -102,9 +105,10 @@ const retrieveStudentGroupService = async (searchId: string):
 const updateStudentGroupService = async(
         searchId: string,
         payload: IStudentGroupUpdatePayload
-)       :Promise<StudentGroupSingleDTO> => {
-    const studentGroupRepo: Repository<StudentGroup> = AppDataSource.getRepository(StudentGroup);
-    const result: UpdateResult = await studentGroupRepo.update(
+): Promise<StudentGroupSingleDTO> => {
+
+    const studentGroupRepo = AppDataSource.getRepository(StudentGroup);
+    const result = await studentGroupRepo.update(
         {idStudentGroup: searchId},
         {...payload}
     );
@@ -113,7 +117,7 @@ const updateStudentGroupService = async(
         throw new AppError('Student group not found.', 404);
     }
 
-    const updatedStudentGroup: StudentGroup = await studentGroupRepo
+    const updatedStudentGroup = await studentGroupRepo
         .findOneOrFail({
             where: {
                 idStudentGroup: searchId
@@ -136,9 +140,12 @@ const updateStudentGroupService = async(
  * 
  * @param idStudentGroup Unique ID of the student group to be deleted.
  */
-const softDeleteStudentGroupService = async(idStudentGroup: string): Promise<void> => {
-    const studentGroupRepo: Repository<StudentGroup> = AppDataSource.getRepository(StudentGroup);
-    const result: UpdateResult = await studentGroupRepo.softDelete({
+const softDeleteStudentGroupService = async(
+    idStudentGroup: string
+): Promise<void> => {
+
+    const studentGroupRepo = AppDataSource.getRepository(StudentGroup);
+    const result = await studentGroupRepo.softDelete({
         idStudentGroup: idStudentGroup
     });
 
