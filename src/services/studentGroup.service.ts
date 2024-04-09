@@ -55,11 +55,11 @@ const listStudentGroupsService = async(
  * @returns The student group created, without any sensible data.
  */
 const createStudentGroupService = async (payload: IStudentGroupCreatePayload):
-        Promise<StudentGroupSingleDTO> => {
+        Promise<StudentGroupDTO> => {
     const studentGroupRepo: Repository<StudentGroup> = AppDataSource.getRepository(StudentGroup);
     const studentGroup: StudentGroup = studentGroupRepo.create(payload);
 
-    return new StudentGroupSingleDTO(await studentGroupRepo.save(studentGroup));
+    return new StudentGroupDTO(await studentGroupRepo.save(studentGroup));
 }
 
 /**
@@ -114,7 +114,15 @@ const updateStudentGroupService = async(
     }
 
     const updatedStudentGroup: StudentGroup = await studentGroupRepo
-        .findOneByOrFail({idStudentGroup: searchId});
+        .findOneOrFail({
+            where: {
+                idStudentGroup: searchId
+            },
+            relations: [
+                'students',
+                'students.user'
+            ]
+        });
 
     return new StudentGroupSingleDTO(updatedStudentGroup);
 };
