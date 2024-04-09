@@ -29,7 +29,6 @@ const checkIsBosch = async (requestingUser: User): Promise<boolean> => {
 };
 
 const checkMaster = async (requestingUser: User): Promise<boolean> => {
-    console.log(requestingUser.administrator);
     if (!requestingUser.administrator) {
         return false;
     }
