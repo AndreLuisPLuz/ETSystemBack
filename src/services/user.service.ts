@@ -31,11 +31,11 @@ const listUsersService = async(idInstitution?: string): Promise<UserDTO[]> => {
         .createQueryBuilder("person")
         .leftJoinAndSelect("person.administrator", "administrator")
         .leftJoinAndSelect("person.instructor", "instructor")
-        .leftJoinAndSelect("person.student", "student");
+        .leftJoinAndSelect("person.student", "student")
+        .innerJoinAndSelect("person.institution", "institution");
         
     if (institution !== null) {
         query = query
-        .innerJoinAndSelect("person.institution", "institution")
         .where(
             "person.institutionIdInstitution = :idInstitution",
             { idInstitution: institution.idInstitution }

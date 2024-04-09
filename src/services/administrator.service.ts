@@ -18,7 +18,8 @@ const createAdministratorService = async(idUser: string, payload: IAdministrator
             "student",
             "student.studentGroup",
             "instructor",
-            "administrator"
+            "administrator",
+            "institution"
         ]
     });
 

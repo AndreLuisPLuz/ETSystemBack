@@ -16,7 +16,8 @@ const createInstructorService = async(idUser: string): Promise<UserSingleDTO> =>
             "student",
             "student.studentGroup",
             "instructor",
-            "administrator"
+            "administrator",
+            "institution"
         ]
     });
 

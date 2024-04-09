@@ -17,7 +17,8 @@ const createStudentService = async(idUser: string, idStudentGroup: string): Prom
             "student",
             "student.studentGroup",
             "instructor",
-            "administrator"
+            "administrator",
+            "institution"
         ]
     });
 
