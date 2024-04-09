@@ -9,6 +9,7 @@ import { IDisciplineCategoryCreatePayload } from "./disciplineCategory.interface
 import { IAppliedDisciplineCreatePayload, IAppliedDisciplineUpdatePayload } from "./appliedDiscipline.interface";
 import { ICompetenceGroupCreatePayload } from "./competenceGroup.interface";
 import { ICompetenceCreatePayload } from "./competence.interface";
+import { IStudentAvaliationCreatePayload } from "./studentAvaliation.interface";
 
 export {
     IUserCreatePayload, IUserRegisterPayload,
@@ -22,5 +23,6 @@ export {
     IDisciplineCategoryCreatePayload,
     IAppliedDisciplineCreatePayload, IAppliedDisciplineUpdatePayload,
     ICompetenceGroupCreatePayload,
-    ICompetenceCreatePayload
+    ICompetenceCreatePayload,
+    IStudentAvaliationCreatePayload,
 }

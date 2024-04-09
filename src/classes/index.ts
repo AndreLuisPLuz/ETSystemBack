@@ -9,6 +9,7 @@ import { DisciplineDTO } from "./dataTransfer/discipline.dto";
 import { AppliedDisciplineDTO, AppliedDisciplineSingleDTO } from "./dataTransfer/appliedDiscipline.dto";
 
 import { AccessLevel } from "./enums/accessLevel.enum";
+import { CompetenceStatus } from "./enums/competenceStatus.enum";
 
 import Paginator from "./paginator.class";
 
@@ -28,5 +29,6 @@ export {
     AppliedDisciplineDTO,
     AppliedDisciplineSingleDTO,
     AccessLevel,
+    CompetenceStatus,
     Paginator
 };
