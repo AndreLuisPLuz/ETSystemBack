@@ -13,11 +13,12 @@ const createStudentService = async(idUser: string, idStudentGroup: string): Prom
         where: {
             idUser: idUser
         },
-        relations: {
-            administrator: true,
-            instructor: true,
-            institution: true
-        }
+        relations: [
+            "student",
+            "student.studentGroup",
+            "instructor",
+            "administrator"
+        ]
     });
 
     if (!user) {

@@ -53,7 +53,7 @@ class UserDTO {
 class UserSingleDTO extends UserDTO {
     administrator!: AdministratorDTO | null;
     instructor!: InstructorSingleDTO | null;
-    student!: StudentDTO | null;
+    student!: Record<string, string> | null;
     institution!: InstitutionDTO;
 
     /**
@@ -76,7 +76,10 @@ class UserSingleDTO extends UserDTO {
             : null;
 
         this.student = (user.student)
-            ? new StudentDTO(user.student)
+            ? { 
+                idStudent: user.student.idStudent,
+                idStudentGroup: user.student.studentGroup.idStudentGroup
+              }
             : null;
 
         this.institution = new InstitutionDTO(user.institution);

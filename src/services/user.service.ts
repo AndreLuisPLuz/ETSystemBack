@@ -48,7 +48,7 @@ const listUsersService = async(idInstitution?: string): Promise<UserDTO[]> => {
     return usersShown;
 };
 
-const createUserService = async(payload: IUserCreatePayload): Promise<UserSingleDTO> => {
+const createUserService = async(payload: IUserCreatePayload): Promise<UserDTO> => {
     const institutionRepo = AppDataSource.getRepository(Institution);
     const institution = await institutionRepo.findOneBy({
         idInstitution: payload.idInstitution
@@ -67,7 +67,7 @@ const createUserService = async(payload: IUserCreatePayload): Promise<UserSingle
 
     await userRepo.save(user);
 
-    return new UserSingleDTO(user);
+    return new UserDTO(user);
 };
 
 const retrieveUserService = async(searchId: string): Promise<UserSingleDTO> => {
@@ -76,12 +76,13 @@ const retrieveUserService = async(searchId: string): Promise<UserSingleDTO> => {
         where: {
             idUser: searchId,
         },
-        relations: {
-            student: true,
-            instructor: true,
-            administrator: true,
-            institution: true
-        }
+        relations: [
+            "student",
+            "student.studentGroup",
+            "instructor",
+            "administrator",
+            "institution"
+        ]
     });
 
     if (!user) {
