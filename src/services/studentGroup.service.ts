@@ -1,9 +1,8 @@
 import { IStudentGroupCreatePayload, IStudentGroupUpdatePayload } from "../contracts";
 import { StudentGroupDTO, StudentGroupSingleDTO } from "../classes";
 import { AppDataSource } from "../data-source";
-import { StudentGroup, WorkPeriod } from "../entities";
+import { StudentGroup } from "../entities";
 
-import { Repository, LessThanOrEqual, MoreThanOrEqual, UpdateResult, SelectQueryBuilder } from "typeorm";
 import { AppError } from "../errors";
 
 /**
