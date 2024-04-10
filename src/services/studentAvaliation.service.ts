@@ -112,7 +112,7 @@ const listStudentAvaliationsService = async(
         .innerJoinAndSelect("appliedDiscipline.discipline", "discipline")
         .where(
             `appliedDiscipline.idAppliedDiscipline = :idAppliedDiscipline AND
-            appliedDiscipline.isBosch = :isBosch`,
+            discipline.isBosch = :isBosch`,
             {
                 idAppliedDiscipline: idAppliedDiscipline,
                 isBosch: isBosch
