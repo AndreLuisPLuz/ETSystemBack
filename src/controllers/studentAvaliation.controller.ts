@@ -3,7 +3,7 @@ import {
     listStudentAvaliationsService,
     listStudentAvaliationsByStudentService,
     createStudentAvaliationService,
-    softDeleteStudentAvaliationService,
+    deleteStudentAvaliationService,
 } from "../services";
 
 const listStudentAvaliationsController = async(
@@ -40,8 +40,8 @@ const createStudentAvaliationController = async(req: Request, res: Response): Pr
     return res.status(201).json();
 }
 
-const softDeleteStudentAvaliationController = async(req: Request, res: Response): Promise<Response> => {
-    await softDeleteStudentAvaliationService(
+const deleteStudentAvaliationController = async(req: Request, res: Response): Promise<Response> => {
+    await deleteStudentAvaliationService(
         req.params.idStudentAvaliation
     );
 
@@ -52,5 +52,5 @@ export {
     listStudentAvaliationsController,
     listStudentAvaliationsByStudentController,
     createStudentAvaliationController,
-    softDeleteStudentAvaliationController,
+    deleteStudentAvaliationController,
 };

@@ -73,7 +73,7 @@ import {
     listStudentAvaliationsController,
     listStudentAvaliationsByStudentController,
     createStudentAvaliationController,
-    softDeleteStudentAvaliationController,
+    deleteStudentAvaliationController,
 } from "./studentAvaliation.controller";
 
 export {
@@ -131,5 +131,5 @@ export {
     listStudentAvaliationsController,
     listStudentAvaliationsByStudentController,
     createStudentAvaliationController,
-    softDeleteStudentAvaliationController,
+    deleteStudentAvaliationController,
 }

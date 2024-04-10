@@ -216,12 +216,12 @@ const createStudentAvaliationService = async(
     await studentAvaliationRepo.save(studentAvaliation);
 };
 
-const softDeleteStudentAvaliationService = async(
+const deleteStudentAvaliationService = async(
     idStudentAvaliation: string
 ): Promise<void> => {
 
     const studentAvaliationRepo = AppDataSource.getRepository(StudentAvaliation);
-    const result = await studentAvaliationRepo.softDelete(idStudentAvaliation);
+    const result = await studentAvaliationRepo.delete(idStudentAvaliation);
 
     if (result.affected == 0 || result.affected === undefined) {
         throw new AppError("Avaliation not found.", 404);
@@ -232,5 +232,5 @@ export {
     listStudentAvaliationsService,
     listStudentAvaliationsByStudentService,
     createStudentAvaliationService,
-    softDeleteStudentAvaliationService
+    deleteStudentAvaliationService,
 };

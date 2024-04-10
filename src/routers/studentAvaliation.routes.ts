@@ -3,7 +3,7 @@ import {
     listStudentAvaliationsController,
     listStudentAvaliationsByStudentController,
     createStudentAvaliationController,
-    softDeleteStudentAvaliationController,
+    deleteStudentAvaliationController,
 } from "../controllers";
 import { authenticateToken, buildRequirements } from "../middlewares";
 
@@ -62,7 +62,7 @@ studentAvaliationRouter.delete(
         return next();
     },
     buildRequirements,
-    softDeleteStudentAvaliationController
+    deleteStudentAvaliationController
 )
 
 export default studentAvaliationRouter;
