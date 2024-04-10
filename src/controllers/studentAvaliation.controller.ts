@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import {
-    listStudentAvaliationsService,
+    listStudentAvaliationsByStudentService,
     createStudentAvaliationService
 } from "../services";
 
-const listStudentAvaliationsController = async(req: Request, res: Response): Promise<Response> => {
-    const studentAvaliations = await listStudentAvaliationsService(
+const listStudentAvaliationsByStudentController = async(req: Request, res: Response): Promise<Response> => {
+    const studentAvaliations = await listStudentAvaliationsByStudentService(
         res.locals.isBosch,
         res.locals.accessLevel,
         req.params.idAppliedDiscipline,
@@ -26,6 +26,6 @@ const createStudentAvaliationController = async(req: Request, res: Response): Pr
 }
 
 export {
-    listStudentAvaliationsController,
+    listStudentAvaliationsByStudentController,
     createStudentAvaliationController
 };

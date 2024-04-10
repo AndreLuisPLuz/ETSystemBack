@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-    listStudentAvaliationsController,
+    listStudentAvaliationsByStudentController,
     createStudentAvaliationController,
 } from "../controllers";
 import { authenticateToken, buildRequirements } from "../middlewares";
@@ -19,7 +19,7 @@ studentAvaliationRouter.get(
         return next();
     },
     buildRequirements,
-    listStudentAvaliationsController
+    listStudentAvaliationsByStudentController
 );
 
 studentAvaliationRouter.post(

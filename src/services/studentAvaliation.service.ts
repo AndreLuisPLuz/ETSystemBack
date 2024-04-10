@@ -98,7 +98,7 @@ const calculateGeneralGradeService = (
     return (totalWeightedScore / totalWeight) * 100;
 };
 
-const listStudentAvaliationsService = async(
+const listStudentAvaliationsByStudentService = async(
     isBosch: IsBosch,
     accessLevel: AccessLevel,
     idAppliedDiscipline: string,
@@ -188,6 +188,6 @@ const createStudentAvaliationService = async(
 };
 
 export {
-    listStudentAvaliationsService,
+    listStudentAvaliationsByStudentService,
     createStudentAvaliationService
 };

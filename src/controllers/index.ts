@@ -70,7 +70,7 @@ import {
 } from "./competence.controller";
 
 import {
-    listStudentAvaliationsController,
+    listStudentAvaliationsByStudentController,
     createStudentAvaliationController
 } from "./studentAvaliation.controller";
 
@@ -126,6 +126,6 @@ export {
     updateCompetenceController,
     softDeleteCompetenceController,
 
-    listStudentAvaliationsController,
+    listStudentAvaliationsByStudentController,
     createStudentAvaliationController,
 }
