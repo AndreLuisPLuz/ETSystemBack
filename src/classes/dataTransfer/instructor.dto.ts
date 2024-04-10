@@ -3,6 +3,18 @@ import {
     AppliedDiscipline
 } from "../../entities";
 
+export class InstructorDTO {
+    idInstructor: string;
+    username: string;
+    name: string | null;
+
+    public constructor(instructor: Instructor) {
+        this.idInstructor = instructor.instructorId;
+        this.username = instructor.user.username;
+        this.name = instructor.user.name;
+    }
+};
+
 /**
  * Data-transfer object representing an instructor with its relations. Should
  * be used on the context of requests that return a single user, such as the
