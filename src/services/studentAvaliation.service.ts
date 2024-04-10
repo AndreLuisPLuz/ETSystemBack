@@ -98,6 +98,38 @@ const calculateGeneralGradeService = (
     return (totalWeightedScore / totalWeight) * 100;
 };
 
+const listStudentAvaliationsByStudentGroupService = async(
+    isBosch: IsBosch,
+    idAppliedDiscipline: string,
+    idStudentGroup: string
+): Promise<StudentAvaliationDTO[]> => {
+
+    const findQuery = AppDataSource
+        .getRepository(StudentAvaliation)
+        .createQueryBuilder("studentAvaliation")
+        .select()
+        .innerJoinAndSelect("studentAvaliation.student", "student")
+        .innerJoinAndSelect("studentAvaliation.appliedDiscipline", "appliedDiscipline")
+        .innerJoinAndSelect("appliedDiscipline.discipline", "discipline")
+        .where(
+            `student.studentGroupIdStudentGroup = :idStudentGroup AND
+            appliedDiscipline[idAppliedDiscipline = :idAppliedDiscipline AND
+            appliedDiscipline.isBosch = :isBosch`,
+            {
+                idStudentGroup: idStudentGroup,
+                idAppliedDiscipline: idAppliedDiscipline,
+                isBosch: isBosch
+            }
+        );
+    
+    const avaliations = await findQuery.getMany();
+    const avaliationsShown = avaliations.map((avaliation) =>
+        new StudentAvaliationDTO(avaliation)
+    );
+
+    return avaliationsShown;
+}
+
 const listStudentAvaliationsByStudentService = async(
     isBosch: IsBosch,
     accessLevel: AccessLevel,
@@ -188,6 +220,7 @@ const createStudentAvaliationService = async(
 };
 
 export {
+    listStudentAvaliationsByStudentGroupService,
     listStudentAvaliationsByStudentService,
     createStudentAvaliationService
 };
