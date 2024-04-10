@@ -55,6 +55,11 @@ import {
     softDeleteCompetenceService
 } from "./competence.service";
 
+import {
+    createStudentAvaliationService,
+    listStudentAvaliationsService
+} from "./studentAvaliation.service";
+
 import { createAdministratorService, retrieveAdministratorService } from "./administrator.service";
 import { createStudentService, retrieveStudentService } from "./student.service";
 import { listInstructorsService, createInstructorService } from "./instructor.service";
@@ -108,5 +113,8 @@ export {
 
     createCompetenceService,
     updateCompetenceService,
-    softDeleteCompetenceService
+    softDeleteCompetenceService,
+
+    createStudentAvaliationService,
+    listStudentAvaliationsService
 }
