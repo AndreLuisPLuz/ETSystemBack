@@ -4,7 +4,7 @@ import {
     createStudentAvaliationService
 } from "../services";
 
-const listAppliedDisciplinesController = async(req: Request, res: Response): Promise<Response> => {
+const listStudentAvaliationsController = async(req: Request, res: Response): Promise<Response> => {
     const studentAvaliations = await listStudentAvaliationsService(
         res.locals.isBosch,
         res.locals.accessLevel,
@@ -26,6 +26,6 @@ const createStudentAvaliationController = async(req: Request, res: Response): Pr
 }
 
 export {
-    listAppliedDisciplinesController,
+    listStudentAvaliationsController,
     createStudentAvaliationController
 };
