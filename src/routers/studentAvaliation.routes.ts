@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-    listStudentAvaliationsByStudentGroupController,
+    listStudentAvaliationsController,
     listStudentAvaliationsByStudentController,
     createStudentAvaliationController,
 } from "../controllers";
@@ -9,7 +9,7 @@ import { authenticateToken, buildRequirements } from "../middlewares";
 const studentAvaliationRouter = Router();
 
 studentAvaliationRouter.get(
-    "/studentAvaliation/appliedDiscipline/:idAppliedDiscipline/studentGroup/:idStudentGroup",
+    "/appliedDiscipline/:idAppliedDiscipline",
     authenticateToken,
     (req, res, next) => {
         res.locals.requirements = {
@@ -19,7 +19,7 @@ studentAvaliationRouter.get(
         return next();
     },
     buildRequirements,
-    listStudentAvaliationsByStudentGroupController
+    listStudentAvaliationsController
 )
 
 studentAvaliationRouter.get(

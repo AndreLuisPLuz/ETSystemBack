@@ -98,10 +98,9 @@ const calculateGeneralGradeService = (
     return (totalWeightedScore / totalWeight) * 100;
 };
 
-const listStudentAvaliationsByStudentGroupService = async(
+const listStudentAvaliationsService = async(
     isBosch: IsBosch,
-    idAppliedDiscipline: string,
-    idStudentGroup: string
+    idAppliedDiscipline: string
 ): Promise<StudentAvaliationDTO[]> => {
 
     const findQuery = AppDataSource
@@ -112,11 +111,9 @@ const listStudentAvaliationsByStudentGroupService = async(
         .innerJoinAndSelect("studentAvaliation.appliedDiscipline", "appliedDiscipline")
         .innerJoinAndSelect("appliedDiscipline.discipline", "discipline")
         .where(
-            `student.studentGroupIdStudentGroup = :idStudentGroup AND
-            appliedDiscipline[idAppliedDiscipline = :idAppliedDiscipline AND
+            `appliedDiscipline.idAppliedDiscipline = :idAppliedDiscipline AND
             appliedDiscipline.isBosch = :isBosch`,
             {
-                idStudentGroup: idStudentGroup,
                 idAppliedDiscipline: idAppliedDiscipline,
                 isBosch: isBosch
             }
@@ -220,7 +217,7 @@ const createStudentAvaliationService = async(
 };
 
 export {
-    listStudentAvaliationsByStudentGroupService,
+    listStudentAvaliationsService,
     listStudentAvaliationsByStudentService,
     createStudentAvaliationService
 };

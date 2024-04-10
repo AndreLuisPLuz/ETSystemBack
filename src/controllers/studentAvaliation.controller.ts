@@ -1,19 +1,18 @@
 import { Request, Response } from "express";
 import {
-    listStudentAvaliationsByStudentGroupService,
+    listStudentAvaliationsService,
     listStudentAvaliationsByStudentService,
     createStudentAvaliationService
 } from "../services";
 
-const listStudentAvaliationsByStudentGroupController = async(
+const listStudentAvaliationsController = async(
     req: Request,
     res: Response
 ): Promise<Response> => {
 
-    const studentAvaliations = await listStudentAvaliationsByStudentGroupService(
+    const studentAvaliations = await listStudentAvaliationsService(
         res.locals.isBosch,
-        req.params.idAppliedDiscipline,
-        req.params.idStudentGroup
+        req.params.idAppliedDiscipline
     );
 
     return res.status(200).json(studentAvaliations);
@@ -41,7 +40,7 @@ const createStudentAvaliationController = async(req: Request, res: Response): Pr
 }
 
 export {
-    listStudentAvaliationsByStudentGroupController,
+    listStudentAvaliationsController,
     listStudentAvaliationsByStudentController,
     createStudentAvaliationController
 };
