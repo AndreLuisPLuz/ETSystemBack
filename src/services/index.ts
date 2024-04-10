@@ -57,6 +57,7 @@ import {
 
 import {
     createStudentAvaliationService,
+    listStudentAvaliationsByStudentGroupService,
     listStudentAvaliationsByStudentService
 } from "./studentAvaliation.service";
 
@@ -116,5 +117,6 @@ export {
     softDeleteCompetenceService,
 
     createStudentAvaliationService,
+    listStudentAvaliationsByStudentGroupService,
     listStudentAvaliationsByStudentService,
 }
