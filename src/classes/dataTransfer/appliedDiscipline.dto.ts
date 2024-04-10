@@ -1,5 +1,6 @@
 import { AppliedDiscipline } from "../../entities";
 import { CompetenceGroupSingleDTO } from "./competenceGroup.dto";
+import { UserSingleDTO } from "./user.dto";
 
 export class AppliedDisciplineDTO {
     idAppliedDiscipline!: string;
@@ -25,6 +26,7 @@ export class AppliedDisciplineDTO {
 
 export class AppliedDisciplineSingleDTO extends AppliedDisciplineDTO {
     competenceGroups!: CompetenceGroupSingleDTO[] | null;
+    instructorUser!: UserSingleDTO;
 
     public constructor(appliedDiscipline: AppliedDiscipline) {
         super(appliedDiscipline);
@@ -34,5 +36,12 @@ export class AppliedDisciplineSingleDTO extends AppliedDisciplineDTO {
                 (group) => new CompetenceGroupSingleDTO(group)
             )
             : null;
+
+        if (appliedDiscipline.instructor.user) {
+            this.instructorUser = new UserSingleDTO(appliedDiscipline.instructor.user);
+            this.instructorUser.administrator = undefined;
+            this.instructorUser.instructor = undefined;
+            this.instructorUser.student = undefined;
+        }
     }
 };

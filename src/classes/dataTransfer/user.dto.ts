@@ -50,9 +50,9 @@ class UserDTO {
  * idUser path parameter.
  */
 class UserSingleDTO extends UserDTO {
-    administrator!: AdministratorDTO | null;
-    instructor!: InstructorSingleDTO | null;
-    student!: Record<string, string> | null;
+    administrator!: AdministratorDTO | null | undefined;
+    instructor!: InstructorSingleDTO | null | undefined;
+    student!: Record<string, string> | null | undefined;
     institution!: InstitutionDTO;
 
     /**

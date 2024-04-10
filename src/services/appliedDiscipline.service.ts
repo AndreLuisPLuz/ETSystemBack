@@ -151,6 +151,8 @@ const retrieveAppliedDisciplineService = async(
             "competenceGroups.competences",
             "studentGroup",
             "instructor",
+            "instructor.user",
+            "instructor.user.institution",
             "discipline"
         ]
     });
