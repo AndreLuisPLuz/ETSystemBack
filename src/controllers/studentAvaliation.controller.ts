@@ -41,6 +41,7 @@ const createStudentAvaliationController = async(req: Request, res: Response): Pr
 }
 
 export {
+    listStudentAvaliationsByStudentGroupController,
     listStudentAvaliationsByStudentController,
     createStudentAvaliationController
 };
