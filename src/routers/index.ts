@@ -8,6 +8,7 @@ import appliedDisciplineRouter from "./appliedDiscipline.routes";
 import competenceGroupRouter from "./competenceGroup.routes";
 import competenceRouter from "./competence.routes";
 import studentAvaliationRouter from "./studentAvaliation.routes";
+import instructorsRouter from "./instructor.routes";
 
 export {
     userRouter,
@@ -20,4 +21,5 @@ export {
     competenceGroupRouter,
     competenceRouter,
     studentAvaliationRouter,
+    instructorsRouter
 };

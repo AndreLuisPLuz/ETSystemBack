@@ -57,7 +57,7 @@ import {
 
 import { createAdministratorService, retrieveAdministratorService } from "./administrator.service";
 import { createStudentService, retrieveStudentService } from "./student.service";
-import { createInstructorService } from "./instructor.service";
+import { listInstructorsService, createInstructorService } from "./instructor.service";
 
 export {
     createInstitutionService,
@@ -83,6 +83,7 @@ export {
     createAdministratorService,
     retrieveAdministratorService,
 
+    listInstructorsService,
     createInstructorService,
 
     createDisciplineCategoryService,

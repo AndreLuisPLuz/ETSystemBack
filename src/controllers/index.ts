@@ -30,7 +30,10 @@ import {
     retrieveAdministratorController
 } from "./administrator.controller";
 
-import { createInstructorController } from "./instructor.controller";
+import {
+    listInstructorsController,
+    createInstructorController
+} from "./instructor.controller";
 
 import {
     createDisciplineCategoryController,
@@ -95,6 +98,7 @@ export {
     createAdministratorController,
     retrieveAdministratorController,
 
+    listInstructorsController,
     createInstructorController,
 
     createDisciplineCategoryController,

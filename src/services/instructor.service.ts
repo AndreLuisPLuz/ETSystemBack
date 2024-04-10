@@ -1,10 +1,30 @@
 import { AppDataSource } from "../data-source";
-import { UserSingleDTO } from "../classes";
-import { Instructor } from "../entities";
+import { InstructorDTO, UserSingleDTO } from "../classes";
+import { Instructor, IsBosch } from "../entities";
 import { User } from "../entities";
 
 import { Repository } from "typeorm";
 import { AppError } from "../errors";
+
+const listInstructorsService = async(isBosch: IsBosch): Promise<InstructorDTO[]> => {
+    const instructorRepo = AppDataSource.getRepository(Instructor);
+    const findQuery = instructorRepo
+        .createQueryBuilder("instructor")
+        .select()
+        .innerJoinAndSelect("instructor.user", "user")
+        .innerJoin("user.institution", "institution")
+        .where(
+            "institution.isBosch = :isBosch",
+            { isBosch: isBosch }
+        );
+    
+    const instructors = await findQuery.getMany();
+    const instructorsShown = instructors.map((instructor) => 
+        new InstructorDTO(instructor)
+    );
+
+    return instructorsShown;
+};
 
 const createInstructorService = async(idUser: string): Promise<UserSingleDTO> => {
     const userRepo: Repository<User> = AppDataSource.getRepository(User);
@@ -39,4 +59,7 @@ const createInstructorService = async(idUser: string): Promise<UserSingleDTO> =>
     return new UserSingleDTO(updatedUser);
 }
 
-export { createInstructorService };
+export {
+    listInstructorsService,
+    createInstructorService
+};
