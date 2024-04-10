@@ -58,7 +58,8 @@ import {
 import {
     createStudentAvaliationService,
     listStudentAvaliationsService,
-    listStudentAvaliationsByStudentService
+    listStudentAvaliationsByStudentService,
+    softDeleteStudentAvaliationService
 } from "./studentAvaliation.service";
 
 import { createAdministratorService, retrieveAdministratorService } from "./administrator.service";
@@ -119,4 +120,5 @@ export {
     createStudentAvaliationService,
     listStudentAvaliationsService,
     listStudentAvaliationsByStudentService,
+    softDeleteStudentAvaliationService,
 }

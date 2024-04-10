@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import {
     listStudentAvaliationsService,
     listStudentAvaliationsByStudentService,
-    createStudentAvaliationService
+    createStudentAvaliationService,
+    softDeleteStudentAvaliationService,
 } from "../services";
 
 const listStudentAvaliationsController = async(
@@ -39,8 +40,17 @@ const createStudentAvaliationController = async(req: Request, res: Response): Pr
     return res.status(201).json();
 }
 
+const softDeleteStudentAvaliationController = async(req: Request, res: Response): Promise<Response> => {
+    await softDeleteStudentAvaliationService(
+        req.params.idStudentAvaliation
+    );
+
+    return res.status(204).json();
+}
+
 export {
     listStudentAvaliationsController,
     listStudentAvaliationsByStudentController,
-    createStudentAvaliationController
+    createStudentAvaliationController,
+    softDeleteStudentAvaliationController
 };
