@@ -15,7 +15,7 @@ import {
     AccessLevel
 } from "../classes";
 
-import { Repository } from "typeorm";
+import { ObjectId, Repository } from "typeorm";
 import { AppError } from "../errors";
 
 type CompetenceObject = {
@@ -216,8 +216,21 @@ const createStudentAvaliationService = async(
     await studentAvaliationRepo.save(studentAvaliation);
 };
 
+const softDeleteStudentAvaliationService = async(
+    idStudentAvaliation: string
+): Promise<void> => {
+
+    const studentAvaliationRepo = AppDataSource.getRepository(StudentAvaliation);
+    const result = await studentAvaliationRepo.softDelete(idStudentAvaliation);
+
+    if (result.affected == 0 || result.affected === undefined) {
+        throw new AppError("Avaliation not found.", 404);
+    }
+};
+
 export {
     listStudentAvaliationsService,
     listStudentAvaliationsByStudentService,
-    createStudentAvaliationService
+    createStudentAvaliationService,
+    softDeleteStudentAvaliationService
 };
