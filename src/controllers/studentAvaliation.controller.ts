@@ -12,7 +12,7 @@ const listStudentAvaliationsController = async(req: Request, res: Response): Pro
         req.params.idStudent
     );
 
-    return res.status(200).json();
+    return res.status(200).json(studentAvaliations);
 }
 
 const createStudentAvaliationController = async(req: Request, res: Response): Promise<Response> => {
