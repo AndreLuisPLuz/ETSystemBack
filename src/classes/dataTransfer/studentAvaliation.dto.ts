@@ -17,6 +17,7 @@ class StudentAvaliationDTO {
 }
 
 type SubStudentAvaliation = {
+    idStudentAvaliation: string;
     generalGrade: number;
     createdAt: Date;
     competences: JSON;
@@ -39,6 +40,7 @@ class StudentAvaliationManyDTO {
 
         this.avaliations = avaliations.map((avaliation) => {
             return {
+                idStudentAvaliation: avaliation.idStudentAvaliation,
                 generalGrade: avaliation.generalGrade,
                 createdAt: avaliation.createdAt,
                 competences: JSON.parse(avaliation.competencesJson),
