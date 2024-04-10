@@ -52,5 +52,5 @@ export {
     listStudentAvaliationsController,
     listStudentAvaliationsByStudentController,
     createStudentAvaliationController,
-    softDeleteStudentAvaliationController
+    softDeleteStudentAvaliationController,
 };

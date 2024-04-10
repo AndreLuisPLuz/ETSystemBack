@@ -3,6 +3,7 @@ import {
     listStudentAvaliationsController,
     listStudentAvaliationsByStudentController,
     createStudentAvaliationController,
+    softDeleteStudentAvaliationController,
 } from "../controllers";
 import { authenticateToken, buildRequirements } from "../middlewares";
 
@@ -50,5 +51,18 @@ studentAvaliationRouter.post(
     buildRequirements,
     createStudentAvaliationController
 );
+
+studentAvaliationRouter.delete(
+    "/:idStudentAvaliation",
+    authenticateToken,
+    (req, res, next) => {
+        res.locals.requirements = {
+            master: false
+        };
+        return next();
+    },
+    buildRequirements,
+    softDeleteStudentAvaliationController
+)
 
 export default studentAvaliationRouter;
