@@ -177,35 +177,26 @@ const updateAppliedDisciplineService = async(
     payload: IAppliedDisciplineUpdatePayload
 ): Promise<AppliedDisciplineDTO> => {
 
-    type UpdatePayload = Omit<IAppliedDisciplineUpdatePayload, 'idInstructor'>;
-
-    type InstructorUpdatePayload = Omit<
-        IAppliedDisciplineUpdatePayload,
-        'idInstructor' | 'period' | 'totalHours'
-    > & {
-        instructor: Instructor
-    };
-
-    let updateFields: UpdatePayload | InstructorUpdatePayload;
+    let updateFields: Record<string, any> = {};
 
     if (accessLevel == AccessLevel.INSTRUCTOR) {
-        const instructorRepo = AppDataSource.getRepository(Instructor);
-        const instructor = await instructorRepo.findOneBy({instructorId: payload.idInstructor});
-
-        if (!instructor) {
-            throw new AppError("Instructor not found.", 404);
+        if (payload.isComplete) {
+            updateFields.isComplete = payload.isComplete;
         }
-
-        updateFields = {
-            instructor: instructor,
-            isComplete: payload.isComplete
-        };
     } else {
-        updateFields = {
-            period: payload.period,
-            totalHours: payload.totalHours,
-            isComplete: payload.isComplete
-        };
+        if (payload.idInstructor) {
+            const instructorRepo = AppDataSource.getRepository(Instructor);
+            const instructor = await instructorRepo.findOneBy({
+                instructorId: payload.idInstructor
+            });
+    
+            if (!instructor) {
+                throw new AppError("Instructor not found.", 404);
+            }
+    
+            updateFields.instructorId = undefined;
+            updateFields.instructor = instructor;
+        }
     }
 
     const appliedDisciplineRepo = AppDataSource.getRepository(AppliedDiscipline);
