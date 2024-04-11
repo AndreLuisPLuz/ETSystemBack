@@ -184,7 +184,9 @@ const updateAppliedDisciplineService = async(
             updateFields.isComplete = payload.isComplete;
         }
     } else {
-        if (payload.idInstructor) {
+        updateFields = payload;
+
+        if (updateFields.idInstructor) {
             const instructorRepo = AppDataSource.getRepository(Instructor);
             const instructor = await instructorRepo.findOneBy({
                 instructorId: payload.idInstructor
@@ -194,7 +196,7 @@ const updateAppliedDisciplineService = async(
                 throw new AppError("Instructor not found.", 404);
             }
     
-            updateFields.instructorId = undefined;
+            updateFields.idInstructor = undefined;
             updateFields.instructor = instructor;
         }
     }
